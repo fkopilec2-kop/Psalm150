@@ -1,0 +1,133 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Заказать — Псалом 150</title>
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="sideDrawer" class="drawer" aria-label="Меню навигации" aria-hidden="true">
+    <div class="drawer-top">
+      <span class="drawer-title">Псалом 150</span>
+      <button id="closeDrawerBtn" type="button" class="drawer-close">Закрыть</button>
+    </div>
+    <div class="drawer-group">
+      <div class="drawer-label">Разделы</div>
+      <a class="drawer-link" href="index.html"><span>Главная</span><span>→</span></a>
+      <a class="drawer-link" href="library.html"><span>Библиотека</span><span>→</span></a>
+      <a class="drawer-link" href="library.html#authors-block"><span>Авторы</span><span>→</span></a>
+      <a class="drawer-link" href="order.html"><span>Заказать</span><span>→</span></a>
+    </div>
+    <div class="drawer-group">
+      <div class="drawer-label">Выпуски</div>
+      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
+      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
+      <a class="drawer-link" href="issue-3.html"><span>Выпуск №3</span><span>#3</span></a>
+    </div>
+  </aside>
+
+  <div class="container">
+    <header>
+      <a href="index.html" class="brand">Псалом 150</a>
+      <div class="header-right">
+        <div class="top-links">
+          <a href="index.html">Главная</a>
+          <a href="library.html">Библиотека</a>
+          <a href="order.html">Заказать</a>
+        </div>
+        <button id="openDrawerBtn" type="button" class="menu-btn" aria-label="Открыть меню">☰</button>
+      </div>
+    </header>
+
+    <h1>Заказ и абонементы</h1>
+
+    <div class="offers-grid">
+      <div class="offer-card">
+        <div><strong>1 экземпляр</strong></div>
+        <div class="offer-price">5 €</div>
+        <div class="muted" style="font-size:0.86rem;">Любой выпуск. Доставка по Прибалтике ориентировочно ~3 €, через знакомых — 0 €.</div>
+      </div>
+      <div class="offer-card">
+        <div><strong>Абонемент на 2 выпуска вперёд</strong></div>
+        <div class="offer-price">9 €</div>
+        <div class="muted" style="font-size:0.86rem;">2 следующих номера по мере выхода. Доставка по Прибалтике включена.</div>
+      </div>
+      <div class="offer-card">
+        <div><strong>Абонемент на 3 выпуска вперёд</strong></div>
+        <div class="offer-price">12 €</div>
+        <div class="muted" style="font-size:0.86rem;">3 следующих номера по мере выхода. Доставка по Прибалтике включена.</div>
+      </div>
+      <div class="offer-card">
+        <div><strong>Опт: 2 или 3 экземпляра</strong></div>
+        <div class="offer-price">8 € / 9 €</div>
+        <div class="muted" style="font-size:0.86rem;">Ориентир в одной посылке (например, Выпуск №2). Доставка по Прибалтике включена.</div>
+      </div>
+    </div>
+
+    <section class="order-panel">
+      <h2>Заявка на заказ</h2>
+      <form id="orderForm">
+        <div class="form-grid">
+          <div>
+            <label for="offerSelect">Вариант заказа</label>
+            <select id="offerSelect" name="offer">
+              <option value="single_1" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №1 (5 €)">1 экземпляр — Выпуск №1 (5 €)</option>
+              <option value="single_2" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №2 (5 €)">1 экземпляр — Выпуск №2 (5 €)</option>
+              <option value="single_3" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №3 (5 €)">1 экземпляр — Выпуск №3 (5 €)</option>
+              <option value="sub_2" data-price="9" data-baltic-free="true" data-label="Абонемент на 2 выпуска вперёд (9 €)">Абонемент на 2 выпуска вперёд (9 €)</option>
+              <option value="sub_3" data-price="12" data-baltic-free="true" data-label="Абонемент на 3 выпуска вперёд (12 €)">Абонемент на 3 выпуска вперёд (12 €)</option>
+              <option value="bulk_2" data-price="8" data-baltic-free="true" data-label="Опт: 2 экземпляра, например №2 (8 €)">Опт: 2 экземпляра, например №2 (8 €)</option>
+              <option value="bulk_3" data-price="9" data-baltic-free="true" data-label="Опт: 3 экземпляра, например №2 (9 €)">Опт: 3 экземпляра, например №2 (9 €)</option>
+              <option value="custom" data-price="0" data-baltic-free="false" data-label="Другой вариант / свой запрос">Другой вариант / свой запрос</option>
+            </select>
+          </div>
+          <div>
+            <label for="deliverySelect">Способ доставки</label>
+            <select id="deliverySelect" name="delivery">
+              <option value="friends" data-label="Передача через знакомых (0 €)">Передача через знакомых — бесплатно (0 €)</option>
+              <option value="baltic" data-label="По Прибалтике (Omniva, DPD и др.)">Пакомат / курьер по Прибалтике (Omniva, DPD и др.)</option>
+              <option value="europe" data-label="Доставка по Европе (~5 € ориентировочно)">Доставка по Европе (~5 € ориентировочно)</option>
+              <option value="other" data-label="Другой вариант / уточнить с редакцией">Другой вариант / уточнить с редакцией</option>
+            </select>
+          </div>
+        </div>
+
+        <div id="estimateBox" class="estimate-box">
+          <div id="estimateTotal" class="estimate-total">Ориентировочная сумма: 5 €</div>
+          <div id="estimateHint" class="muted" style="font-size:0.86rem;">Сумма примерная: точные условия и реквизиты подтвердим после заявки.</div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="customerFullName">Имя и фамилия</label>
+            <input id="customerFullName" name="fullName" type="text" required placeholder="Например: Алексей Иванов" />
+          </div>
+          <div>
+            <label for="customerContact">Контакты (Telegram / телефон / email)</label>
+            <input id="customerContact" name="contact" type="text" required placeholder="Например: @alex_tg или +371..." />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label id="addressLabel" for="customerAddress">Адрес / пакомат / передача</label>
+            <input id="customerAddress" name="address" type="text" placeholder="Например: Рига, пакомат Omniva или передача через знакомых" />
+          </div>
+          <div>
+            <label for="customerNotes">Комментарий к заказу</label>
+            <textarea id="customerNotes" name="notes" placeholder="Уточните номера выпусков, пожелания по доставке или вопросы..."></textarea>
+          </div>
+        </div>
+
+        <button type="submit" class="btn">Отправить заявку</button>
+        <div id="formStatus" class="status-msg"></div>
+      </form>
+    </section>
+  </div>
+
+  <script src="app.js"></script>
+  <script>initOrderPage();</script>
+</body>
+</html>

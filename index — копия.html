@@ -1,0 +1,996 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Псалом 150</title>
+  <style>
+    :root {
+      --bg: #f6f4ef;
+      --surface: #ffffff;
+      --surface-soft: #fbfaf7;
+      --text: #1c1b18;
+      --muted: #625e55;
+      --accent: #2c4a3e;
+      --accent-hover: #21382f;
+      --accent-soft: #e9efec;
+      --border: #e3dfd5;
+      --radius: 16px;
+      --shadow: 0 10px 30px rgba(28, 27, 24, 0.06);
+    }
+
+    * { box-sizing: border-box; }
+
+    html { scroll-behavior: smooth; }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Inter, Arial, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.55;
+    }
+
+    .container {
+      max-width: 1040px;
+      margin: 0 auto;
+      padding: 24px 20px 72px;
+    }
+
+    header {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 16px;
+      margin-bottom: 28px;
+      padding-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .header-left {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .menu-btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      width: 40px;
+      height: 40px;
+      border-radius: 10px;
+      border: 1px solid var(--border);
+      background: var(--surface);
+      color: var(--text);
+      font-size: 1.2rem;
+      cursor: pointer;
+    }
+
+    .menu-btn:hover {
+      background: var(--surface-soft);
+    }
+
+    .brand {
+      font-size: 1.5rem;
+      font-weight: 700;
+      letter-spacing: -0.02em;
+      text-decoration: none;
+      color: var(--text);
+    }
+
+    nav {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 18px;
+      align-items: center;
+    }
+
+    nav a {
+      text-decoration: none;
+      color: var(--text);
+      font-weight: 500;
+      font-size: 0.95rem;
+    }
+
+    nav a:hover { color: var(--accent); }
+
+    /* Side Drawer */
+    .drawer-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 19, 17, 0.5);
+      opacity: 0;
+      visibility: hidden;
+      transition: opacity 0.2s ease, visibility 0.2s ease;
+      z-index: 1200;
+    }
+
+    .drawer-backdrop.open {
+      opacity: 1;
+      visibility: visible;
+    }
+
+    .drawer {
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      width: min(320px, 86vw);
+      background: var(--surface);
+      border-right: 1px solid var(--border);
+      box-shadow: 18px 0 44px rgba(28, 27, 24, 0.18);
+      transform: translateX(-100%);
+      transition: transform 0.22s ease;
+      z-index: 1201;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      overflow-y: auto;
+    }
+
+    .drawer.open {
+      transform: translateX(0);
+    }
+
+    .drawer-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding-bottom: 14px;
+      margin-bottom: 16px;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .drawer-title {
+      font-weight: 700;
+      font-size: 1.08rem;
+    }
+
+    .drawer-close {
+      border: 1px solid var(--border);
+      background: var(--surface-soft);
+      color: var(--text);
+      border-radius: 9px;
+      padding: 6px 11px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      cursor: pointer;
+    }
+
+    .drawer-group {
+      margin-bottom: 18px;
+    }
+
+    .drawer-label {
+      font-size: 0.76rem;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--muted);
+      font-weight: 700;
+      margin-bottom: 8px;
+    }
+
+    .drawer-link,
+    .drawer-action {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      text-align: left;
+      padding: 9px 12px;
+      border-radius: 10px;
+      color: var(--text);
+      text-decoration: none;
+      font-size: 0.95rem;
+      font-weight: 500;
+      background: transparent;
+      border: none;
+      font-family: inherit;
+      cursor: pointer;
+    }
+
+    .drawer-link:hover,
+    .drawer-action:hover {
+      background: var(--accent-soft);
+      color: var(--accent);
+    }
+
+    h2, h3 {
+      margin-top: 0;
+      letter-spacing: -0.02em;
+    }
+
+    h2 { font-size: 1.45rem; margin-bottom: 16px; }
+
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 8px;
+      background: var(--accent);
+      color: #fff;
+      border: none;
+      border-radius: 10px;
+      padding: 10px 16px;
+      font-size: 0.92rem;
+      font-weight: 600;
+      cursor: pointer;
+      text-decoration: none;
+      transition: background 0.16s ease, transform 0.1s ease;
+    }
+
+    .btn:hover { background: var(--accent-hover); }
+    .btn:active { transform: translateY(1px); }
+
+    .btn-secondary {
+      background: var(--surface-soft);
+      color: var(--text);
+      border: 1px solid var(--border);
+    }
+
+    .btn-secondary:hover {
+      background: #efece4;
+    }
+
+    .issues-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+      gap: 22px;
+      margin-bottom: 44px;
+    }
+
+    .issue-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      display: flex;
+      flex-direction: column;
+      scroll-margin-top: 20px;
+    }
+
+    .cover-wrap {
+      position: relative;
+      aspect-ratio: 3 / 4;
+      background: #eae6dc;
+      overflow: hidden;
+      cursor: pointer;
+    }
+
+    .cover-wrap img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      display: block;
+    }
+
+    .cover-badge {
+      position: absolute;
+      top: 12px;
+      left: 12px;
+      background: rgba(28, 27, 18, 0.82);
+      color: #fff;
+      font-size: 0.78rem;
+      font-weight: 600;
+      padding: 5px 10px;
+      border-radius: 999px;
+    }
+
+    .issue-body {
+      padding: 18px;
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+    }
+
+    .issue-meta {
+      color: var(--muted);
+      font-size: 0.88rem;
+      margin-bottom: 10px;
+    }
+
+    .issue-actions {
+      margin-top: auto;
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      padding-top: 12px;
+    }
+
+    .authors-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 22px 24px;
+      box-shadow: var(--shadow);
+      margin-bottom: 44px;
+      scroll-margin-top: 20px;
+    }
+
+    .authors-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+      gap: 14px;
+      margin-top: 12px;
+    }
+
+    .author-card {
+      background: var(--surface-soft);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 14px;
+    }
+
+    .author-role {
+      color: var(--accent);
+      font-size: 0.82rem;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .offers-section {
+      margin-bottom: 40px;
+      scroll-margin-top: 20px;
+    }
+
+    .offers-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 14px;
+    }
+
+    .offer-card {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      padding: 16px;
+    }
+
+    .offer-price {
+      font-size: 1.35rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin: 6px 0;
+    }
+
+    .offer-note {
+      color: var(--muted);
+      font-size: 0.86rem;
+    }
+
+    /* Reader Modal */
+    .modal-backdrop {
+      position: fixed;
+      inset: 0;
+      background: rgba(20, 19, 17, 0.82);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 12px;
+      z-index: 1000;
+    }
+
+    .modal-backdrop.open { display: flex; }
+
+    .reader-box {
+      background: var(--surface);
+      border-radius: var(--radius);
+      max-width: 860px;
+      width: 100%;
+      max-height: 94vh;
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+      box-shadow: 0 24px 60px rgba(0,0,0,0.35);
+    }
+
+    .reader-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px 14px;
+      border-bottom: 1px solid var(--border);
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .reader-top-actions {
+      display: flex;
+      gap: 8px;
+      align-items: center;
+    }
+
+    .reader-stage {
+      padding: 12px;
+      background: #efece4;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      overflow: auto;
+      flex: 1;
+      -webkit-overflow-scrolling: touch;
+    }
+
+    .reader-stage img {
+      width: 100%;
+      max-width: 720px;
+      height: auto;
+      border-radius: 8px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.16);
+      transition: max-width 0.18s ease;
+    }
+
+    .reader-stage.zoomed img {
+      max-width: none;
+      width: 165%;
+    }
+
+    .reader-controls {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      padding: 10px 14px;
+      border-top: 1px solid var(--border);
+      background: var(--surface);
+    }
+
+    /* Order form */
+    .order-panel {
+      background: var(--surface);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 24px;
+      box-shadow: var(--shadow);
+      scroll-margin-top: 20px;
+    }
+
+    .form-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(240px, 1fr));
+      gap: 16px;
+      margin-bottom: 16px;
+    }
+
+    label {
+      display: block;
+      font-size: 0.9rem;
+      font-weight: 600;
+      margin-bottom: 6px;
+    }
+
+    input, select, textarea {
+      width: 100%;
+      padding: 11px 12px;
+      border: 1px solid var(--border);
+      border-radius: 10px;
+      font-size: 0.95rem;
+      font-family: inherit;
+      background: var(--surface-soft);
+      color: var(--text);
+    }
+
+    textarea { min-height: 86px; resize: vertical; }
+
+    .estimate-box {
+      background: var(--accent-soft);
+      border: 1px solid #c8d8d0;
+      border-radius: 12px;
+      padding: 14px 16px;
+      margin: 14px 0 18px;
+      font-size: 0.94rem;
+    }
+
+    .estimate-total {
+      font-size: 1.1rem;
+      font-weight: 700;
+      color: var(--accent);
+      margin-bottom: 4px;
+    }
+
+    .status-msg {
+      margin-top: 12px;
+      font-size: 0.92rem;
+      font-weight: 500;
+    }
+  </style>
+</head>
+<body id="top">
+  <!-- Side Drawer -->
+  <div id="drawerBackdrop" class="drawer-backdrop" aria-hidden="true"></div>
+  <aside id="sideDrawer" class="drawer" aria-label="Боковое меню навигации" aria-hidden="true">
+    <div class="drawer-top">
+      <span class="drawer-title">Псалом 150</span>
+      <button id="closeDrawerBtn" type="button" class="drawer-close">Закрыть</button>
+    </div>
+
+    <div class="drawer-group">
+      <div class="drawer-label">Разделы</div>
+      <a class="drawer-link" href="#issues" data-close-drawer><span>Выпуски</span><span>→</span></a>
+      <a class="drawer-link" href="#offers" data-close-drawer><span>Цены и акции</span><span>→</span></a>
+      <a class="drawer-link" href="#order" data-close-drawer><span>Заказать</span><span>→</span></a>
+      <a class="drawer-link" href="#authors" data-close-drawer><span>Авторы</span><span>→</span></a>
+    </div>
+
+    <div class="drawer-group">
+      <div class="drawer-label">Выпуски по отдельности</div>
+      <a class="drawer-link" href="#issue-1" data-close-drawer><span>Выпуск №1</span><span>#1</span></a>
+      <button type="button" class="drawer-action" onclick="openIssueFromDrawer(0)"><span>Читать Выпуск №1</span><span>Открыть</span></button>
+
+      <a class="drawer-link" href="#issue-2" data-close-drawer><span>Выпуск №2</span><span>#2</span></a>
+      <button type="button" class="drawer-action" onclick="openIssueFromDrawer(1)"><span>Читать Выпуск №2</span><span>Открыть</span></button>
+
+      <a class="drawer-link" href="#issue-3" data-close-drawer><span>Выпуск №3</span><span>#3</span></a>
+      <button type="button" class="drawer-action" onclick="openIssueFromDrawer(2)"><span>Читать Выпуск №3</span><span>Открыть</span></button>
+    </div>
+  </aside>
+
+  <div class="container">
+    <header>
+      <div class="header-left">
+        <button id="openDrawerBtn" type="button" class="menu-btn" aria-label="Открыть боковое меню" title="Меню">☰</button>
+        <a href="#top" class="brand">Псалом 150</a>
+      </div>
+      <nav>
+        <a href="#issues">Выпуски</a>
+        <a href="#offers">Цены и акции</a>
+        <a href="#order">Заказать</a>
+      </nav>
+    </header>
+
+    <section id="issues">
+      <h2>Выпуски</h2>
+      <div id="issuesGrid" class="issues-grid"></div>
+    </section>
+
+    <section id="offers" class="offers-section">
+      <h2>Цены, абонементы и опт</h2>
+      <div class="offers-grid">
+        <div class="offer-card">
+          <div><strong>1 экземпляр</strong></div>
+          <div class="offer-price">5 €</div>
+          <div class="offer-note">Любой выбранный выпуск. Доставка по Прибалтике ориентировочно ~3 €, через знакомых — 0 €.</div>
+        </div>
+        <div class="offer-card">
+          <div><strong>Абонемент на 2 выпуска вперёд</strong></div>
+          <div class="offer-price">9 €</div>
+          <div class="offer-note">2 следующих номера по мере выхода. Доставка по Прибалтике уже включена в цену.</div>
+        </div>
+        <div class="offer-card">
+          <div><strong>Абонемент на 3 выпуска вперёд</strong></div>
+          <div class="offer-price">12 €</div>
+          <div class="offer-note">3 следующих номера по мере выхода (по 4 € за номер). Доставка по Прибалтике включена.</div>
+        </div>
+        <div class="offer-card">
+          <div><strong>Опт: 2 или 3 экземпляра</strong></div>
+          <div class="offer-price">8 € / 9 €</div>
+          <div class="offer-note">Ориентир в одной посылке (например, Выпуск №2: 2 шт. за 8 €, 3 шт. за 9 €). Доставка по Прибалтике включена.</div>
+        </div>
+      </div>
+    </section>
+
+    <section id="order" class="order-panel">
+      <h2>Заявка на заказ</h2>
+      <form id="orderForm">
+        <div class="form-grid">
+          <div>
+            <label for="offerSelect">Вариант заказа</label>
+            <select id="offerSelect" name="offer">
+              <option value="single_1" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №1 (5 €)">
+                1 экземпляр — Выпуск №1 (5 €)
+              </option>
+              <option value="single_2" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №2 (5 €)">
+                1 экземпляр — Выпуск №2 (5 €)
+              </option>
+              <option value="single_3" data-price="5" data-baltic-free="false" data-label="1 экземпляр — Выпуск №3 (5 €)">
+                1 экземпляр — Выпуск №3 (5 €)
+              </option>
+              <option value="sub_2" data-price="9" data-baltic-free="true" data-label="Абонемент на 2 выпуска вперёд (9 €)">
+                Абонемент на 2 выпуска вперёд (9 €)
+              </option>
+              <option value="sub_3" data-price="12" data-baltic-free="true" data-label="Абонемент на 3 выпуска вперёд (12 €)">
+                Абонемент на 3 выпуска вперёд (12 €)
+              </option>
+              <option value="bulk_2" data-price="8" data-baltic-free="true" data-label="Опт: 2 экземпляра, например №2 (8 €)">
+                Опт: 2 экземпляра, например №2 (8 €)
+              </option>
+              <option value="bulk_3" data-price="9" data-baltic-free="true" data-label="Опт: 3 экземпляра, например №2 (9 €)">
+                Опт: 3 экземпляра, например №2 (9 €)
+              </option>
+              <option value="custom" data-price="0" data-baltic-free="false" data-label="Другой вариант / свой запрос">
+                Другой вариант / свой запрос
+              </option>
+            </select>
+          </div>
+
+          <div>
+            <label for="deliverySelect">Способ доставки</label>
+            <select id="deliverySelect" name="delivery">
+              <option value="friends" data-eu-est="0" data-baltic-est="0" data-label="Передача через знакомых (0 €)">
+                Передача через знакомых — бесплатно (0 €)
+              </option>
+              <option value="baltic" data-eu-est="3" data-baltic-est="3" data-label="По Прибалтике (Omniva, DPD и др.)">
+                Пакомат / курьер по Прибалтике (Omniva, DPD и др.)
+              </option>
+              <option value="europe" data-eu-est="5" data-baltic-est="5" data-label="Доставка по Европе (~5 € ориентировочно)">
+                Доставка по Европе (~5 € ориентировочно)
+              </option>
+              <option value="other" data-eu-est="0" data-baltic-est="0" data-label="Другой вариант / уточнить с редакцией">
+                Другой вариант / уточнить с редакцией
+              </option>
+            </select>
+          </div>
+        </div>
+
+        <div id="estimateBox" class="estimate-box">
+          <div id="estimateTotal" class="estimate-total">Ориентировочная сумма: 5 €</div>
+          <div id="estimateHint" class="offer-note">
+            Сумма примерная: точные условия и реквизиты подтвердим после заявки.
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label for="customerFullName">Имя и фамилия</label>
+            <input id="customerFullName" name="fullName" type="text" required placeholder="Например: Алексей Иванов" />
+          </div>
+          <div>
+            <label for="customerContact">Контакты (Telegram / телефон / email)</label>
+            <input id="customerContact" name="contact" type="text" required placeholder="Например: @alex_tg или +371..." />
+          </div>
+        </div>
+
+        <div class="form-grid">
+          <div>
+            <label id="addressLabel" for="customerAddress">Адрес / пакомат / передача</label>
+            <input id="customerAddress" name="address" type="text" placeholder="Например: Рига, пакомат Omniva или передача через знакомых" />
+          </div>
+          <div>
+            <label for="customerNotes">Комментарий к заказу</label>
+            <textarea id="customerNotes" name="notes" placeholder="Уточните номера выпусков, пожелания по доставке или вопросы..."></textarea>
+          </div>
+        </div>
+
+        <div style="margin-top: 16px;">
+          <button type="submit" class="btn">Отправить заявку</button>
+        </div>
+        <div id="formStatus" class="status-msg"></div>
+      </form>
+    </section>
+
+    <section id="authors" class="authors-panel" style="margin-top: 40px;">
+      <h2>Авторы и редакция</h2>
+      <div class="authors-grid">
+        <div class="author-card">
+          <div class="author-role">Редакция</div>
+          <div><strong>Команда «Псалом 150»</strong></div>
+          <div class="offer-note">Подготовка номеров, статьи, интервью и верстка.</div>
+        </div>
+        <div class="author-card">
+          <div class="author-role">Авторы выпусков</div>
+          <div><strong>Участники и авторы материалов</strong></div>
+          <div class="offer-note">Очерки, разборы и публикации в номерах журнала.</div>
+        </div>
+      </div>
+    </section>
+  </div>
+
+  <!-- Reader Modal -->
+  <div id="readerModal" class="modal-backdrop" aria-hidden="true">
+    <div class="reader-box">
+      <div class="reader-top">
+        <strong id="readerTitle">Просмотр выпуска</strong>
+        <div class="reader-top-actions">
+          <button id="zoomToggleBtn" type="button" class="btn btn-secondary">Увеличить</button>
+          <button id="closeReaderBtn" type="button" class="btn btn-secondary">Закрыть</button>
+        </div>
+      </div>
+      <div id="readerStage" class="reader-stage">
+        <img id="readerPageImg" src="" alt="Страница журнала" />
+      </div>
+      <div class="reader-controls">
+        <button id="prevPageBtn" type="button" class="btn btn-secondary">Назад</button>
+        <span id="pageCounter">Страница 1 из 1</span>
+        <button id="nextPageBtn" type="button" class="btn btn-secondary">Вперёд</button>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    const TELEGRAM_CONFIG = {
+      botToken: "9214085966:AAFkFKgskdCdszS-hpx7G9eubRTljluoh24",
+      chatId: "1754933686"
+    };
+
+    const issuesConfig = [
+      {
+        id: 1,
+        title: "Выпуск №1",
+        meta: "24 страницы",
+        cover: "pages1/01.png",
+        pdf: "psalm-150-issue-1.pdf",
+        pages: Array.from({ length: 24 }, (_, i) => {
+          const num = String(i + 1).padStart(2, "0");
+          return `pages1/${num}.png`;
+        })
+      },
+      {
+        id: 2,
+        title: "Выпуск №2",
+        meta: "20 страниц",
+        cover: "pages2/01.png",
+        pdf: "psalm-150-issue-2.pdf",
+        pages: Array.from({ length: 20 }, (_, i) => {
+          const num = String(i + 1).padStart(2, "0");
+          return `pages2/${num}.png`;
+        })
+      },
+      {
+        id: 3,
+        title: "Выпуск №3",
+        meta: "34 страницы",
+        cover: "pages3/01.png",
+        pdf: "psalm-150-issue-3.pdf",
+        pages: Array.from({ length: 34 }, (_, i) => {
+          const num = String(i + 1).padStart(2, "0");
+          return `pages3/${num}.png`;
+        })
+      }
+    ];
+
+    // Side Drawer logic
+    const sideDrawer = document.getElementById("sideDrawer");
+    const drawerBackdrop = document.getElementById("drawerBackdrop");
+    const openDrawerBtn = document.getElementById("openDrawerBtn");
+    const closeDrawerBtn = document.getElementById("closeDrawerBtn");
+
+    function openDrawer() {
+      sideDrawer.classList.add("open");
+      drawerBackdrop.classList.add("open");
+      sideDrawer.setAttribute("aria-hidden", "false");
+      drawerBackdrop.setAttribute("aria-hidden", "false");
+    }
+
+    function closeDrawer() {
+      sideDrawer.classList.remove("open");
+      drawerBackdrop.classList.remove("open");
+      sideDrawer.setAttribute("aria-hidden", "true");
+      drawerBackdrop.setAttribute("aria-hidden", "true");
+    }
+
+    openDrawerBtn.addEventListener("click", openDrawer);
+    closeDrawerBtn.addEventListener("click", closeDrawer);
+    drawerBackdrop.addEventListener("click", closeDrawer);
+
+    document.querySelectorAll("[data-close-drawer]").forEach((el) => {
+      el.addEventListener("click", closeDrawer);
+    });
+
+    window.openIssueFromDrawer = function(issueIdx) {
+      closeDrawer();
+      openReader(issueIdx);
+    };
+
+    // Issues render
+    const issuesGrid = document.getElementById("issuesGrid");
+
+    function renderIssues() {
+      issuesGrid.innerHTML = issuesConfig.map((issue, idx) => `
+        <article id="issue-${issue.id}" class="issue-card">
+          <div class="cover-wrap" onclick="openReader(${idx})">
+            <img src="${issue.cover}" alt="Обложка ${issue.title}" loading="lazy" />
+            <span class="cover-badge">${issue.title}</span>
+          </div>
+          <div class="issue-body">
+            <h3>${issue.title}</h3>
+            <div class="issue-meta">${issue.meta}</div>
+            <div class="issue-actions">
+              <button type="button" class="btn" onclick="openReader(${idx})">Читать страницы</button>
+              <a class="btn btn-secondary" href="${issue.pdf}" download>PDF</a>
+            </div>
+          </div>
+        </article>
+      `).join("");
+    }
+
+    // Reader logic
+    let currentIssueIdx = 0;
+    let currentPageIdx = 0;
+    let isZoomed = false;
+
+    const readerModal = document.getElementById("readerModal");
+    const readerTitle = document.getElementById("readerTitle");
+    const readerPageImg = document.getElementById("readerPageImg");
+    const readerStage = document.getElementById("readerStage");
+    const pageCounter = document.getElementById("pageCounter");
+    const zoomToggleBtn = document.getElementById("zoomToggleBtn");
+
+    function setZoom(zoomed) {
+      isZoomed = zoomed;
+      readerStage.classList.toggle("zoomed", isZoomed);
+      zoomToggleBtn.textContent = isZoomed ? "По ширине" : "Увеличить";
+    }
+
+    window.openReader = function(issueIdx) {
+      currentIssueIdx = issueIdx;
+      currentPageIdx = 0;
+      setZoom(false);
+      updateReader();
+      readerModal.classList.add("open");
+      readerModal.setAttribute("aria-hidden", "false");
+    };
+
+    function updateReader() {
+      const issue = issuesConfig[currentIssueIdx];
+      const total = issue.pages.length;
+      readerTitle.textContent = issue.title;
+      readerPageImg.src = issue.pages[currentPageIdx];
+      readerPageImg.alt = `${issue.title}, страница ${currentPageIdx + 1}`;
+      pageCounter.textContent = `Страница ${currentPageIdx + 1} из ${total}`;
+      document.getElementById("prevPageBtn").disabled = currentPageIdx === 0;
+      document.getElementById("nextPageBtn").disabled = currentPageIdx >= total - 1;
+      readerStage.scrollTop = 0;
+      readerStage.scrollLeft = 0;
+    }
+
+    zoomToggleBtn.addEventListener("click", () => {
+      setZoom(!isZoomed);
+    });
+
+    document.getElementById("prevPageBtn").addEventListener("click", () => {
+      if (currentPageIdx > 0) {
+        currentPageIdx--;
+        updateReader();
+      }
+    });
+
+    document.getElementById("nextPageBtn").addEventListener("click", () => {
+      const total = issuesConfig[currentIssueIdx].pages.length;
+      if (currentPageIdx < total - 1) {
+        currentPageIdx++;
+        updateReader();
+      }
+    });
+
+    document.getElementById("closeReaderBtn").addEventListener("click", () => {
+      readerModal.classList.remove("open");
+      readerModal.setAttribute("aria-hidden", "true");
+    });
+
+    readerModal.addEventListener("click", (e) => {
+      if (e.target === readerModal) {
+        readerModal.classList.remove("open");
+        readerModal.setAttribute("aria-hidden", "true");
+      }
+    });
+
+    // Order & delivery estimation logic
+    const offerSelect = document.getElementById("offerSelect");
+    const deliverySelect = document.getElementById("deliverySelect");
+    const estimateTotal = document.getElementById("estimateTotal");
+    const estimateHint = document.getElementById("estimateHint");
+    const addressLabel = document.getElementById("addressLabel");
+    const customerAddress = document.getElementById("customerAddress");
+
+    function calculateEstimate() {
+      const offerOpt = offerSelect.options[offerSelect.selectedIndex];
+      const basePrice = Number(offerOpt.dataset.price || 0);
+      const balticFree = offerOpt.dataset.balticFree === "true";
+      const offerKey = offerSelect.value;
+      const deliveryKey = deliverySelect.value;
+
+      let deliveryEst = 0;
+      let deliveryText = "0 €";
+      let hintText = "Сумма примерная: точные условия и реквизиты подтвердим после заявки.";
+
+      if (offerKey === "custom") {
+        estimateTotal.textContent = "Ориентировочная сумма: по согласованию";
+        estimateHint.textContent = "Опишите в комментарии нужные выпуски или количество — рассчитаем индивидуально.";
+        return { summaryText: "По согласованию" };
+      }
+
+      if (deliveryKey === "friends") {
+        deliveryEst = 0;
+        deliveryText = "0 € (через знакомых)";
+        addressLabel.textContent = "С кем или где удобно передать (имя / город)";
+        customerAddress.placeholder = "Например: передать через знакомых или указать город";
+        hintText = "Передача через знакомых — бесплатно (0 €). Укажите детали в комментарии.";
+      } else if (deliveryKey === "baltic") {
+        addressLabel.textContent = "Страна Прибалтики, город и пакомат (Omniva, DPD и др.)";
+        customerAddress.placeholder = "Например: Латвия, Лиепая, пакомат Omniva...";
+        if (balticFree) {
+          deliveryEst = 0;
+          deliveryText = "0 € (включена в цену абонемента / опта)";
+          hintText = "Для подписки и оптовых предложений доставка по Прибалтике уже включена в стоимость.";
+        } else {
+          deliveryEst = 3;
+          deliveryText = "~3 € (ориентировочно)";
+          hintText = "Для 1 экземпляра доставка по Прибалтике ориентировочно ~3 € (точная сумма зависит от службы и условий).";
+        }
+      } else if (deliveryKey === "europe") {
+        deliveryEst = 5;
+        deliveryText = "~5 € (ориентировочно)";
+        addressLabel.textContent = "Страна в Европе, город и адрес / индекс";
+        customerAddress.placeholder = "Например: Польша, город, почтовый индекс...";
+        hintText = "Ориентир по отправке в Европу — около ~5 € (например, по опыту отправки в Польшу); точный тариф уточним.";
+      } else {
+        deliveryEst = 0;
+        deliveryText = "уточняется";
+        addressLabel.textContent = "Город / страна и пожелания по доставке";
+        customerAddress.placeholder = "Укажите город или удобный способ получения";
+        hintText = "Нестандартный способ или направление согласуем лично после отправки заявки.";
+      }
+
+      const totalEst = basePrice + deliveryEst;
+      const summaryText = deliveryKey === "other"
+        ? `от ${basePrice} € + доставка уточняется`
+        : `~${totalEst} € (товар: ${basePrice} €, доставка: ${deliveryText})`;
+
+      estimateTotal.textContent = `Ориентировочная сумма: ${summaryText}`;
+      estimateHint.textContent = hintText;
+      return { summaryText };
+    }
+
+    offerSelect.addEventListener("change", calculateEstimate);
+    deliverySelect.addEventListener("change", calculateEstimate);
+    calculateEstimate();
+
+    // Form submit
+    const orderForm = document.getElementById("orderForm");
+    const formStatus = document.getElementById("formStatus");
+
+    orderForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      const { summaryText } = calculateEstimate();
+      const offerLabel = offerSelect.options[offerSelect.selectedIndex].dataset.label;
+      const deliveryLabel = deliverySelect.options[deliverySelect.selectedIndex].dataset.label;
+      const fullName = document.getElementById("customerFullName").value.trim();
+      const contact = document.getElementById("customerContact").value.trim();
+      const address = customerAddress.value.trim() || "не указан";
+      const notes = document.getElementById("customerNotes").value.trim() || "нет";
+
+      const message = [
+        "Новая заявка — журнал «Псалом 150»",
+        `Вариант: ${offerLabel}`,
+        `Доставка: ${deliveryLabel}`,
+        `Ориентир: ${summaryText}`,
+        `Имя и фамилия: ${fullName}`,
+        `Контакты: ${contact}`,
+        `Адрес / передача: ${address}`,
+        `Комментарий: ${notes}`
+      ].join("\n");
+
+      const token = TELEGRAM_CONFIG.botToken.trim();
+      const chatId = TELEGRAM_CONFIG.chatId.trim();
+
+      if (!token || !chatId) {
+        formStatus.textContent = "Не указаны botToken или chatId в TELEGRAM_CONFIG — в Telegram заявка не отправлена.";
+        return;
+      }
+
+      formStatus.textContent = "Отправляем заявку...";
+      try {
+        const res = await fetch(`https://api.telegram.org/bot${encodeURIComponent(token)}/sendMessage`, {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ chat_id: chatId, text: message })
+        });
+        const data = await res.json().catch(() => null);
+        if (!res.ok || !data || !data.ok) {
+          throw new Error(data?.description || `HTTP ${res.status}`);
+        }
+        formStatus.textContent = "Заявка отправлена! Мы свяжемся с вами для подтверждения деталей.";
+        orderForm.reset();
+        calculateEstimate();
+      } catch (err) {
+        formStatus.textContent = `Ошибка отправки в Telegram (${err.message}). Проверьте токен, chatId и нажатие /start в боте.`;
+      }
+    });
+
+    renderIssues();
+  </script>
+</body>
+</html>
