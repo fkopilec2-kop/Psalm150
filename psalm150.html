@@ -1,0 +1,1630 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Psalm 150 — Музыкальный журнал</title>
+    <style>
+        :root {
+            --bg-color: #f7f5f0;
+            --text-color: #2c2c2c;
+            --text-muted: #68645e;
+            --accent-blue: #3a536b;
+            --accent-light-blue: #5b7c99;
+            --accent-brown: #6b4e3d;
+            --card-bg: #ffffff;
+            --border-color: #e3ded8;
+        }
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        body {
+            font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+            background-color: var(--bg-color);
+            color: var(--text-color);
+            line-height: 1.7;
+        }
+
+        /* Шапка */
+        header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 18px 30px;
+            background-color: var(--card-bg);
+            border-bottom: 1px solid var(--border-color);
+            position: sticky;
+            top: 0;
+            z-index: 100;
+        }
+
+        .logo {
+            font-size: 22px;
+            font-weight: 700;
+            letter-spacing: 2px;
+            color: var(--accent-blue);
+            text-transform: uppercase;
+            cursor: pointer;
+        }
+
+        .menu-btn {
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            color: var(--text-color);
+            padding: 4px 8px;
+        }
+
+        .overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(0,0,0,0.3);
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.3s ease;
+            z-index: 900;
+        }
+        .overlay.open {
+            opacity: 1;
+            pointer-events: auto;
+        }
+
+        /* Боковое меню */
+        .sidebar {
+            position: fixed;
+            top: 0;
+            right: -320px;
+            width: 300px;
+            height: 100%;
+            background-color: var(--card-bg);
+            box-shadow: -5px 0 20px rgba(0,0,0,0.1);
+            transition: right 0.3s ease;
+            z-index: 1000;
+            padding: 35px 30px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .sidebar.open {
+            right: 0;
+        }
+
+        .close-btn {
+            align-self: flex-end;
+            background: none;
+            border: none;
+            font-size: 24px;
+            cursor: pointer;
+            margin-bottom: 25px;
+            color: var(--text-muted);
+        }
+
+        .sidebar nav ul {
+            list-style: none;
+        }
+
+        .sidebar nav ul li {
+            margin-bottom: 16px;
+        }
+
+        .sidebar nav ul li a {
+            text-decoration: none;
+            color: var(--text-color);
+            font-size: 17px;
+            font-weight: 500;
+            cursor: pointer;
+            display: block;
+            padding: 4px 0;
+            transition: color 0.2s;
+        }
+
+        .sidebar nav ul li a:hover {
+            color: var(--accent-blue);
+            font-weight: 700;
+        }
+
+        /* Основной контейнер */
+        main {
+            max-width: 960px;
+            margin: 35px auto 60px;
+            padding: 0 20px;
+        }
+
+        .page-view {
+            display: none;
+            animation: fadeIn 0.25s ease;
+        }
+        .page-view.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; transform: translateY(6px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        .section-title {
+            font-size: 19px;
+            text-transform: uppercase;
+            letter-spacing: 1.2px;
+            margin-bottom: 22px;
+            color: var(--accent-blue);
+            border-bottom: 2px solid var(--accent-blue);
+            padding-bottom: 6px;
+            display: inline-block;
+        }
+
+        .back-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 6px;
+            color: var(--text-muted);
+            text-decoration: none;
+            font-size: 14px;
+            font-weight: 500;
+            margin-bottom: 20px;
+            cursor: pointer;
+        }
+        .back-link:hover {
+            color: var(--accent-blue);
+        }
+
+        /* Карточки выпусков */
+        .issues-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+            margin-bottom: 45px;
+        }
+
+        .issue-card {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            overflow: hidden;
+            transition: transform 0.2s, box-shadow 0.2s;
+        }
+
+        .issue-card:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 20px rgba(0,0,0,0.05);
+        }
+
+        .issue-cover {
+            height: 320px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: white;
+            text-align: center;
+            padding: 25px;
+            position: relative;
+        }
+
+        .cover-1 { background-color: #3a536b; }
+        .cover-2 { background-color: #6b4e3d; }
+
+        .sticker-badge {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: #f7f5f0;
+            color: var(--text-color);
+            font-size: 11px;
+            font-weight: 700;
+            text-transform: uppercase;
+            padding: 4px 10px;
+            border-radius: 20px;
+            transform: rotate(3deg);
+            box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+        }
+
+        .issue-cover h3 {
+            font-size: 32px;
+            letter-spacing: 2px;
+        }
+
+        .issue-info {
+            padding: 22px;
+        }
+
+        .issue-info h3 {
+            margin-bottom: 8px;
+            font-size: 18px;
+        }
+
+        .btn {
+            display: inline-block;
+            padding: 10px 20px;
+            background-color: var(--accent-blue);
+            color: #fff;
+            text-decoration: none;
+            border: none;
+            border-radius: 5px;
+            font-size: 14px;
+            font-weight: 500;
+            cursor: pointer;
+            transition: background-color 0.2s;
+            text-align: center;
+        }
+
+        .btn:hover:not(:disabled) {
+            background-color: #2b3e50;
+        }
+
+        .btn:disabled {
+            opacity: 0.45;
+            cursor: not-allowed;
+        }
+
+        .btn-outline {
+            background: transparent;
+            border: 1px solid var(--accent-blue);
+            color: var(--accent-blue);
+        }
+        .btn-outline:hover:not(:disabled) {
+            background: var(--accent-blue);
+            color: #fff;
+        }
+
+        /* Флипбук на картинках */
+        .flipbook-section {
+            display: none;
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 25px;
+            margin-bottom: 40px;
+            animation: fadeIn 0.3s ease;
+        }
+        .flipbook-section.active {
+            display: block;
+        }
+        .flipbook-stage {
+            background: #232629;
+            border-radius: 8px;
+            padding: 20px;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 520px;
+            position: relative;
+        }
+        .flipbook-page-frame {
+            max-width: 100%;
+            max-height: 680px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            perspective: 1400px;
+        }
+        .flipbook-page-img {
+            max-width: 100%;
+            max-height: 660px;
+            width: auto;
+            height: auto;
+            border-radius: 4px;
+            box-shadow: 0 14px 35px rgba(0, 0, 0, 0.45);
+            transition: transform 0.28s ease, opacity 0.22s ease;
+        }
+        .flipbook-page-img.turning {
+            opacity: 0.35;
+            transform: scale(0.985);
+        }
+        .flipbook-controls {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 16px;
+            margin-top: 18px;
+            flex-wrap: wrap;
+        }
+        .flipbook-counter {
+            font-size: 14px;
+            font-weight: 600;
+            color: var(--text-color);
+            min-width: 130px;
+            text-align: center;
+        }
+        .flipbook-hint {
+            margin-top: 10px;
+            font-size: 12px;
+            color: var(--text-muted);
+            text-align: center;
+        }
+
+        /* Список материалов */
+        .feed-list {
+            background-color: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 10px 24px;
+            margin-bottom: 40px;
+        }
+
+        .feed-item {
+            padding: 18px 0;
+            border-bottom: 1px solid var(--border-color);
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            gap: 15px;
+        }
+
+        .feed-item:last-child {
+            border-bottom: none;
+        }
+
+        .feed-meta {
+            font-size: 12px;
+            color: var(--accent-light-blue);
+            font-weight: 600;
+            text-transform: uppercase;
+            letter-spacing: 0.5px;
+        }
+
+        .feed-title {
+            font-size: 16px;
+            font-weight: 600;
+            margin-top: 4px;
+            cursor: pointer;
+        }
+        .feed-title:hover {
+            color: var(--accent-blue);
+        }
+
+        .feed-author {
+            font-size: 13px;
+            color: var(--text-muted);
+            margin-top: 2px;
+        }
+
+        /* Фильтры рубрик */
+        .rubric-pills {
+            display: flex;
+            flex-wrap: wrap;
+            gap: 10px;
+            margin-bottom: 25px;
+        }
+
+        .pill {
+            padding: 8px 16px;
+            border-radius: 20px;
+            border: 1px solid var(--border-color);
+            background: var(--card-bg);
+            font-size: 14px;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .pill:hover, .pill.active {
+            background: var(--accent-blue);
+            color: #fff;
+            border-color: var(--accent-blue);
+        }
+
+        /* Страница чтения статьи (чистый текстовый формат) */
+        .article-container {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 40px;
+        }
+
+        .article-header {
+            border-bottom: 1px solid var(--border-color);
+            padding-bottom: 24px;
+            margin-bottom: 28px;
+        }
+
+        .article-header h1 {
+            font-size: 28px;
+            line-height: 1.3;
+            margin: 10px 0;
+            color: var(--text-color);
+        }
+
+        .article-body p {
+            margin-bottom: 16px;
+            font-size: 16px;
+            text-align: justify;
+        }
+
+        .article-body h3 {
+            margin: 28px 0 12px;
+            color: var(--accent-blue);
+            font-size: 20px;
+        }
+
+        .quote-box {
+            background: var(--bg-color);
+            border-left: 4px solid var(--accent-blue);
+            padding: 18px 22px;
+            margin: 24px 0;
+            font-style: italic;
+            font-size: 17px;
+        }
+
+        .poetry-block {
+            background: #f9f8f5;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 22px;
+            font-size: 16px;
+            line-height: 1.65;
+            white-space: pre-wrap;
+            margin-bottom: 20px;
+        }
+
+        .chords-block {
+            background: #f9f8f5;
+            border: 1px solid var(--border-color);
+            border-radius: 6px;
+            padding: 22px;
+            font-family: "SF Mono", Menlo, Monaco, Consolas, monospace;
+            font-size: 14px;
+            line-height: 1.5;
+            white-space: pre-wrap;
+            overflow-x: auto;
+        }
+
+        /* Карточки авторов */
+        .authors-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+            gap: 20px;
+        }
+        .author-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 24px;
+        }
+        .author-card h3 {
+            color: var(--accent-blue);
+            margin-bottom: 6px;
+        }
+
+        /* Форма заказа */
+        .order-banner {
+            background-color: var(--accent-blue);
+            color: white;
+            padding: 40px;
+            border-radius: 8px;
+            text-align: center;
+            margin-bottom: 40px;
+        }
+        .order-banner h2 { margin-bottom: 12px; }
+        .order-banner .btn {
+            background-color: #fff;
+            color: var(--accent-blue);
+            font-weight: 600;
+        }
+
+        .form-card {
+            background: var(--card-bg);
+            border: 1px solid var(--border-color);
+            border-radius: 8px;
+            padding: 35px;
+            max-width: 650px;
+        }
+        .form-group {
+            margin-bottom: 16px;
+        }
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 15px;
+        }
+        .form-group label {
+            display: block;
+            font-size: 13px;
+            font-weight: 600;
+            margin-bottom: 5px;
+            color: var(--text-color);
+        }
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 10px 12px;
+            border: 1px solid var(--border-color);
+            border-radius: 5px;
+            font-size: 14px;
+            font-family: inherit;
+        }
+
+        @media (max-width: 600px) {
+            .article-container { padding: 24px 18px; }
+            .feed-item { flex-direction: column; align-items: flex-start; }
+            .form-row { grid-template-columns: 1fr; }
+            .flipbook-stage { min-height: 360px; padding: 12px; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- Шапка -->
+    <header>
+        <div class="logo" onclick="navigateTo('home')">Psalm 150</div>
+        <button class="menu-btn" onclick="toggleMenu()">☰</button>
+    </header>
+
+    <div class="overlay" id="overlay" onclick="toggleMenu()"></div>
+
+    <!-- Боковое меню -->
+    <div class="sidebar" id="sidebar">
+        <button class="close-btn" onclick="toggleMenu()">✕</button>
+        <nav>
+            <ul>
+                <li><a onclick="navigateTo('home')">Главная</a></li>
+                <li><a onclick="navigateTo('issues')">Все выпуски (Архив)</a></li>
+                <li><a onclick="navigateTo('rubrics')">Рубрики / Библиотека</a></li>
+                <li><a onclick="navigateTo('authors')">Авторы</a></li>
+                <li><a onclick="navigateTo('about')">О журнале</a></li>
+                <li><a onclick="navigateTo('order')">Заказы и доставка</a></li>
+                <li><a onclick="navigateTo('contacts')">Контакты и соцсети</a></li>
+            </ul>
+        </nav>
+    </div>
+
+    <main>
+
+        <!-- 1. ГЛАВНАЯ СТРАНИЦА -->
+        <div id="view-home" class="page-view active">
+            <section>
+                <h2 class="section-title">Выпуски журнала</h2>
+                <div class="issues-grid">
+                    <div class="issue-card">
+                        <div class="issue-cover cover-1">
+                            <span class="sticker-badge">Выпуск №1</span>
+                            <div>
+                                <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px;">Музыкальный журнал</div>
+                                <h3>ПСАЛОМ 150</h3>
+                                <div style="font-size: 12px; margin-top: 10px; opacity: 0.85;">Опыт • Мудрость • Знание</div>
+                            </div>
+                        </div>
+                        <div class="issue-info">
+                            <h3>Выпуск №1 — Тёмно-синий</h3>
+                            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">Теория хорового ансамбля, история служения Владимира Волкова, наставления Вадима Шелемехова, Чарльз Уэсли, конкурс и гимн.</p>
+                            <button class="btn" onclick="openIssue(1)">Открыть выпуск</button>
+                        </div>
+                    </div>
+
+                    <div class="issue-card">
+                        <div class="issue-cover cover-2">
+                            <span class="sticker-badge">Выпуск №2</span>
+                            <div>
+                                <div style="font-size: 13px; text-transform: uppercase; letter-spacing: 3px; margin-bottom: 8px;">Музыкальный журнал</div>
+                                <h3>ПСАЛОМ 150</h3>
+                                <div style="font-size: 12px; margin-top: 10px; opacity: 0.85;">Опыт • Мудрость • Знание</div>
+                            </div>
+                        </div>
+                        <div class="issue-info">
+                            <h3>Выпуск №2 — Коричневый</h3>
+                            <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 16px;">История Анди Ильина, гигиена голоса хориста, размышления Артёма Русалеева, Мартин Лютер, поэзия, ноты и конкурс.</p>
+                            <button class="btn" onclick="openIssue(2)">Открыть выпуск</button>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <section>
+                <h2 class="section-title">Материалы в текстовом формате</h2>
+                <div class="feed-list" id="home-feed"></div>
+            </section>
+
+            <section class="order-banner">
+                <h2>Заказать печатный экземпляр журнала</h2>
+                <p style="margin-bottom: 20px; opacity: 0.9;">Отправляем печатные экземпляры почтой и курьерскими службами.</p>
+                <button class="btn" onclick="navigateTo('order')">Оформить заказ</button>
+            </section>
+        </div>
+
+        <!-- 2. ВСЕ ВЫПУСКИ (Архив) -->
+        <div id="view-issues" class="page-view">
+            <h2 class="section-title">Архив выпусков</h2>
+            <div class="issues-grid">
+                <div class="issue-card">
+                    <div class="issue-cover cover-1">
+                        <span class="sticker-badge">Выпуск №1</span>
+                        <div>
+                            <div style="font-size: 12px; letter-spacing: 3px; margin-bottom: 8px;">ВЫПУСК 1</div>
+                            <h3>ПСАЛОМ 150</h3>
+                        </div>
+                    </div>
+                    <div class="issue-info">
+                        <h3>Выпуск №1 — Тёмно-синий</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">PDF: <code>psalm-150-issue-1.pdf</code> (24 стр.), флипбук из <code>pages1/</code>.</p>
+                        <button class="btn" onclick="openIssue(1)">Открыть номер</button>
+                    </div>
+                </div>
+
+                <div class="issue-card">
+                    <div class="issue-cover cover-2">
+                        <span class="sticker-badge">Выпуск №2</span>
+                        <div>
+                            <div style="font-size: 12px; letter-spacing: 3px; margin-bottom: 8px;">ВЫПУСК 2</div>
+                            <h3>ПСАЛОМ 150</h3>
+                        </div>
+                    </div>
+                    <div class="issue-info">
+                        <h3>Выпуск №2 — Коричневый</h3>
+                        <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 15px;">PDF: <code>psalm-150-issue-2.pdf</code> (20 стр.), флипбук из <code>pages2/</code>.</p>
+                        <button class="btn" onclick="openIssue(2)">Открыть номер</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- 2.1 СТРАНИЦА ВЫПУСКА (Общая для Выпуска №1 и Выпуска №2) -->
+        <div id="view-issue" class="page-view">
+            <a class="back-link" onclick="navigateTo('issues')">← Назад к списку выпусков</a>
+            
+            <div class="article-container" style="margin-bottom: 30px;">
+                <div style="display: flex; flex-wrap: wrap; gap: 30px; align-items: center;">
+                    <div class="issue-cover cover-1" id="issue-detail-cover" style="width: 200px; height: 260px; border-radius: 6px; flex-shrink: 0; box-shadow: 0 10px 25px rgba(0,0,0,0.15);">
+                        <div>
+                            <div style="font-size: 11px; letter-spacing: 2px; margin-bottom: 6px;" id="issue-detail-badge">ВЫПУСК 1</div>
+                            <h3 style="font-size: 26px;">ПСАЛОМ 150</h3>
+                        </div>
+                    </div>
+                    <div style="flex-grow: 1;">
+                        <div class="feed-meta" id="issue-detail-meta">Электронная версия бесплатна</div>
+                        <h1 style="font-size: 28px; margin: 6px 0 12px;" id="issue-detail-title">Музыкальный журнал «Псалом 150» — Выпуск №1</h1>
+                        <p style="color: var(--text-muted); margin-bottom: 20px; font-size: 15px;" id="issue-detail-desc">Нажмите «Читать», чтобы открыть журнал в виде флипбука с первой страницы, либо скачайте электронный PDF-файл.</p>
+                        
+                        <div style="display: flex; flex-wrap: wrap; gap: 12px;">
+                            <button class="btn" onclick="openFlipbook()" id="read-btn">📖 Читать</button>
+                            <a href="psalm-150-issue-1.pdf" id="issue-pdf-link" class="btn btn-outline" download>⬇ Скачать PDF</a>
+                            <button class="btn btn-outline" onclick="navigateTo('order')">📦 Заказать печатный</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Флипбук с картинками страниц -->
+            <div class="flipbook-section" id="flipbook-wrap">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 12px; gap: 10px; flex-wrap: wrap;">
+                    <h3 style="color: var(--accent-blue);" id="flipbook-heading">Флипбук — Выпуск №1</h3>
+                    <button class="btn btn-outline" style="padding: 5px 12px; font-size: 12px;" onclick="closeFlipbook()">Закрыть ✕</button>
+                </div>
+
+                <div class="flipbook-stage">
+                    <div class="flipbook-page-frame">
+                        <img id="flipbook-img" class="flipbook-page-img" src="pages1/01.png" alt="Страница 1 журнала Псалом 150">
+                    </div>
+                </div>
+
+                <div class="flipbook-controls">
+                    <button class="btn btn-outline" id="prev-page-btn" onclick="changePage(-1)">← Назад</button>
+                    <span class="flipbook-counter" id="page-counter">Страница 1 из 24</span>
+                    <button class="btn" id="next-page-btn" onclick="changePage(1)">Вперёд →</button>
+                </div>
+                <div class="flipbook-hint" id="flipbook-hint-text">Листайте кнопками или стрелками «влево / вправо» на клавиатуре.</div>
+            </div>
+
+            <h2 class="section-title">Статьи и материалы в текстовом формате</h2>
+            <div class="feed-list" id="issue-toc"></div>
+        </div>
+
+        <!-- 3. РУБРИКИ / БИБЛИОТЕКА -->
+        <div id="view-rubrics" class="page-view">
+            <h2 class="section-title">Рубрики журнала</h2>
+            <p style="color: var(--text-muted); margin-bottom: 20px;">Выберите рубрику, чтобы отфильтровать материалы:</p>
+            <div class="rubric-pills" id="rubric-filters"></div>
+            <div class="feed-list" id="rubrics-list"></div>
+        </div>
+
+        <!-- 4. АВТОРЫ -->
+        <div id="view-authors" class="page-view">
+            <h2 class="section-title">Авторы и герои публикаций</h2>
+            <div class="authors-grid">
+                <div class="author-card">
+                    <h3>Вадим Шелемехов</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуск №1 • «То, что хотелось сказать»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Слово наставления для музыкантов о смысле общего пения, духовных целях музыки и пропорциях репертуара.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Владимир Волков</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуск №1 • «Как это было?»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Регент и музыкальный служитель. Путь от молодёжного хора в Мариуполе (1968 г.) до регентских курсов в Прибалтике и служения в США.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Анди Ильин</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуск №2 • «Как это было?»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Музыкант, аранжировщик, дирижёр и участник оркестровых лагерей. О пути служения, смирении и руководстве Духа Святого.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Вероника Стасилевич-Балманжи</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуск №2 • «По ту сторону нот»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Автор материала о гигиене голоса для хористов и правилах бережного отношения к голосовому аппарату.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Артём Русалеев</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуск №2 • «То, что хотелось сказать»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Размышление «Музыкант — инструмент в руках Бога» на основе 1 Кор. 6:12–20 о предназначении тела и служении.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Иоанн Филипп Копилец</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуски №1 и №2 • «Записки прошлого»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Очерки об истории церковного пения и гимнологии: о Чарльзе Уэсли (1707–1788) в Выпуске №1 и Мартине Лютере (1483–1546) в Выпуске №2.</p>
+                </div>
+                <div class="author-card">
+                    <h3>Вера Вылегжанина, Даниэль Анатьев, В.Влг, Д.Скр</h3>
+                    <div class="feed-meta" style="margin-bottom: 10px;">Выпуски №1 и №2 • «Наша песня»</div>
+                    <p style="font-size: 14px; color: var(--text-muted);">Стихи, гимны и музыкальные произведения участников и друзей проекта.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 5. О ЖУРНАЛЕ -->
+        <div id="view-about" class="page-view">
+            <div class="article-container">
+                <div class="feed-meta">О проекте</div>
+                <h1 style="font-size: 28px; margin: 10px 0 20px;">Мир вам! О журнале «Псалом 150»</h1>
+                <div class="article-body">
+                    <p><strong>«Псалом 150»</strong> — это проект, созданный в 2025 году с целью поддержки общения и развития христианского музыкального сообщества в Прибалтике. В организации проекта участвуют молодые братья и сёстры из разных церквей ОЦХВЕ.</p>
+                    <p>Мы очень надеемся, что этот музыкальный журнал принесёт каждому читателю много пользы как для духа, так и для ума. Журнал выходит <strong>раз в два месяца</strong>.</p>
+                    <p>Электронная версия журнала распространяется <strong>бесплатно</strong>, а здесь вы можете полистать номер в флипбуке, скачать PDF или заказать печатную версию.</p>
+                    <div class="quote-box">«Всё дышащее да хвалит Господа! Аллилуия.» — Псалом 150:6</div>
+                    <p>Мы не претендуем на роль профессиональных теоретиков музыки и делимся тем, что сами изучаем и применяем. Пусть эти статьи станут поводом для размышления и дальнейшего поиска.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 6. ЗАКАЗЫ И ДОСТАВКА -->
+        <div id="view-order" class="page-view">
+            <h2 class="section-title">Заказать печатную версию</h2>
+            <div class="form-card">
+                <p style="color: var(--text-muted); font-size: 14px; margin-bottom: 20px;">Электронные версии всех номеров доступны бесплатно. Здесь вы можете заказать печатный экземпляр или подписку с доставкой.</p>
+                <form id="order-form" onsubmit="submitOrder(event)">
+                    
+                    <div class="form-group">
+                        <label>Что хотите заказать?</label>
+                        <select id="ord-issue">
+                            <option>Выпуск №1 — Печатная версия</option>
+                            <option>Выпуск №2 — Печатная версия</option>
+                            <option>Подписка на 3 ближайших выпуска (Печатная версия)</option>
+                        </select>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>ФИО получателя (полностью)</label>
+                            <input type="text" id="ord-name" required placeholder="Иванов Иван Иванович">
+                        </div>
+                        <div class="form-group">
+                            <label>Номер телефона (для курьера / почты)</label>
+                            <input type="tel" id="ord-phone" required placeholder="+371 / +370 / +372...">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Контакт для связи (Telegram @username или Email)</label>
+                        <input type="text" id="ord-contact" required placeholder="@username или name@mail.com">
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Страна</label>
+                            <input type="text" id="ord-country" required placeholder="Латвия, Литва, Эстония...">
+                        </div>
+                        <div class="form-group">
+                            <label>Город / Населенный пункт</label>
+                            <input type="text" id="ord-city" required placeholder="Лиепая, Рига, Вильнюс...">
+                        </div>
+                    </div>
+
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label>Почтовый индекс</label>
+                            <input type="text" id="ord-index" required placeholder="LV-3401 / LV-1000...">
+                        </div>
+                        <div class="form-group">
+                            <label>Улица, дом, квартира</label>
+                            <input type="text" id="ord-street" required placeholder="ул. Бривибас 10, кв. 5">
+                        </div>
+                    </div>
+
+                    <div class="form-group">
+                        <label>Комментарий (желаемая служба доставки и т.д.)</label>
+                        <textarea rows="2" id="ord-note" placeholder="Например: отправить почтой или через пакомат..."></textarea>
+                    </div>
+
+                    <button type="submit" class="btn" id="ord-submit-btn">Отправить заявку</button>
+                </form>
+                <div id="order-success" style="display:none; margin-top: 20px; padding: 15px; background: #e8f4ea; color: #1e4620; border-radius: 5px; font-size: 14px;">
+                    ✓ Спасибо! Заявка успешно отправлена редакции в Telegram. Скоро мы свяжемся с вами!
+                </div>
+                <div id="order-error" style="display:none; margin-top: 20px; padding: 15px; background: #fae8e8; color: #5c1e1e; border-radius: 5px; font-size: 14px;">
+                    Не удалось отправить заявку. Убедитесь, что вы нажали «Start» в боте @Psalm150_magazinorderbot и подключены к интернету.
+                </div>
+            </div>
+        </div>
+
+        <!-- 7. КОНТАКТЫ -->
+        <div id="view-contacts" class="page-view">
+            <div class="article-container">
+                <h2 class="section-title">Контакты и конкурс</h2>
+                <div class="article-body">
+                    <p><strong>Почта редакции и для ответов на конкурс:</strong><br>
+                    <a href="mailto:psalm150dvjs@gmail.com" style="color: var(--accent-blue); font-weight: 600;">psalm150dvjs@gmail.com</a></p>
+                    <p><strong>Конкурс для читателей:</strong><br>
+                    В каждом номере вас ждут музыкальные вопросы и задания. Первые пять читателей, отправивших правильные ответы на почту с темой <em>«Конкурс - номер выпуска»</em>, получают сувенир от команды, а раз в полгода разыгрывается большой приз среди первых 10 участников с каждого номера.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- 8. СТРАНИЦА ЧТЕНИЯ СТАТЬИ (чистый текстовый формат) -->
+        <div id="view-article" class="page-view">
+            <a class="back-link" id="article-back-btn">← Назад</a>
+            <div class="article-container" id="article-content"></div>
+        </div>
+
+    </main>
+
+    <script>
+        const TG_BOT_TOKEN = "9214085966:AAFkFKgskdCdszS-hpx7G9eubRTljluoh24";
+        const TG_CHAT_ID = "1754933686";
+
+        const issuesConfig = {
+            1: {
+                number: 1,
+                badge: 'ВЫПУСК 1',
+                coverClass: 'cover-1',
+                meta: 'Выпуск №1 • 24 страницы • Электронная версия бесплатна',
+                title: 'Музыкальный журнал «Псалом 150» — Выпуск №1',
+                description: 'Нажмите «Читать», чтобы открыть первый выпуск в виде флипбука с первой страницы (pages1/), либо скачайте электронный PDF-файл.',
+                pdfUrl: 'psalm-150-issue-1.pdf',
+                folder: 'pages1',
+                hint: 'Листайте кнопками или стрелками «влево / вправо» на клавиатуре. Страницы берутся из папки pages1/ (01.png–24.png).',
+                pages: Array.from({ length: 24 }, (_, i) => {
+                    const num = String(i + 1).padStart(2, '0');
+                    return `pages1/${num}.png`;
+                })
+            },
+            2: {
+                number: 2,
+                badge: 'ВЫПУСК 2',
+                coverClass: 'cover-2',
+                meta: 'Выпуск №2 • 20 страниц • Электронная версия бесплатна',
+                title: 'Музыкальный журнал «Псалом 150» — Выпуск №2',
+                description: 'Нажмите «Читать», чтобы открыть второй выпуск в виде флипбука с первой страницы (pages2/), либо скачайте электронный PDF-файл.',
+                pdfUrl: 'psalm-150-issue-2.pdf',
+                folder: 'pages2',
+                hint: 'Листайте кнопками или стрелками «влево / вправо» на клавиатуре. Страницы берутся из папки pages2/ (01.png–20.png).',
+                pages: Array.from({ length: 20 }, (_, i) => {
+                    const num = String(i + 1).padStart(2, '0');
+                    return `pages2/${num}.png`;
+                })
+            }
+        };
+
+        function getIssuePages(issueNum) {
+            const cfg = issuesConfig[issueNum] || issuesConfig[1];
+            return cfg.pages;
+        }
+
+        let activeIssueNum = 1;
+        let currentPageIndex = 0;
+
+        const articlesData = [
+            {
+                id: 'ensemble',
+                issueNum: 1,
+                rubric: 'По ту сторону нот',
+                subtitle: 'Немного теории • Стр. 4–5',
+                title: 'Ансамбль в хоре: как петь вместе?',
+                author: 'Редакция «Псалом 150»',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Хоровое пение — это совместное музицирование, в котором важен вклад каждого участника. Хороший ансамбль не возникает сам по себе: он формируется благодаря вниманию, дисциплине и умению слушать не только себя, но и окружающих. Данный материал предназначен для обучения хористов основным принципам ансамблевого пения.</p>
+                    <p>Слово <strong>ансамбль</strong> означает «вместе». В хоре это согласованное, слитное звучание всех голосов. Петь в ансамбле — значит слышать свою партию, понимать её роль в гармонии и уметь подстраивать свой голос под общее звучание хора.</p>
+                    <p>Ансамбль — это результат совместной работы хора. Он включает в себя интонационную точность, динамический баланс, ритмическое единство, тембровую слитность и осознанную фразировку. Ответственность за ансамбль лежит на каждом хористе, и именно это делает хоровое пение выразительным и полноценным.</p>
+                    
+                    <h3>1. Интонационный ансамбль</h3>
+                    <p>Основой ансамбля является чистая интонация. Каждый певец должен точно попадать в ноты и удерживать строй на протяжении всего произведения. Различают два вида интонационного ансамбля:</p>
+                    <p>• <strong>Горизонтальный</strong> — чистое интонирование мелодической линии своей партии;<br>
+                    • <strong>Вертикальный</strong> — точное выстраивание гармонии между всеми партиями.<br>
+                    Неточность даже одной партии нарушает звучание всего хора.</p>
+
+                    <h3>2. Ритмический ансамбль</h3>
+                    <p>Ритмический ансамбль предполагает полное единство хора во времени. Для этого необходимо одинаково воспринимать паузы, акценты и замедления, одинаково чувствовать темп, точно соблюдать ритм, одновременно вступать и заканчивать фразы, а также делать вдохи в одних и тех же местах. Даже при хорошей интонации отсутствие ритмического ансамбля делает исполнение неорганизованным.</p>
+
+                    <h3>3. Фразировка и дыхание</h3>
+                    <p>Ансамбль невозможен без общего понимания музыкальной фразы. Все хористы должны знать, где начинается и заканчивается фраза, где делается вдох и где допускаются цезуры.</p>
+                    <p>В хоровой практике часто используется <em>цепное дыхание</em>, при котором певцы поочерёдно берут дыхание, не прерывая общего звучания хора. Все указания дирижёра по фразировке и дыханию должны выполняться точно.</p>
+
+                    <h3>4. Динамический ансамбль</h3>
+                    <p>Динамический ансамбль — это баланс громкости между голосами. В хоре важно не то, кто поёт громче, а то, насколько уравновешено общее звучание. Выделяют два вида ансамбля:</p>
+                    <p>• <strong>Естественный ансамбль</strong> возникает тогда, когда все партии поют в удобной тесситуре и звучат сбалансированно без дополнительных усилий.<br>
+                    • <strong>Искусственный ансамбль</strong> необходим в случаях, когда одна или несколько партий поют в неудобной или малозвучной тесситуре. Тогда певцам требуется сознательно регулировать силу звука.</p>
+                    <p>Следует учитывать, что человеческий слух лучше воспринимает крайние голоса — сопрано и басы. Тенора часто поют в высокой тесситуре и могут звучать слишком активно, а альты, находящиеся в середине гармонии, наоборот, могут теряться и требуют особого внимания.</p>
+
+                    <h3>5. Вокальный и тембровый ансамбль</h3>
+                    <p>Чтобы хор звучал как единый инструмент, требуется единство вокальной техники и тембра. Это означает одинаковую манеру звукоизвлечения, отсутствие излишнего индивидуального выделения голоса и стремление слиться со звучанием своей голосовой группы. Каждый певец должен сохранять здоровый, естественный звук, не нарушая общего тембрового баланса.</p>
+                `
+            },
+            {
+                id: 'volkov',
+                issueNum: 1,
+                rubric: 'Как это было?',
+                subtitle: 'История Владимира Волкова • Стр. 6–8',
+                title: 'Как это было? С Владимиром Волковым',
+                author: 'Редакция журнала',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Брат Владимир Волков родился в 1952 году в городе Мариуполь, где и начал своё музыкальное служение в одной из нерегистрированных пятидесятнических церквей. Первый хор в церкви, которую посещал брат Владимир, образовался в 1968 году. В этом же году он начал участвовать в нём в возрасте 16 лет.</p>
+                    <p>Спустя примерно год, брат Владимир, обратив внимание на простую технику дирижирования их руководителя (который на тот момент также не имел образования, но, будучи любителем пения, ревновал об этом служении), подошёл к нему с вопросом, почему он так дирижирует, пытаясь немного подсказать. Тогда руководитель предложил: «Почему бы тебе самому не попробовать?» Так впервые брат Владимир продирижировал церковному хору.</p>
+                    <p>Когда ему было 17 лет, образовался уже общий молодёжный хор, которым и стал руководить брат Владимир. На тот момент все музыкальные знания были в большинстве получены от его неверующего двоюродного брата, который учился в музыкальном училище. Сам Владимир светского музыкального образования не имел. Полученные знания он старался сразу применять в молодёжном хоре.</p>
+                    <p>Когда брату Владимиру было 18 лет, он с группой пятидесятников из шести человек стал посещать баптистские регентские курсы в городе Красноармейск. Преподаватель Зинаида Тимофеевна, окончившая консерваторию, вложила в них все свои знания, начиная от нотной грамоты и заканчивая гармонией и техникой дирижирования. С этого времени фактически началось музыкальное служение брата Владимира.</p>
+                    <p>Кроме молодёжного хора он также занимался параллельно подростковым хором. Как общим, так и молодёжным хором они пели на бракосочетаниях, ездили с молодёжью на посещение других городов. Впоследствии образовался оркестр, где брат Владимир также играл на бас-гитаре и трубе.</p>
+                    <h3>Служение в Прибалтике и США</h3>
+                    <p>В 1981 году брат Владимир вследствие семейных обстоятельств переехал в Эстонию. Часть хористов (около десяти человек), участвовавших в Мариуполе в молодёжном хору, также семьями переехали в Прибалтику. Осенью этого года состоялось бракосочетание, на котором решили потрудиться хористами, приехавшими из Мариуполя, так как по Прибалтике на то время были хора только в Нарве и в Риге.</p>
+                    <p>На бракосочетании присутствовали и старшие братья, которые, увидев способности брата Владимира, весной 1982 года на братском служении поручили ему обучить регентов по Прибалтике. Так собралась группа желающих из Калининграда, Петрозаводска, Литвы, Латвии и Эстонии — около двадцати человек. Брат Владимир, собирая раз в месяц курсантов, вкладывал в них всё, чему сам был научен, добиваясь нужных результатов. Позже, на протяжении довольно продолжительного времени, они уже хором учащихся пели на бракосочетаниях по Прибалтике.</p>
+                    <p>20 мая 1993 года брат Владимир переехал в Америку, где уже находились некоторые семьи с Донбасса. Зная, что брат Владимир занимался хором, они предложили ему организовать хор. Так как были способные и имеющие музыкальное образование люди, образовался хор примерно из 45 человек, который стал уже сопровождаться музыкальными инструментами.</p>
+                    <p>Служение брата Владимира в Америке продолжилось до 1997 года, после чего, вследствие определённых обстоятельств, он переехал в Россию, где Бог повёл его уже в совершенно другом служении.</p>
+                    <div class="quote-box">«Вопрос регентства, как говорит брат Владимир, — это не только работа с голосами, это работа с душами, духовная работа. Регент должен иметь большое терпение, учитывая состояние и настроение хористов. Задача регента — передать хору то, что записано в произведении, проникнув в то, что скрыто за словами.»</div>
+                    <p>Произведение, которое регент выбирает, должно прежде всего пройти его самого (о чём написано? что хотел выразить композитор или поэт в этом произведении?), чтобы потом выразить это через хористов. Кроме того, произведение должно назидать и регента, и хористов, которые поют, — тогда оно начнёт действовать и в сердцах слушающих. Как говорит брат Владимир, в каждой церкви, где есть способные голоса, должен звучать хор.</p>
+                `
+            },
+            {
+                id: 'shelemekhov',
+                issueNum: 1,
+                rubric: 'То, что хотелось сказать',
+                subtitle: 'Вадим Шелемехов • Стр. 9–15',
+                title: 'То, что хотелось сказать',
+                author: 'Вадим Шелемехов',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Тема, о которой хотелось бы говорить, касается одной из самых важных частей нашего богослужения. Это не просто выражение эмоций — это исповедание нашей веры. Это то, что является чувственным выражением всех наших отношений с Богом. И это — музыка. Музыка не просто как набор звуков, это как повествование, изложение доктрин, которые мы можем сегодня направить в своих чувствах, облекая в гармонию, направляя к Богу, Который нас спас и оправдал, Который достоин всякой хвалы и поклонения.</p>
+                    <p>Псалом 108:30 говорит: «И я громко буду устами моими славить Господа и среди множества прославлять Его». Я думаю, каждый евангельский христианин скажет «аминь», потому что когда мы говорим о музыке, речь идёт о прославлении нашего Господа, к Которому мы возносим всё своё сердце и свой разум.</p>
+                    <p>Музыка — очень конфликтная зона наших рассуждений. Я не раз слышал, как люди спорят о музыке: определяют, какой набор инструментов приемлем, какой — нет, какие стили музыки допустимы, а какие — нет. Я не хотел бы тратить на это сегодня наше время, потому что думаю, что каждый взрослый, зрелый христианин уже определил для себя то, чем он будет прославлять Бога и что для него является приемлемым.</p>
+                    <div class="quote-box">«Кульминацией всего должен стать Бог.» — Вадим Шелемехов</div>
+                    <p>Наше пение делится на разные жанры и способы исполнения. Самое важное в наших служениях — это общее пение, когда мы поём вместе, потому что для нас это является основополагающим принципом в наших служениях.</p>
+                    <h3>Духовное и душевное в песне</h3>
+                    <p>Песня — это продукт души, преследующий духовные цели. Духовными песнями мы называем те псалмы, которые касаются лично нас и которые мы считаем для себя полезными, а душевными часто называем те песни, которые трогают просто чувства, не меняя наших представлений о Боге. Песня сама по себе или музыка в принципе, которая говорит нам о Боге, всё равно является продуктом души в хорошем смысле слова — это отклик души на то, что Бог делает в жизни человека.</p>
+                    <p>Говоря об общем пении, нужно иметь большую ответственность при выборе общего пения и отношении к нему, потому что оно должно в первую очередь прославлять Бога. Это песни, не сосредоточенные на нас, и даже если мы выражаем какие-то чувства по отношению к Богу, кульминацией всего должен стать Бог — прославление Его дел.</p>
+                    <h3>Пять ключевых принципов общего пения</h3>
+                    <p><strong>1. Сосредоточенность на Боге.</strong> В нашем христианском кругу есть проблема — песни сосредоточены на себе. В написании или исполнении должна быть ровная, справедливая пропорция, в которой предпочтение отдаётся самому Богу и в первую очередь прославляется Он, а не наше посвящение или служение Ему.</p>
+                    <p><strong>2. Объединение поколений.</strong> Общее пение должно объединять нас, стать чем-то объединяющим поколения, чтобы объединившись мы могли петь вместе. Эти песни должны быть достаточно простыми для того, чтобы мама могла спеть эти песни дома с детьми, разучить и петь с ними вместе в церкви, с запоминающейся мелодией.</p>
+                    <p><strong>3. Выражение радости о спасении.</strong> Одна из ключевых тем, которую восхвалял Царь Давид, — это радость спасения, радость о том, что Бог с ним, что Бог — Его прибежище и защита.</p>
+                    <p><strong>4. Укрепление веры.</strong> Тематика наших песен должна не просто рассказывать о том, как нам тяжело, — она должна укреплять нашу веру и помогать человеку вновь посмотреть на своего Спасителя и Избавителя.</p>
+                    <p><strong>5. Наставление на жизнь для Бога.</strong> Тематика наших песен должна ободрять человека для служения Богу, чтобы мы были взором направлены к небесам, но жизнь на Земле при этом оставалась эффективной и направленной на свидетельство и труд для Господа.</p>
+                    <h3>Пропорции тематики, ответственность за репертуар и зрелость</h3>
+                    <p>В нашем репертуаре должны быть пропорции, которые всеобъемлюще охватывают жизнь христианина, и тематика песен должна соответствовать служению. Важен принцип: один человек не должен определять репертуар, иначе не избежать «вкусовщины» — привлекайте нескольких людей с разным духовным опытом и взглядами.</p>
+                    <p>Поступать инфантильно — значит ориентироваться только на то, что просто нравится сейчас. Если же смотреть с точки зрения Библии на Христа или апостолов, которые делали то, что было нужным, полезным и важным, мы можем сделать наше служение более эффективным. И в то же время не нужно бояться радостных, торжествующих песен: «Весел ли кто, пусть поёт псалмы» (Иак. 5:13). Прославляйте Бога за то, что Он сделал в нашей жизни.</p>
+                `
+            },
+            {
+                id: 'charles-wesley',
+                issueNum: 1,
+                rubric: 'Записки прошлого',
+                subtitle: 'Чарльз Уэсли (1707–1788) • Стр. 16–17',
+                title: 'Чарльз Уэсли (1707–1788)',
+                author: 'Иоанн Филипп Копилец',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Чарльз Уэсли родился в декабре 1707 года в деревне Эпворт, в Англии. Он был предпоследним из 19 детей (из которых только 10 дожили до зрелости) в семье Сэмюэля и Сюзанны Уэсли. Так как Чарльз родился семимесячным, первые два месяца он лежал молча, закутанный в шерсть, почти не подавая признаков жизни.</p>
+                    <div class="quote-box">«Дайте мне сто проповедников, которые боятся только греха и желают только Бога, и мне всё равно, священники они или миряне, только они смогут потрясти врата ада и установить Царствие Небесное на Земле.» — Чарльз Уэсли</div>
+                    <p>На семью Уэсли сильно повлияло событие, произошедшее 9 февраля 1709 года. В половине двенадцатого ночи 11-летняя сестра Чарльза проснулась от непонятных звуков: на её постель падали куски сгоревшей крыши. Она разбудила отца, и, так как пожар уже охватил весь дом, семье (родителям, слугам и восьмерым детям) пришлось срочно эвакуироваться — времени что-то собрать не было. Мама Чарльза болела и была в положении, а дети спали, и только по Божьей милости всем удалось выбраться из горящего дома живыми. Это событие сильно повлияло на дальнейшее воспитание детей и впоследствии принесло большой плод в распространении Евангелия.</p>
+                    <p>Отец Чарльза был священником, поэтому обучением детей в основном занималась мать. Она с детства воспитывала их в строгости и дисциплине, стараясь привить им глубокие моральные и религиозные ценности. Мать начинала обучать детей индивидуально с пяти лет. В первый же день они должны были выучить алфавит, и уже к концу своего первого «школьного дня» Чарльз прочитал свой первый библейский стих.</p>
+                    <h3>«Святой клуб» и духовное возрождение</h3>
+                    <p>В 1716 году, в возрасте девяти лет, Чарльза отправили в Вестминстерскую школу в Лондоне, где преподавал его старший брат. В 1726 году он начал учёбу в колледже «Крайст-Чёрч» (Christ Church College). В 1729 году Чарльз почувствовал духовную нужду и вместе с двумя друзьями начал ежедневно изучать Писание. Вскоре к ним присоединился Джон, брат Чарльза, который возглавил эту группу.</p>
+                    <p>Группа стала набирать известность. Студенты колледжа в насмешку дали ей название «Святой клуб». Несмотря на некоторую неприязнь, участники приняли это название. Вместе они продолжали собираться, посещали тюрьмы и помогали получать образование бедным.</p>
+                    <p>Чарльз также пережил период сомнений в своей христианской жизни. После смерти отца в 1735 году он присоединился к своему брату Джону, который находился на миссии в Америке, в Джорджии. Однако уже в декабре 1736 года они вместе вернулись назад разочарованными и с пошатнувшимся здоровьем.</p>
+                    <p>После возвращения в Англию Чарльз начал преподавать английский одному человеку, который, как оказалось, был членом моравской общины. Он побудил Чарльза взглянуть на вопрос спасения с новой стороны. В мае 1738 года Чарльз, будучи болен, находился в гостях у своего друга. Его друг читал историю о расслабленном из Евангелия от Матфея. Эта история вселила в него надежду и веру в то, что Бог может поднять его как физически, так и духовно. На следующий день Чарльз пережил духовное возрождение, после чего стал активно распространять Евангелие через свои гимны.</p>
+                    <h3>Наследие гимнографа</h3>
+                    <p>На протяжении всей своей взрослой жизни Чарльз писал стихи, в основном гимны для использования на методистских собраниях. За 53 года он выпустил 56 томов гимнов, создав в своих текстах то, что его брат Джон назвал «отчётливым и полным изложением библейского христианства».</p>
+                    <p>Чарльз Уэсли быстро заслужил восхищение своей способностью передавать вселенский христианский опыт в запоминающихся стихах. Составитель обширного словаря гимнологии Джон Джулиан пришёл к выводу, что, «возможно, принимая во внимание количество и качество, Чарльз Уэсли был величайшим автором гимнов всех времён».</p>
+                    <div class="quote-box">«Почему у дьявола должны быть все лучшие мелодии?» — Чарльз Уэсли</div>
+                `
+            },
+            {
+                id: 'contest-1',
+                issueNum: 1,
+                rubric: 'Информация для читателя',
+                subtitle: 'Конкурс: кроссворд • Стр. 18–19',
+                title: 'Дорогие читатели: музыкальный конкурс (кроссворд)',
+                author: 'Редакция «Псалом 150»',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Приглашаем вас принять участие в музыкальном конкурсе. Вас ждут в каждом номере интересные вопросы и задания о музыке.</p>
+                    <p>Первые пять, кто отправят правильные ответы, получат в приз небольшой сувенир от нашей команды. Также раз в полгода будет разыгрываться большой приз, в котором смогут участвовать первые 10 участников с каждого номера (если вы будете в числе первых во всех трёх журналах, то у вас будет три номера в розыгрыше).</p>
+                    <p>Желающие участвовать, отправьте фото или скрин ваших ответов на нашу почту: <strong>psalm150dvjs@gmail.com</strong>. Темой отметьте <em>«Конкурс - номер выпуска»</em>.</p>
+
+                    <h3>По горизонтали</h3>
+                    <p><strong>1.</strong> На каком инструменте, согласно Откровению, играют искупленные, воспевая новую песнь?<br>
+                    <strong>4.</strong> Кто из композиторов считается основателем венской классической школы вместе с Моцартом и Бетховеном?<br>
+                    <strong>8.</strong> Какой композитор известен как «король вальсов»?<br>
+                    <strong>11.</strong> Какое слово обозначает постепенное ускорение темпа?<br>
+                    <strong>14.</strong> Как называется крупная форма, где музыкальная тема повторяется между разными эпизодами?<br>
+                    <strong>15.</strong> Какой музыкальный инструмент использовали священники при падении стен Иерихона?<br>
+                    <strong>16.</strong> Как называется звукоряд, в котором используется 12 равных полутонов?</p>
+
+                    <h3>По вертикали</h3>
+                    <p><strong>2.</strong> Какой аккорд строится на VII ступени в гармоническом миноре?<br>
+                    <strong>3.</strong> Какой царь Израиля поставил певцов впереди войска с песнопениями?<br>
+                    <strong>5.</strong> Кто был отцом всех играющих на гуслях и свирели?<br>
+                    <strong>6.</strong> Какая женщина воспела песнь после победы над Сисарой?<br>
+                    <strong>7.</strong> Какого рода инструментов в Библии больше всего?<br>
+                    <strong>9.</strong> Сколько инструментов упомянуто в 150 псалме?<br>
+                    <strong>10.</strong> Как звали композитора, который оглох, но продолжал сочинять музыку?<br>
+                    <strong>12.</strong> Как называется крупная форма для оркестра в 4 частях?<br>
+                    <strong>13.</strong> Кто была первой певицей, упомянутой в Библии?</p>
+                `
+            },
+            {
+                id: 'song-camp',
+                issueNum: 1,
+                rubric: 'Наша песня',
+                subtitle: 'Для конкурса «Гимн для лагеря» • Стр. 20–22',
+                title: '«От древних времен по сей день на земле»',
+                author: 'Сл. Вера Вылегжанина • Муз. Иоанн Филипп Копилец, Даниэль Анатьев',
+                issue: 'Выпуск №1',
+                content: `
+                    <p>Песня написана для конкурса «Гимн для лагеря» (в номере представлена хоровая партитура: ♩. = 65, <i>mf cantabile, con moto</i>, <i>maestoso</i>, <i>energico</i>, <i>f Con brio, alla marcia</i>).</p>
+                    <div class="chords-block">Куплет 1:
+G                  C
+От древних времен по сей день на Земле
+G                  C
+Возносится Имя Господне в хвале.
+Am        H         Em
+И дети, и старцы, народ и цари
+C        C/Am      Dsus4  D
+Слагают о Боге поэмы свои.
+
+Куплет 2:
+G         G/H        C
+Отцом всех играющих был Иувал,
+G         G/H        C
+Давид много гимнов, псалмов написал,
+Am      H/F# H7     Em --> (C#dim 7)*
+И верно служили Асафа сыны
+C          C/Am     Dsus4  D
+При доме Господнем, тогда как певцы...
+
+Припев:
+G        H7         Em
+Мы также прославить Иисуса хотим,
+Am7                 D
+Кладя свою жертву хвалы перед Ним.
+D7/C          Hm7       Em
+Пусть звук не смолкает мелодии той
+Em/D     C      C/A      D
+Гармонией в души стучась неземной.
+D/C      G      H        Em
+Воспойте, воспойте всем сердцем Христа
+Em/D     C         D  D7       G
+Пусть славят, пусть славят Его все уста!
+
+Куплет 3:
+Вставай же, народ, взяв орудие своё -
+В присутствие Божье с хвалой мы войдём.
+Пусть льется мелодия бурной рекой (рекой),
+И в скорби и в радости - пой сердце, пой!
+
+Припев 2:
+И пусть мало времени здесь отдыхать,
+Мы учимся стройно для Бога играть.
+Как плод всех усилий, под четкий взмах рук
+Звучит в одном темпе сердец наших стук -
+
+Припев: Мы вместе....
+
+Примечания:
+* только в третьем куплете при расширении размера такта до 12/8
+** между 1 и 2 куплетом припев не поётся</div>
+                `
+            },
+            {
+                id: 'andi-ilyin',
+                issueNum: 2,
+                rubric: 'Как это было?',
+                subtitle: 'История Анди Ильина • Стр. 4–7',
+                title: '«Как это было?» с Анди',
+                author: 'Анди Ильин',
+                issue: 'Выпуск №2',
+                content: `
+                    <p>Я родился и вырос в Германии в христианской семье. В семье, где всегда раздавалось эхо христианских псалмов из родительских уст и наших маленьких детских сердец. С восьми лет я начал самостоятельно осваивать пианино, затем на протяжении нескольких лет брал частные уроки игры на гитаре. Но однажды, в 2006 году, который навсегда изменил мою жизнь, нашу поместную церковь посетил оркестр. Его звучание пронзило меня до глубины души, и казалось, будто небо опустилось на землю, заполняя всё пространство величием нашего Господа.</p>
+                    <p>Тогда, на том служении, в возрасте двенадцати лет, склонившись перед Богом, я сказал: «Боже, если есть на это Твоя воля, я бы очень хотел иметь такой оркестр в нашей церкви и трудиться в этом служении».</p>
+                    <p>Незадолго до моего тринадцатилетия, посетив одну семью в другом городе Германии, я впервые взял в руки скрипку. Нежное звучание её струн напоминало мне о том чудесном оркестре. В тот день на протяжении трёх часов я пытался играть псалом «Славьте Бога», что только усилило моё огромное желание научиться играть на этом инструменте.</p>
+                    <p>Несмотря на многие преграды, в четырнадцать лет я начал знакомиться со скрипкой, а через четыре года записался на частные уроки. Так я отучился девять лет.</p>
+                    <p>В 2014 году в нашей церкви уже образовался маленький оркестр, где я начал играть на скрипке, параллельно пытаясь дома аранжировать простые песни. В возрасте двадцати лет я принёс регенту церковного оркестра песню «Господи, услышь», в которой расписал хоровую партию для оркестра (сейчас я никогда бы такое не написал, но это было начало). Регент оркестра сказал: «Анди, я хочу, чтобы ты это продирижировал». Так, по желанию регента, не имея образования и обладая только базовыми знаниями, я впервые поднял свои легко дрожащие руки перед нашим маленьким оркестром.</p>
+                    <h3>Регентская школа, лагеря и уроки смирения</h3>
+                    <p>С 2015 по 2018 год я учился в христианской регентской школе в Германии. Желание, которое я изъявил Богу в 12 лет, — исполнилось. Позже, на дополнительных курсах, образовалась отдельная группа, в которой нас начали учить голосоведению. Это была ещё одна моя мечта — научиться правильно писать аранжировки. Тогда я ясно понял, что хочу и буду развиваться в этом направлении.</p>
+                    <p>В 2020 году друзья из Эстонии пригласили меня участвовать в оркестровом лагере, где была нужда в дирижёре. Так появилось ещё одно направление моего служения — труд в музыкальных лагерях.</p>
+                    <div class="quote-box">«Бог начал обрабатывать меня, лепить из меня сосуд, который нужен был для труда на ниве Господней. Я был глиной, у которой было много недостатков: упрямства, гордости. Ведь музыканту, у которого, кажется, всё получается, не один раз приходят мысли: “как же я это хорошо могу”.»</div>
+                    <p>Последние два года учёбы на курсах были для меня большим испытанием. Не один раз я видел в своей жизни, как Бог преподносил уроки смирения и осознания того, что без Бога мы ничего не можем. Оглядываясь назад, я вижу, как Бог через это от многого сохранил и ещё больше благословил.</p>
+                    <p>Помню, на одной из встреч регентов, где присутствовали и служители, я предложил организовать подростковый хор в церкви. Была необходимость и достаточно регентов, однако один служитель наотрез сказал: «Нет». Я предложил ещё некоторые идеи, на что он также отвечал: «Нет, мы этого делать не будем». Я не мог понять, в чём дело: на все мои идеи служитель ясно давал понять: нет, не время. Потом мне рассказали, что он сам тогда не мог этого объяснить, но внутри у него было ясное осознание того, что нужно говорить «нет».</p>
+                    <p>Вначале было тяжело, я просил у Бога помощи смириться в этой ситуации. В дальнейшем получилось так, что один из регентов по некоторым обстоятельствам не смог продолжать регентскую школу, второй переехал в другую церковь, третий перешёл в другое служение. Так я понял: если бы мы тогда начали подростковый хор, нам пришлось бы его просто оставить.</p>
+                    <div class="quote-box">«Как на самом деле важно в этом служении слышать голос Духа Святого, чтобы держаться правильного Божьего пути. Я понял, что путь смирения — самый благословенный и угодный нашему Богу путь.» — Анди Ильин</div>
+                    <p>Помоги, Господь, мне и каждому, кто трудится на ниве Божьей, каждый день выбирать этот путь до конца своей жизни и прийти с полными руками плодов к нашему Христу. Ему да будет честь и слава!</p>
+                `
+            },
+            {
+                id: 'voice-hygiene',
+                issueNum: 2,
+                rubric: 'По ту сторону нот',
+                subtitle: 'Что нужно знать хористу о своём голосе • Стр. 8–9',
+                title: 'Что нужно знать хористу о своём голосе',
+                author: 'Вероника Стасилевич-Балманжи',
+                issue: 'Выпуск №2',
+                content: `
+                    <p>«Как и любой другой инструмент музыканта, голос требует особого внимания и ухода. Ведь голос — это и есть инструмент».</p>
+                    <p>Подобно тому, как скрипачи полируют свои скрипки, натирают смычки канифолью, духовики начищают медные трубы, обеспечивая весь необходимый уход за инструментом, певцы тоже должны ухаживать за своим голосом. Для того, чтобы весь голосовой аппарат был в хорошей форме, о нём нужно заботиться. Для этого и существует такое понятие, как <strong>гигиена голоса</strong>. Её особенно важно соблюдать, если вы поёте, выступаете или много говорите.</p>
+                    <p><strong>Гигиена голоса</strong> — это система привычек и правил, которые помогают сохранить голос здоровым, чистым и выносливым.</p>
+                    <h3>Правила для певцов</h3>
+                    <p>• Не употребляйте перед нагрузкой на голос продукты, которые негативно влияют на связки и раздражают горло. К ним относятся орехи, печенье, шоколад, мороженое, семечки. Также стоит быть осторожным с острой, слишком солёной, горячей и холодной пищей.</p>
+                    <p>• Не рекомендуется петь сразу после приёма пищи, так как это мешает естественному дыханию.</p>
+                    <p>• Не пойте в болезненном состоянии — это одна из самых частых причин появления узелков.</p>
+                    <p>• В холодное время года защищайте не только голову и шею от мороза и переохлаждения, но и голос: не разговаривайте и не пойте слишком много при температуре ниже +10 °C.</p>
+                    <p>• Не подвергайте голосовой аппарат резким сменам температуры. Голосу вредят пыль и сухой воздух. После пения нельзя сразу выходить на улицу — голосовому аппарату нужно время, чтобы «остыть».</p>
+                    <p>• Увлажняйте связки во время занятий простой тёплой водой. Желательно, чтобы в помещении был влажный воздух, так как сухие связки быстрее травмируются.</p>
+                    <p>• Начинайте занятия с распевки — это важная часть гигиены голоса. Её цель схожа с разминкой спортсменов перед тренировкой. Распевание помогает подготовить голосовые связки и весь голосовой аппарат к работе. Не рекомендуется начинать пение сразу на <em>fortissimo</em> — неразогретый голос быстро утомится. Начинать следует с умеренного звучания (<em>mezzo-forte</em>), постепенно увеличивая силу звука до <em>forte</em> и <em>fortissimo</em>.</p>
+                    <p>• Недопустимы длительное пение без перерывов, работа в несвойственной данному голосу тесситуре, злоупотребление высокими нотами и форсированным звучанием. Следует избегать чрезмерной речевой нагрузки, сильно утомляющей голос.</p>
+                    <p><em>Соблюдение этих правил помогает предотвратить заболевания голосового аппарата и создаёт условия, которые обеспечивают возможность сохранить голос для полноценной и продуктивной работы на долгие годы.</em></p>
+                    <h3>Рекомендации дирижёру</h3>
+                    <p>Дирижёру очень важно выполнять эти требования (это возможно даже при наличии ограниченных голосовых данных), поскольку он должен уметь показать голосом то, чего хочет добиться от певцов. Выразительно спетая фраза и чётко оформленная мысль, переданная ясной и конкретной речью, в значительной степени облегчат работу дирижёра с хором.</p>
+                `
+            },
+            {
+                id: 'rusaleev',
+                issueNum: 2,
+                rubric: 'То, что хотелось сказать',
+                subtitle: 'Артём Русалеев • Стр. 10–12',
+                title: 'Музыкант — инструмент в руках Бога',
+                author: 'Артём Русалеев',
+                issue: 'Выпуск №2',
+                content: `
+                    <div class="quote-box">«Не знаете ли, что тела ваши суть храм живущего в вас Святого Духа, Которого имеете вы от Бога, и вы не свои? Ибо вы куплены дорогою ценою. Посему прославляйте Бога и в телах ваших и в душах ваших, которые суть Божии» (1 Кор. 6:19–20).</div>
+                    <p>Темой сегодняшней статьи возьму отрывок из 1 Кор. 6:12–20. Для большего понимания смысла и общей картины прочтите его перед тем, как продолжить. Как бы ни казались слова апостола Павла «заезженными», всё же стоит обратить на них внимание. Данная статья не предполагает полного анализа текста, потому буду краток.</p>
+                    <h3>Предназначение тела</h3>
+                    <p>Рассмотрим главный тезис этого отрывка — предназначение тела. Во времена апостола Павла отношение к телу было неоднозначным. Одни (Платоники) считали, что тело — это тюрьма, временная оболочка, сковывающая и не позволяющая «расправиться» вечной душе. Другие — боготворили тело, особенно мужское, как символ власти, силы и героизма. Третьи были движимы идеологией, которую можно выразить так: «Моё тело — моё дело. Что хочу, то и делаю».</p>
+                    <p>Апостол Павел проливает божественный свет на истинное предназначение тела. Он противопоставляет идее «тело — темница» истину: тело — «храм Духа Святого». Но при этом из текста видно, что тело может стать инструментом греха, на что Павел отвечает: «Да не будет».</p>
+                    <p>Тело человека имеет большое значение для Бога, равно как дух и душа. Всё принадлежит Ему — и тело, и сама жизнь человека. Более того, Бог воскресит наши тела. Он воссоздаст их для вечной жизни в иной славе. Но это будет совершенное тело, очищенное для жизни в вечном свете. Тело не просто «фантик», не имеющий значимости, оно — часть нашего «я», которое причастно к вечности. И это подтверждено воскресением Иисуса Христа.</p>
+                    <h3>Предназначение тела христианина</h3>
+                    <p><strong>Первое — быть инструментом праведности.</strong> Как пишет апостол Павел в послании к Римлянам: «...представьте себя Богу, как оживших из мёртвых, и члены ваши Богу в орудия праведности» (Рим. 6:13).</p>
+                    <p><strong>Второе — быть храмом для Духа Святого.</strong> Не побоюсь сказать, что пламенное желание Бога в том, чтобы человек был «Боговместилищем» — сосудом, способным вмещать присутствие бесконечного Бога. Этот замысел Божий постепенно развивался и достиг своей реализации в том, что Бог поселился и обитал среди народа сначала в скинии, а затем в храме, куда доступ имел лишь первосвященник один раз в году. Но благодаря жертве Иисуса Христа грех, который делал человека непригодным для Божьего присутствия, был устранён. Теперь рождённый свыше христианин является храмом Святого Духа и имеет доступ к Богу постоянно.</p>
+                    <p>Бог проживает с нами нашу жизнь всегда и везде. Он хочет действовать и действует через нас. Мы предоставляем себя как инструмент для выражения Его воли, Его характера и Его дела в этом мире. Какое же это высокое, сакральное и божественное предназначение. Понимание и осознание этого предназначения должно менять образ жизни и наполнять сердце благоговением.</p>
+                    <h3>Музыкант как инструмент Бога</h3>
+                    <div class="quote-box">«С учётом всего вышесказаннаго ответственно провозглашаю: музыкант, живущий Христом и осознающий себя храмом Божиим, становится каналом, через который Бог обращается зачастую напрямую к душе, и, минуя логику, несёт именно то, в чём она отчаянно нуждается.»</div>
+                    <p>Так когда-то было с Давидом: «И когда дух от Бога бывал на Сауле, то Давид, взяв гусли, играл, — и отраднее и лучше становилось Саулу, и дух злой отступал от него» (1 Цар. 16:23).</p>
+                    <p>Талант, которым обладает музыкант, не его заслуга или достижение. Это Божье дарование и призыв к сотрудничеству. Потому это не отменяет личности музыканта и его ответственности. Речь идёт о синергии, где задачей музыканта является развить и верно употребить данную Богом способность быть чистым каналом для Божьего действия во всякое время. И неважно, в церкви или в светском обществе. Погоня за славой и чувство собственной значимости — ил, засоряющий «канал». Убегай этого, музыкант!</p>
+                    <p>Христианин-музыкант призван быть:<br>
+                    • трубой, возвещающей о Христовой славе;<br>
+                    • органом, через который льётся величие и святость Христа;<br>
+                    • арфой, несущей утешение, сострадание и покой усталой душе.</p>
+                    <h3>Заключение</h3>
+                    <p>Запомни, а лучше запиши прямо на скрижалях сердца следующее: <em>любой музыкальный инструмент звучит совершенно, лишь находясь в руках Великого Мастера</em>. Музыкант-христианин должен быть осознанным и послушным инструментом в руках Бога, живущего в Нём. Вся слава принадлежит лишь Ему одному, а не «инструменту». Музыкант! Ты готов предоставить себя в руки этого «Великого Мастера»?</p>
+                `
+            },
+            {
+                id: 'martin-luther',
+                issueNum: 2,
+                rubric: 'Записки прошлого',
+                subtitle: 'Мартин Лютер (1483–1546) • Стр. 13–15',
+                title: 'Мартин Лютер (1483–1546)',
+                author: 'Иоанн Филипп Копилец',
+                issue: 'Выпуск №2',
+                content: `
+                    <h3>Мартин Лютер и церковное пение</h3>
+                    <p>В 1526 году Мартин Лютер опубликовал трактат «Немецкая месса», в котором описал правильный, по его мнению, ход христианского Богослужения. С точки зрения музыки богослов подчёркивает важность общего пения на понятном (немецком) языке в противовес только хоровому пению на латыни.</p>
+                    <p>Лютер разделяет три вида богослужений, это важно учитывать, потому что в каждом из них у пения немного отличная форма и функция. Подробнее об этом можно узнать из предисловия к «Немецкой мессе». Среди них пение на немецком языке занимает самое важное место. В наше время мы бы назвали его евангелизационным. Вот что о нём пишет Мартин Лютер:</p>
+                    <div class="quote-box">«Прежде всего это делается ради простых людей и молодёжи, которых следует ежедневно наставлять в Священном Писании и Слове Божьем, дабы они были приучены к Писанию, были в нём искусны, сноровисты и сведущи, чтобы защищать свою веру и со временем научить других людей, умножая Царство Христово. Ради них и следует читать, петь, проповедовать, писать и сочинять. И если от этого будет польза, то пусть звонят все колокола, играют все органы и звучит всё, что может издавать звук».</div>
+                    <p>В богослужении песня — это инструмент, который побуждает часто пассивного, равнодушного прихожанина стать активным участником, пропевая библейские истины на простые, знакомые мелодии. На родном языке человеку стало гораздо проще их понять и принять.</p>
+                    <h3>Творчество Лютера</h3>
+                    <p>Интересно то, как Мартин Лютер создавал мелодии для своих песен. Часто он использовал метод <strong>контрафактуры</strong> (лат. <em>contrafactum</em> — «подделка» или «изменение») — это замена текста в известном музыкальном произведении при полном сохранении его мелодии.</p>
+                    <p>Иногда он брал народную мелодию и писал на неё христианский текст. Например, мелодией для рождественского гимна «Vom Himmel hoch, da komm ich her» («С небес высоких я пришёл») была из шуточной застольной песни-игры для бродячих музыкантов. Но люди в церкви не могли настроиться на благоговейный лад из-за того, что мотив ассоциировался с шумом и пьяными играми. Позднее Лютер полностью отказался от этой идеи и написал к тексту новую, собственную музыку, которая используется по сей день.</p>
+                    <p>Ещё один способ, которым пользовался не только Мартин Лютер, но и многие другие композиторы в разные времена, — это использование <strong>григорианского хорала</strong> как основы для мелодии. Мартин Лютер переводил латинские тексты хоралов и немного изменял ритм, чтобы его было легче запомнить и исполнить простым прихожанам.</p>
+                    <h3>Наследие Лютера</h3>
+                    <p>Тексты Мартина Лютера всегда наполнены глубоким христианским смыслом. Часто это переработанные библейские тексты или молитвы, обращённые к Богу («Ein feste Burg ist unser Gott» — Псалом 45 и «Aus tiefer Not schrei ich zu dir» — Псалом 129).</p>
+                    <p>Самым известным его произведением стал гимн, созданный в конце 1520-х годов — «Ein feste Burg ist unser Gott» («Господь наш — твердыня»), ставший манифестом Реформации. В будущем на этот мотив И. С. Бах напишет большое вокально-инструментальное произведение.</p>
+                    <p>Всего Мартин Лютер написал около 36 хоралов, многие из них в будущем стали частью других произведений немецких классиков, таким образом повлияв не только на лютеранское движение, но и на европейскую культуру в целом. Реформа церковного пения в XVI веке послужила отправной точкой для традиции общего пения, через которое к Богу пришли тысячи людей, и каждый из нас не раз получал ободрение и вдохновение.</p>
+                    <p><em>Пусть Бог благословит каждого из нас быть активным участником этого служения.</em></p>
+                `
+            },
+            {
+                id: 'poetry-issue-2',
+                issueNum: 2,
+                rubric: 'Наша песня',
+                subtitle: 'Поэзия • Стр. 16–17',
+                title: '«Не всегда будет время тьмы» и «Только победитель»',
+                author: 'Вера Вылегжанина (@VERAVOLEGZANINA)',
+                issue: 'Выпуск №2',
+                content: `
+                    <h3>Не всегда будет время тьмы</h3>
+                    <div class="poetry-block">Не всегда будет время тьмы,
+Не всегда будет солнце за тучей,
+И не вечно тебе в пути
+Будет в спину бить ветер жгучий.
+
+Не навеки душе твоей
+Среди зноя пустыни томиться,
+Не всегда из усталых очей
+Будут горькие слёзы литься.
+
+День настанет, придёт рассвет,
+Воссияет опять правда Божья.
+Где казалось, что выхода нет —
+Ты поймёшь, с Ним пройти всё возможно.
+
+И прольётся обещанный дождь
+На иссохшую, твёрдую землю.
+Вытрет слёзы с очей Господь
+И узнаешь — Твой Бог не дремлет.
+
+Жди, настанет желанный день,
+Когда в небо откроются двери
+И отступит смертная тень
+Для того, кто в Мессию поверил.
+
+Ибо знаю, Спаситель мой жив!
+Он, однажды восставши из гроба,
+Своей Кровью смерть победив,
+Вновь воссел одесную Бога.
+
+Он и душу мою воскресит,
+Непосильные камни отвалит.
+Иисус. Его Имя — мой щит.
+В тяжкой битве меня не оставит.
+
+Смерть, не властна ты надо мной!
+Ад, разбиты твои оковы!
+Иисус и сегодня живой!
+Буду я вспоминать это снова.
+
+Не всегда будет время тьмы,
+Не всегда будет солнце за тучей,
+Иисус не оставит в пути,
+Мы идём под рукою могучей.
+
+День настанет, ответ придёт,
+Бог откроет небесные двери.
+Время близко, Господь грядёт!
+О, блажен, кто Ему всё доверил.</div>
+
+                    <h3>Только победитель</h3>
+                    <div class="poetry-block">Без усилий никуда ты не дойдёшь.
+Удостоится венца не каждый житель.
+Только если победителем войдёшь,
+Вход откроется в небесную обитель.
+
+Пусть потерпишь поражение — вставай.
+Это не конец войны, только начало.
+Не ломайся и не унывай,
+Ещё будет битв в пути немало.
+
+Наступает враг и с каждым днём
+Всё сложней тебе стоять в проломе.
+Нету сил, одолевает сон,
+Хочется остаться просто дома,
+
+Но не сможешь битву победить,
+Лёжа просто на своём диване.
+Не поможет просто слёзы лить,
+Когда бой подобен урагану.
+
+Наша цель — идти. Только вперёд.
+Так возьми же меч свой крепко в руку.
+Иисус — наш вождь. Он поведёт.
+Не пугайся, даже в шторм и вьюгу.
+
+Даже если ветер бьёт в лицо
+И враги всё ближе подступают —
+Побеждай, как побеждал Христос.
+Лишь таких награда ожидает.
+
+Встань на стражу. Силы укрепи.
+Предстоит ещё неоднократно битва.
+Но победа — в Господа Крови,
+И залог успеха — есть молитва.
+
+Взяв щит веры и одев броню,
+Оставайся до могилы верным.
+Победившего здесь на земле войну
+В небе встретит Бог с венцом нетленным.</div>
+                `
+            },
+            {
+                id: 'song-voice-want',
+                issueNum: 2,
+                rubric: 'Наша песня',
+                subtitle: 'Ноты и аккорды • Стр. 18',
+                title: 'Голос - "Хочу!"',
+                author: 'В.Влг, Д.Скр',
+                issue: 'Выпуск №2',
+                content: `
+                    <p>В номере представлена нотная запись песни (♩. = 70, размер 6/8) с гармоническими обозначениями: Bb, F, Gm, Dm, Eb, D, Cm, D7, Ddim, G7, (F).</p>
+                    <div class="chords-block">1. Я бродил в этом мире, я счастья, покоя искал,
+Но вокруг только тьма и в душе лишь одно понимал:
+Я проказой покрыт, я окутан цепями греха,
+Если хочешь, мой Боже, очисти, очисти меня!
+
+2. И вот вижу я проблески света и я не один,
+Рядом стоит Иисус, Он — души Властелин,
+Прикоснулся ко мне Своей нежной, пронзённой рукой,
+Я свободен, я чист от проказы греховной земной.
+
+3. И сегодня звучит этот призыв, мой друг, для тебя:
+Ты приди ко Христу, Он очистит проказу греха.
+Он от гибели вечной спасает любовью Своей,
+Был распят Иисус и воскрес, чтоб спасти всех людей.
+
+Припев (1, 2):
+И вот слышу я тихий и нежный голос: "Хочу!
+Ради этого Я проливал Кровь святую Свою.
+Ты приди, только веруй, что Я за тебя пострадал,
+Я очищу тебя, ради этого жизнь Я отдал."
+
+Припев (3):
+Друг, услышь этот тихий и ...
+
+Конц.:
+Ты приди, только веруй, что Бог за тебя пострадал,
+Он очистит тебя, ради этого жизнь Он отдал.</div>
+                `
+            },
+            {
+                id: 'contest-2',
+                issueNum: 2,
+                rubric: 'Информация для читателя',
+                subtitle: 'Конкурс «Найди слово» • Стр. 19',
+                title: 'КОНКУРС: найди СЛОВО',
+                author: 'Редакция «Псалом 150»',
+                issue: 'Выпуск №2',
+                content: `
+                    <p><strong>1</strong> — Найди с помощью библейского кода слово.<br>
+                    <strong>2</strong> — Как это слово связано с журналом «Псалом 150»?</p>
+                    <p>Желающие участвовать, отправьте фото или скрин ваших ответов на нашу почту: <strong>psalm150dvjs@gmail.com</strong>. Темой отметьте <em>«Конкурс — номер выпуска»</em>. Первые пять, кто отправят правильные ответы, получат в приз небольшой сувенир от нашей команды!</p>
+                    <div class="chords-block">1. Псалтирь: 44 псалом, 9 стих, 7 слово, 1 буква
+2. Исаия: 5 глава, 12 стих, 5 слово, 6 буква
+3. Иез.: 33 глава, 32 стих, 11 слово, 5 буква
+4. 1 Цар.: 16 глава, 16 стих, 3 слово, 2 буква
+5. Исход: 32 глава, 19 стих, 14 слово, 7 буква
+6. Судей: 5 глава, 3 стих, 9 слово, 1 буква
+7. Луки: 15 глава, 24 стих, 5 слово, 3 буква
+8. 1 Пар.: 15 глава, 28 стих, 2 слово, 4 буква
+9. Иер.: 20 глава, 13 стих, 3 слово, 2 буква
+10. Рим.: 15 глава, 11 стих, 3 слово, 1 буква
+11. Притчи: 20 глава, 13 стих, 4 слово, 3 буква
+12. Откр.: 19 глава, 5 стих, 4 слово, 3 буква
+13. Ездра: 3 глава, 11 стих, 4 слово, 4 буква</div>
+                `
+            }
+        ];
+
+        let previousView = 'home';
+
+        function navigateTo(viewId) {
+            const current = document.querySelector('.page-view.active');
+            if (current && current.id !== 'view-article') {
+                previousView = current.id.replace('view-', '');
+            }
+
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+            const target = document.getElementById('view-' + viewId);
+            if (target) {
+                target.classList.add('active');
+            }
+
+            document.getElementById('sidebar').classList.remove('open');
+            document.getElementById('overlay').classList.remove('open');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function toggleMenu() {
+            document.getElementById('sidebar').classList.toggle('open');
+            document.getElementById('overlay').classList.toggle('open');
+        }
+
+        function openIssue(issueNum) {
+            const cfg = issuesConfig[issueNum] || issuesConfig[1];
+            activeIssueNum = cfg.number;
+            currentPageIndex = 0;
+
+            const coverEl = document.getElementById('issue-detail-cover');
+            coverEl.className = `issue-cover ${cfg.coverClass}`;
+            coverEl.style.width = '200px';
+            coverEl.style.height = '260px';
+            coverEl.style.borderRadius = '6px';
+            coverEl.style.flexShrink = '0';
+            coverEl.style.boxShadow = '0 10px 25px rgba(0,0,0,0.15)';
+
+            document.getElementById('issue-detail-badge').textContent = cfg.badge;
+            document.getElementById('issue-detail-meta').textContent = cfg.meta;
+            document.getElementById('issue-detail-title').textContent = cfg.title;
+            document.getElementById('issue-detail-desc').textContent = cfg.description;
+
+            const pdfLink = document.getElementById('issue-pdf-link');
+            pdfLink.href = cfg.pdfUrl;
+
+            document.getElementById('flipbook-heading').textContent = `Флипбук — Выпуск №${cfg.number}`;
+            document.getElementById('flipbook-hint-text').textContent = cfg.hint;
+
+            const issueArticles = articlesData.filter(a => a.issueNum === cfg.number);
+            const tocEl = document.getElementById('issue-toc');
+            if (issueArticles.length > 0) {
+                tocEl.innerHTML = issueArticles.map(renderFeedItem).join('');
+            } else {
+                tocEl.innerHTML = `<div class="feed-item"><div><div class="feed-title">Текстовые статьи для Выпуска №${cfg.number} ещё не добавлены</div><div class="feed-author">Вы можете открыть выпуск в флипбуке выше.</div></div></div>`;
+            }
+
+            closeFlipbook();
+            navigateTo('issue');
+        }
+
+        function renderFlipbookPage() {
+            const pages = getIssuePages(activeIssueNum);
+            const img = document.getElementById('flipbook-img');
+            const counter = document.getElementById('page-counter');
+            const prevBtn = document.getElementById('prev-page-btn');
+            const nextBtn = document.getElementById('next-page-btn');
+
+            img.classList.add('turning');
+            setTimeout(() => {
+                img.src = pages[currentPageIndex];
+                img.alt = `Страница ${currentPageIndex + 1} — Выпуск №${activeIssueNum}`;
+                img.classList.remove('turning');
+            }, 90);
+
+            counter.textContent = `Страница ${currentPageIndex + 1} из ${pages.length}`;
+            prevBtn.disabled = currentPageIndex === 0;
+            nextBtn.disabled = currentPageIndex === pages.length - 1;
+        }
+
+        function openFlipbook() {
+            currentPageIndex = 0;
+            const wrap = document.getElementById('flipbook-wrap');
+            wrap.classList.add('active');
+            renderFlipbookPage();
+            wrap.scrollIntoView({ behavior: 'smooth', block: 'start' });
+        }
+
+        function closeFlipbook() {
+            document.getElementById('flipbook-wrap').classList.remove('active');
+        }
+
+        function changePage(delta) {
+            const pages = getIssuePages(activeIssueNum);
+            const nextIndex = currentPageIndex + delta;
+            if (nextIndex >= 0 && nextIndex < pages.length) {
+                currentPageIndex = nextIndex;
+                renderFlipbookPage();
+            }
+        }
+
+        document.addEventListener('keydown', (e) => {
+            const wrap = document.getElementById('flipbook-wrap');
+            if (!wrap || !wrap.classList.contains('active')) return;
+            if (e.key === 'ArrowLeft') changePage(-1);
+            if (e.key === 'ArrowRight') changePage(1);
+        });
+
+        function openArticle(articleId) {
+            const art = articlesData.find(a => a.id === articleId);
+            if (!art) return;
+
+            const current = document.querySelector('.page-view.active');
+            if (current && current.id !== 'view-article') {
+                previousView = current.id.replace('view-', '');
+            }
+
+            document.getElementById('article-back-btn').onclick = () => navigateTo(previousView);
+            document.getElementById('article-content').innerHTML = `
+                <div class="article-header">
+                    <div class="feed-meta">${art.rubric} • ${art.issue}</div>
+                    <h1>${art.title}</h1>
+                    <div class="feed-author">${art.author} • ${art.subtitle}</div>
+                </div>
+                <div class="article-body">${art.content}</div>
+            `;
+
+            document.querySelectorAll('.page-view').forEach(el => el.classList.remove('active'));
+            document.getElementById('view-article').classList.add('active');
+            window.scrollTo({ top: 0, behavior: 'smooth' });
+        }
+
+        function renderFeedItem(art) {
+            return `
+                <div class="feed-item">
+                    <div>
+                        <div class="feed-meta">${art.rubric} • ${art.issue} • ${art.subtitle}</div>
+                        <div class="feed-title" onclick="openArticle('${art.id}')">${art.title}</div>
+                        <div class="feed-author">${art.author}</div>
+                    </div>
+                    <button class="btn" style="padding: 7px 14px; font-size: 13px; flex-shrink: 0;" onclick="openArticle('${art.id}')">Читать</button>
+                </div>
+            `;
+        }
+
+        function initSite() {
+            const htmlList = articlesData.map(renderFeedItem).join('');
+            document.getElementById('home-feed').innerHTML = htmlList;
+            document.getElementById('rubrics-list').innerHTML = htmlList;
+
+            const rubrics = ['Все рубрики', ...new Set(articlesData.map(a => a.rubric))];
+            const filtersContainer = document.getElementById('rubric-filters');
+            filtersContainer.innerHTML = rubrics.map((r, idx) => 
+                `<button class="pill ${idx === 0 ? 'active' : ''}" onclick="filterRubric('${r}', this)">${r}</button>`
+            ).join('');
+        }
+
+        function filterRubric(rubricName, btnEl) {
+            document.querySelectorAll('#rubric-filters .pill').forEach(p => p.classList.remove('active'));
+            btnEl.classList.add('active');
+
+            const filtered = rubricName === 'Все рубрики' 
+                ? articlesData 
+                : articlesData.filter(a => a.rubric === rubricName);
+            
+            document.getElementById('rubrics-list').innerHTML = filtered.map(renderFeedItem).join('');
+        }
+
+        async function submitOrder(e) {
+            e.preventDefault();
+
+            const issue = document.getElementById('ord-issue').value;
+            const name = document.getElementById('ord-name').value;
+            const phone = document.getElementById('ord-phone').value;
+            const contact = document.getElementById('ord-contact').value;
+            const country = document.getElementById('ord-country').value;
+            const city = document.getElementById('ord-city').value;
+            const index = document.getElementById('ord-index').value;
+            const street = document.getElementById('ord-street').value;
+            const note = document.getElementById('ord-note').value;
+
+            const message = `📦 Новый заказ печатной версии с сайта!\n\n` +
+                            `📌 Выбор: ${issue}\n` +
+                            `👤 Получатель: ${name}\n` +
+                            `📞 Телефон: ${phone}\n` +
+                            `💬 Связь: ${contact}\n\n` +
+                            `📍 Адрес доставки:\n` +
+                            `• Страна: ${country}\n` +
+                            `• Город: ${city}\n` +
+                            `• Индекс: ${index}\n` +
+                            `• Улица/дом/кв: ${street}\n\n` +
+                            `💬 Комментарий: ${note || 'нет'}`;
+
+            const submitBtn = document.getElementById('ord-submit-btn');
+            submitBtn.disabled = true;
+            submitBtn.textContent = 'Отправка...';
+
+            document.getElementById('order-success').style.display = 'none';
+            document.getElementById('order-error').style.display = 'none';
+
+            try {
+                const response = await fetch(`https://api.telegram.org/bot${TG_BOT_TOKEN}/sendMessage`, {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({
+                        chat_id: TG_CHAT_ID,
+                        text: message
+                    })
+                });
+
+                const data = await response.json();
+
+                if (data.ok) {
+                    document.getElementById('order-success').style.display = 'block';
+                    document.getElementById('order-form').reset();
+                } else {
+                    document.getElementById('order-error').style.display = 'block';
+                }
+            } catch (err) {
+                document.getElementById('order-error').style.display = 'block';
+            } finally {
+                submitBtn.disabled = false;
+                submitBtn.textContent = 'Отправить заявку';
+            }
+        }
+
+        initSite();
+    </script>
+</body>
+</html>
