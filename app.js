@@ -758,7 +758,7 @@ function initIssueViewer() {
       if (viewerState.zoom > 1.01) {
         resetViewerZoom();
       } else {
-        applyViewerZoom(1.5, event.clientX, event.clientY);
+        applyViewerZoom(1.25, event.clientX, event.clientY);
       }
       updateViewerUi();
     });

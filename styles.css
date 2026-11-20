@@ -468,6 +468,7 @@ h2 {
   gap: 14px;
   margin: auto;
   flex-shrink: 0;
+  transition: transform 0.16s ease-out;
 }
 
 .issue-page-image {
