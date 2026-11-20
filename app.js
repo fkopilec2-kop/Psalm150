@@ -308,6 +308,42 @@ const LIBRARY_ENTRIES = [
   }
 ];
 
+const LIBRARY_ISSUES = [
+  {
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    subtitle: "Материалы 2-го выпуска"
+  }
+];
+
+function initDrawer() {
+  const openBtn = document.getElementById("openDrawerBtn");
+  const closeBtn = document.getElementById("closeDrawerBtn");
+  const backdrop = document.getElementById("drawerBackdrop");
+  const drawer = document.getElementById("sideDrawer");
+  if (!drawer) return;
+
+  function setOpen(isOpen) {
+    drawer.classList.toggle("open", isOpen);
+    drawer.setAttribute("aria-hidden", String(!isOpen));
+    if (backdrop) {
+      backdrop.classList.toggle("open", isOpen);
+      backdrop.setAttribute("aria-hidden", String(!isOpen));
+    }
+  }
+
+  if (openBtn) openBtn.addEventListener("click", () => setOpen(true));
+  if (closeBtn) closeBtn.addEventListener("click", () => setOpen(false));
+  if (backdrop) backdrop.addEventListener("click", () => setOpen(false));
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && drawer.classList.contains("open")) {
+      setOpen(false);
+    }
+  });
+}
+
 function ensureReaderModal() {
   let modal = document.getElementById("articleReaderModal");
   if (modal) return modal;
@@ -317,16 +353,19 @@ function ensureReaderModal() {
   modal.className = "reader-modal";
   modal.setAttribute("aria-hidden", "true");
   modal.innerHTML = `
-    <div class="reader-modal__backdrop" data-close-reader="true"></div>
-    <div class="reader-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="readerModalTitle">
-      <div class="reader-modal__header">
+    <div class="reader-backdrop" data-close-reader="true"></div>
+    <div class="reader-dialog" role="dialog" aria-modal="true" aria-labelledby="readerModalTitle">
+      <div class="reader-header">
         <div>
-          <div class="reader-modal__meta" id="readerModalMeta"></div>
-          <h2 class="reader-modal__title" id="readerModalTitle"></h2>
+          <div class="reader-meta" id="readerModalMeta"></div>
+          <h2 id="readerModalTitle"></h2>
         </div>
-        <button type="button" class="reader-modal__close" id="readerModalClose" aria-label="Закрыть окно">✕</button>
+        <button type="button" class="btn" id="readerModalCloseTop" aria-label="Закрыть окно">✕</button>
       </div>
       <div class="reader-body" id="readerModalBody"></div>
+      <div class="reader-footer">
+        <button type="button" class="btn" id="readerModalCloseBottom">Закрыть</button>
+      </div>
     </div>
   `;
   document.body.appendChild(modal);
@@ -337,13 +376,13 @@ function ensureReaderModal() {
     }
   });
 
-  const closeBtn = modal.querySelector("#readerModalClose");
-  if (closeBtn) {
-    closeBtn.addEventListener("click", closeEntryReader);
-  }
+  const topBtn = modal.querySelector("#readerModalCloseTop");
+  const bottomBtn = modal.querySelector("#readerModalCloseBottom");
+  if (topBtn) topBtn.addEventListener("click", closeEntryReader);
+  if (bottomBtn) bottomBtn.addEventListener("click", closeEntryReader);
 
   document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
       closeEntryReader();
     }
   });
@@ -362,30 +401,34 @@ function openEntryReader(entry) {
   if (entry.journalRubric) metaParts.push(entry.journalRubric);
   if (entry.author) metaParts.push(entry.author);
 
-  metaEl.textContent = metaParts.join(" · ");
-  titleEl.textContent = entry.title;
-  bodyEl.innerHTML = "";
+  if (metaEl) metaEl.textContent = metaParts.join(" · ");
+  if (titleEl) titleEl.textContent = entry.title;
+  if (bodyEl) {
+    bodyEl.innerHTML = "";
+    const lines = Array.isArray(entry.content) ? entry.content : [];
 
-  const lines = Array.isArray(entry.content) ? entry.content : [];
-  if (lines.length === 0) {
-    const p = document.createElement("p");
-    p.textContent = entry.note || "Текст для этого материала не добавлен.";
-    bodyEl.appendChild(p);
-  } else {
-    lines.forEach((line) => {
-      if (line === "") {
-        const spacer = document.createElement("div");
-        spacer.className = "reader-spacer";
-        bodyEl.appendChild(spacer);
-      } else {
-        const p = document.createElement("p");
-        p.textContent = line;
-        bodyEl.appendChild(p);
-      }
-    });
+    if (lines.length === 0) {
+      const p = document.createElement("p");
+      p.textContent = entry.note || "Текст для этого материала не добавлен.";
+      bodyEl.appendChild(p);
+    } else {
+      lines.forEach((line) => {
+        if (line === "") {
+          const spacer = document.createElement("div");
+          spacer.className = "reader-spacer";
+          spacer.style.height = "10px";
+          bodyEl.appendChild(spacer);
+        } else {
+          const p = document.createElement("p");
+          p.textContent = line;
+          bodyEl.appendChild(p);
+        }
+      });
+    }
+    bodyEl.scrollTop = 0;
   }
 
-  modal.classList.add("is-open");
+  modal.classList.add("open");
   modal.setAttribute("aria-hidden", "false");
   document.body.style.overflow = "hidden";
 }
@@ -393,12 +436,32 @@ function openEntryReader(entry) {
 function closeEntryReader() {
   const modal = document.getElementById("articleReaderModal");
   if (!modal) return;
-  modal.classList.remove("is-open");
+  modal.classList.remove("open");
   modal.setAttribute("aria-hidden", "true");
   document.body.style.overflow = "";
 }
 
+function renderCoversGrid() {
+  const gridEl = document.getElementById("libraryCoversGrid");
+  if (!gridEl) return;
+
+  gridEl.innerHTML = "";
+  LIBRARY_ISSUES.forEach((issue) => {
+    const card = document.createElement("article");
+    card.className = "issue-card";
+    card.innerHTML = `
+      <h3>${issue.issueTitle}</h3>
+      <p>${issue.subtitle}</p>
+      <a class="btn" href="${issue.issueUrl}">Открыть выпуск</a>
+    `;
+    gridEl.appendChild(card);
+  });
+}
+
 function initLibraryPage() {
+  initDrawer();
+  renderCoversGrid();
+
   const listEl = document.getElementById("libraryEntriesList");
   if (!listEl) return;
 
@@ -409,6 +472,7 @@ function initLibraryPage() {
   const authorSelect = document.getElementById("libAuthorSelect");
 
   if (rubricSelect) {
+    rubricSelect.innerHTML = `<option value="">Все рубрики</option>`;
     const rubrics = [...new Set(LIBRARY_ENTRIES.map((e) => e.rubric).filter(Boolean))];
     rubrics.forEach((rubric) => {
       const option = document.createElement("option");
@@ -419,6 +483,7 @@ function initLibraryPage() {
   }
 
   if (authorSelect) {
+    authorSelect.innerHTML = `<option value="">Все авторы</option>`;
     const authors = [...new Set(LIBRARY_ENTRIES.map((e) => e.author).filter(Boolean))];
     authors.forEach((author) => {
       const option = document.createElement("option");
@@ -463,7 +528,7 @@ function initLibraryPage() {
 
     filtered.forEach((entry) => {
       const card = document.createElement("article");
-      card.className = "library-card";
+      card.className = "entry-card";
 
       const badgeParts = [entry.issueTitle, entry.rubric];
       if (entry.journalRubric) badgeParts.push(entry.journalRubric);
@@ -473,22 +538,22 @@ function initLibraryPage() {
 
       if (hasText) {
         actionsHtml.push(
-          `<button type="button" class="btn btn-primary" data-read-id="${entry.id}">Читать текст</button>`
+          `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
         );
       }
 
       if (entry.pdfUrl) {
         actionsHtml.push(
-          `<a class="btn btn-secondary" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
+          `<a class="btn" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
         );
       }
 
       card.innerHTML = `
-        <div class="library-card__meta">${badgeParts.join(" · ")}</div>
-        <h3 class="library-card__title">${entry.title}</h3>
-        ${entry.author ? `<div class="library-card__author">Автор: ${entry.author}</div>` : ""}
-        ${entry.note ? `<p class="library-card__note">${entry.note}</p>` : ""}
-        <div class="library-card__actions">${actionsHtml.join("")}</div>
+        <div class="entry-meta">${badgeParts.join(" · ")}</div>
+        <h3 class="entry-title">${entry.title}</h3>
+        ${entry.author ? `<div class="entry-author">Автор: ${entry.author}</div>` : ""}
+        ${entry.note ? `<p class="entry-note">${entry.note}</p>` : ""}
+        <div class="entry-actions">${actionsHtml.join("")}</div>
       `;
 
       const readBtn = card.querySelector(`[data-read-id="${entry.id}"]`);
