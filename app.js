@@ -314,19 +314,25 @@ const HOME_ISSUES = [
     issueId: 3,
     issueTitle: "Выпуск №3",
     folder: "pages3",
-    subtitle: "Свежий номер журнала «Псалом 150»"
+    totalPages: 34,
+    pdfUrl: "psalm-150-issue-3.pdf",
+    subtitle: "Свежий номер журнала «Псалом 150» (34 стр.)"
   },
   {
     issueId: 2,
     issueTitle: "Выпуск №2",
     folder: "pages2",
-    subtitle: "Статьи, интервью, история и поэзия"
+    totalPages: 20,
+    pdfUrl: "psalm-150-issue-2.pdf",
+    subtitle: "Статьи, интервью, история и поэзия (20 стр.)"
   },
   {
     issueId: 1,
     issueTitle: "Выпуск №1",
     folder: "pages1",
-    subtitle: "Первый выпуск журнала «Псалом 150»"
+    totalPages: 24,
+    pdfUrl: "psalm-150-issue-1.pdf",
+    subtitle: "Первый выпуск журнала «Псалом 150» (24 стр.)"
   }
 ];
 
@@ -350,8 +356,7 @@ function checkImageExists(src) {
 let viewerState = {
   issue: null,
   currentPage: 1,
-  maxKnownPage: 1,
-  reachedEnd: false,
+  totalPages: 1,
   loading: false
 };
 
@@ -365,15 +370,13 @@ function updateViewerUi() {
 
   if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
   if (pageInfoEl) {
-    const endLabel = viewerState.reachedEnd ? ` / ${viewerState.maxKnownPage}` : "";
-    pageInfoEl.textContent = `Страница ${viewerState.currentPage}${endLabel}`;
+    pageInfoEl.textContent = `Страница ${viewerState.currentPage} / ${viewerState.totalPages}`;
   }
   if (prevBtn) {
     prevBtn.disabled = viewerState.loading || viewerState.currentPage <= 1;
   }
   if (nextBtn) {
-    const atKnownEnd = viewerState.reachedEnd && viewerState.currentPage >= viewerState.maxKnownPage;
-    nextBtn.disabled = viewerState.loading || atKnownEnd;
+    nextBtn.disabled = viewerState.loading || viewerState.currentPage >= viewerState.totalPages;
   }
 }
 
@@ -383,8 +386,7 @@ async function showIssuePage(pageNum) {
   const statusEl = document.getElementById("issueViewerStatus");
   if (!modal || !imgEl || !viewerState.issue) return;
 
-  if (pageNum < 1) return;
-  if (viewerState.reachedEnd && pageNum > viewerState.maxKnownPage) return;
+  if (pageNum < 1 || pageNum > viewerState.totalPages) return;
 
   viewerState.loading = true;
   updateViewerUi();
@@ -395,26 +397,13 @@ async function showIssuePage(pageNum) {
 
   if (exists) {
     viewerState.currentPage = pageNum;
-    if (pageNum > viewerState.maxKnownPage) {
-      viewerState.maxKnownPage = pageNum;
-    }
     imgEl.src = src;
     imgEl.alt = `${viewerState.issue.issueTitle} — страница ${pageNum}`;
     if (statusEl) statusEl.textContent = "";
   } else {
-    viewerState.reachedEnd = true;
-    viewerState.maxKnownPage = Math.max(1, pageNum - 1);
     if (statusEl) {
-      statusEl.textContent =
-        pageNum === 1
-          ? `Страницы для ${viewerState.issue.folder}/01.png пока не найдены.`
-          : "Это последняя страница выпуска.";
+      statusEl.textContent = `Файл ${src} не найден.`;
     }
-    setTimeout(() => {
-      if (statusEl && statusEl.textContent === "Это последняя страница выпуска.") {
-        statusEl.textContent = "";
-      }
-    }, 1800);
   }
 
   viewerState.loading = false;
@@ -429,8 +418,7 @@ async function openIssueViewer(issueId) {
   viewerState = {
     issue,
     currentPage: 1,
-    maxKnownPage: 1,
-    reachedEnd: false,
+    totalPages: Number(issue.totalPages) || 1,
     loading: false
   };
 
@@ -484,7 +472,9 @@ function initIssueViewer() {
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
-      showIssuePage(viewerState.currentPage + 1);
+      if (viewerState.currentPage < viewerState.totalPages) {
+        showIssuePage(viewerState.currentPage + 1);
+      }
     });
   }
 
@@ -497,7 +487,8 @@ function initIssueViewer() {
   }
 
   document.querySelectorAll("[data-open-issue]").forEach((el) => {
-    el.addEventListener("click", () => {
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
       const id = el.getAttribute("data-open-issue");
       if (id) openIssueViewer(id);
     });
@@ -509,7 +500,7 @@ function initIssueViewer() {
     if (event.key === "ArrowLeft" && viewerState.currentPage > 1) {
       showIssuePage(viewerState.currentPage - 1);
     }
-    if (event.key === "ArrowRight") {
+    if (event.key === "ArrowRight" && viewerState.currentPage < viewerState.totalPages) {
       showIssuePage(viewerState.currentPage + 1);
     }
   });
@@ -639,29 +630,45 @@ function closeEntryReader() {
   document.body.style.overflow = "";
 }
 
+function buildIssueCard(issue, actionLabel) {
+  const card = document.createElement("article");
+  card.className = "issue-card";
+  const coverSrc = getPageSrc(issue.folder, 1);
+
+  const pdfButtonHtml = issue.pdfUrl
+    ? `<a class="btn btn-secondary" href="${issue.pdfUrl}" download data-pdf-link="true">Скачать PDF</a>`
+    : "";
+
+  card.innerHTML = `
+    <div class="issue-cover-wrap">
+      <img class="issue-cover-img" src="${coverSrc}" alt="Обложка ${issue.issueTitle}" />
+    </div>
+    <h3>${issue.issueTitle}</h3>
+    <p>${issue.subtitle}</p>
+    <div class="entry-actions">
+      <button type="button" class="btn">${actionLabel}</button>
+      ${pdfButtonHtml}
+    </div>
+  `;
+
+  const pdfLink = card.querySelector("[data-pdf-link='true']");
+  if (pdfLink) {
+    pdfLink.addEventListener("click", (event) => {
+      event.stopPropagation();
+    });
+  }
+
+  card.addEventListener("click", () => openIssueViewer(issue.issueId));
+  return card;
+}
+
 function renderHomeIssues() {
   const homeGrid = document.getElementById("homeLatestIssues");
   if (!homeGrid) return;
 
   homeGrid.innerHTML = "";
   HOME_ISSUES.forEach((issue) => {
-    const card = document.createElement("article");
-    card.className = "issue-card";
-    const coverSrc = getPageSrc(issue.folder, 1);
-
-    card.innerHTML = `
-      <div class="issue-cover-wrap">
-        <img class="issue-cover-img" src="${coverSrc}" alt="Обложка ${issue.issueTitle}" />
-      </div>
-      <h3>${issue.issueTitle}</h3>
-      <p>${issue.subtitle}</p>
-      <div class="entry-actions">
-        <button type="button" class="btn">Открыть во весь экран</button>
-      </div>
-    `;
-
-    card.addEventListener("click", () => openIssueViewer(issue.issueId));
-    homeGrid.appendChild(card);
+    homeGrid.appendChild(buildIssueCard(issue, "Открыть во весь экран"));
   });
 }
 
@@ -671,24 +678,76 @@ function renderCoversGrid() {
 
   gridEl.innerHTML = "";
   HOME_ISSUES.forEach((issue) => {
-    const card = document.createElement("article");
-    card.className = "issue-card";
-    const coverSrc = getPageSrc(issue.folder, 1);
-
-    card.innerHTML = `
-      <div class="issue-cover-wrap">
-        <img class="issue-cover-img" src="${coverSrc}" alt="Обложка ${issue.issueTitle}" />
-      </div>
-      <h3>${issue.issueTitle}</h3>
-      <p>${issue.subtitle}</p>
-      <div class="entry-actions">
-        <button type="button" class="btn">Открыть выпуск</button>
-      </div>
-    `;
-
-    card.addEventListener("click", () => openIssueViewer(issue.issueId));
-    gridEl.appendChild(card);
+    gridEl.appendChild(buildIssueCard(issue, "Открыть выпуск"));
   });
+}
+
+function initIssuePage(issueId) {
+  const issue = HOME_ISSUES.find((item) => item.issueId === Number(issueId)) || HOME_ISSUES[0];
+  if (!issue) return;
+
+  const titleEl = document.getElementById("issuePageTitle");
+  const pdfEl = document.getElementById("issuePagePdf");
+  const stageEl = document.getElementById("flipbookStage");
+  const imgEl = document.getElementById("flipbookImg");
+  const prevBtn = document.getElementById("flipbookPrev");
+  const nextBtn = document.getElementById("flipbookNext");
+  const counterEl = document.getElementById("flipbookCounter");
+  const zoomBtn = document.getElementById("flipbookZoom");
+  const rubricsEl = document.getElementById("issuePageRubrics");
+
+  if (titleEl) titleEl.textContent = issue.issueTitle;
+  if (pdfEl && issue.pdfUrl) pdfEl.setAttribute("href", issue.pdfUrl);
+
+  let page = 1;
+  const maxPage = Number(issue.totalPages) || 1;
+
+  function updatePage() {
+    if (imgEl) {
+      imgEl.src = getPageSrc(issue.folder, page);
+      imgEl.alt = `${issue.issueTitle} — страница ${page}`;
+    }
+    if (counterEl) {
+      counterEl.textContent = `Страница ${page} из ${maxPage}`;
+    }
+    if (prevBtn) prevBtn.disabled = page <= 1;
+    if (nextBtn) nextBtn.disabled = page >= maxPage;
+  }
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      if (page > 1) {
+        page -= 1;
+        updatePage();
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      if (page < maxPage) {
+        page += 1;
+        updatePage();
+      }
+    });
+  }
+
+  if (zoomBtn && stageEl) {
+    zoomBtn.addEventListener("click", () => {
+      const zoomed = stageEl.classList.toggle("zoomed");
+      zoomBtn.textContent = zoomed ? "Обычный размер" : "Увеличить";
+    });
+  }
+
+  if (rubricsEl) {
+    const entries = LIBRARY_ENTRIES.filter((e) => e.issueId === issue.issueId);
+    const items = [...new Set(entries.map((e) => e.rubric).filter(Boolean))];
+    rubricsEl.innerHTML = items.length
+      ? items.map((r) => `<li>${r}</li>`).join("")
+      : `<li>Материалы номера</li>`;
+  }
+
+  updatePage();
 }
 
 function initLibraryPage() {
