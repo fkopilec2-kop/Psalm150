@@ -314,7 +314,7 @@ const HOME_ISSUES = [
     issueId: 3,
     issueTitle: "Выпуск №3",
     folder: "pages3",
-    totalPages: 34,
+    totalPages: 32,
     pdfUrl: "psalm-150-issue-3.pdf",
     subtitle: "Свежий номер журнала «Псалом 150» (34 стр.)"
   },
@@ -371,8 +371,49 @@ let viewerState = {
   currentPage: 1,
   totalPages: 1,
   spreadMode: true,
+  zoom: 1,
   loading: false
 };
+
+function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
+  const stageEl = document.getElementById("issueViewerStage");
+  if (!stageEl) return;
+
+  const clamped = Math.min(2.5, Math.max(1, Number(nextZoom.toFixed(2))));
+  const prevZoom = viewerState.zoom || 1;
+  viewerState.zoom = clamped;
+
+  const isZoomed = clamped > 1.01;
+  stageEl.classList.toggle("is-zoomed", isZoomed);
+
+  const images = stageEl.querySelectorAll(".issue-page-image");
+  images.forEach((img) => {
+    if (img.style.display === "none") return;
+    if (isZoomed) {
+      img.style.zoom = String(clamped);
+      img.style.transform = "none";
+    } else {
+      img.style.zoom = "";
+      img.style.transform = "none";
+    }
+  });
+
+  if (anchorClientX !== null && anchorClientY !== null && clamped !== prevZoom) {
+    const rect = stageEl.getBoundingClientRect();
+    const offsetX = anchorClientX - rect.left + stageEl.scrollLeft;
+    const offsetY = anchorClientY - rect.top + stageEl.scrollTop;
+    const ratio = clamped / prevZoom;
+    stageEl.scrollLeft = Math.max(0, offsetX * ratio - (anchorClientX - rect.left));
+    stageEl.scrollTop = Math.max(0, offsetY * ratio - (anchorClientY - rect.top));
+  } else if (!isZoomed) {
+    stageEl.scrollLeft = 0;
+    stageEl.scrollTop = 0;
+  }
+}
+
+function resetViewerZoom() {
+  applyViewerZoom(1);
+}
 
 function isSpreadViewport() {
   return window.innerWidth > 768 && Boolean(viewerState.spreadMode);
@@ -388,7 +429,6 @@ function getSpreadPages(pageNum, totalPages) {
   if (pageNum >= totalPages) {
     return [totalPages];
   }
-  // Для внутренних страниц показываем пару: чётная слева, нечётная справа
   const left = pageNum % 2 === 0 ? pageNum : pageNum - 1;
   const right = left + 1 <= totalPages ? left + 1 : null;
   return right ? [left, right] : [left];
@@ -440,10 +480,11 @@ function updateViewerUi() {
 
   const pages = getSpreadPages(viewerState.currentPage, viewerState.totalPages);
   const labelPages = pages.length === 2 ? `${pages[0]}–${pages[1]}` : `${pages[0]}`;
+  const zoomSuffix = viewerState.zoom > 1.01 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
 
   if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
   if (pageInfoEl) {
-    pageInfoEl.textContent = `Страница ${labelPages} / ${viewerState.totalPages}`;
+    pageInfoEl.textContent = `Страница ${labelPages} / ${viewerState.totalPages}${zoomSuffix}`;
   }
   if (prevBtn) {
     prevBtn.disabled = viewerState.loading || getPrevTargetPage() === null;
@@ -487,6 +528,7 @@ async function showIssuePage(pageNum) {
   const available = checks.filter((item) => item.exists);
   if (available.length > 0) {
     viewerState.currentPage = targetPages[0];
+    resetViewerZoom();
 
     let secondImgEl = document.getElementById("issuePageImageRight");
     if (!secondImgEl) {
@@ -543,6 +585,7 @@ async function openIssueViewer(issueId) {
     currentPage: 1,
     totalPages: Number(issue.totalPages) || 1,
     spreadMode: window.innerWidth > 768,
+    zoom: 1,
     loading: false
   };
 
@@ -556,6 +599,8 @@ async function openIssueViewer(issueId) {
 function closeIssueViewer() {
   const modal = document.getElementById("issueViewerModal");
   if (!modal) return;
+
+  resetViewerZoom();
 
   if (document.fullscreenElement) {
     document.exitFullscreen().catch(() => {});
@@ -581,6 +626,7 @@ function initIssueViewer() {
   const modal = document.getElementById("issueViewerModal");
   if (!modal) return;
 
+  const stageEl = document.getElementById("issueViewerStage");
   const prevBtn = document.getElementById("issuePrevPageBtn");
   const nextBtn = document.getElementById("issueNextPageBtn");
   const spreadBtn = document.getElementById("issueSpreadToggleBtn");
@@ -621,6 +667,34 @@ function initIssueViewer() {
     fsBtn.addEventListener("click", toggleViewerFullscreen);
   }
 
+  if (stageEl) {
+    stageEl.addEventListener(
+      "wheel",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        const shouldZoom =
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.01;
+        if (!shouldZoom) return;
+
+        event.preventDefault();
+        const step = event.deltaY < 0 ? 0.15 : -0.15;
+        applyViewerZoom(viewerState.zoom + step, event.clientX, event.clientY);
+        updateViewerUi();
+      },
+      { passive: false }
+    );
+
+    stageEl.addEventListener("dblclick", (event) => {
+      if (!event.target.classList.contains("issue-page-image")) return;
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+      } else {
+        applyViewerZoom(1.5, event.clientX, event.clientY);
+      }
+      updateViewerUi();
+    });
+  }
+
   window.addEventListener("resize", () => {
     if (viewerState.issue && modal.classList.contains("open")) {
       showIssuePage(viewerState.currentPage);
@@ -637,7 +711,14 @@ function initIssueViewer() {
 
   document.addEventListener("keydown", (event) => {
     if (!modal.classList.contains("open")) return;
-    if (event.key === "Escape") closeIssueViewer();
+    if (event.key === "Escape") {
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+        updateViewerUi();
+      } else {
+        closeIssueViewer();
+      }
+    }
     if (event.key === "ArrowLeft") {
       const target = getPrevTargetPage();
       if (target !== null) showIssuePage(target);
