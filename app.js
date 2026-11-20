@@ -877,161 +877,167 @@ function initOrderPage() {
   const form = document.getElementById("orderForm");
   if (!form) return;
 
-  function pickField(ids, names) {
-    for (const id of ids) {
-      const el = document.getElementById(id) || form.querySelector(`#${id}`);
-      if (el) return el;
-    }
-    for (const name of names) {
-      const el = form.querySelector(`[name="${name}"]`);
-      if (el) return el;
-    }
-    return null;
-  }
-
-  const offerSelect = pickField(["offerSelect"], ["offer"]);
-  const quantityInput = pickField(["quantityInput"], ["quantity", "qty"]);
-  const deliverySelect = pickField(["deliverySelect"], ["delivery"]);
+  const offerSelect = document.getElementById("offerSelect");
+  const deliverySelect = document.getElementById("deliverySelect");
   const addressLabel = document.getElementById("addressLabel");
-  const addressInput = pickField(["addressInput"], ["address"]);
-  const nameInput = pickField(
-    ["nameInput", "customerName", "orderName"],
-    ["name", "customer_name", "customerName"]
-  );
-  const contactInput = pickField(
-    ["contactInput", "contactValue", "orderContact"],
-    ["contact", "phone", "telegram", "email"]
-  );
-  const commentInput = pickField(
-    ["commentInput", "notesInput", "extraInput"],
-    ["comment", "notes", "extra", "issues"]
-  );
+  const addressInput = document.getElementById("customerAddress");
+  const nameInput = document.getElementById("customerFullName");
+  const contactInput = document.getElementById("customerContact");
+  const notesInput = document.getElementById("customerNotes");
   const estimateTotalEl = document.getElementById("estimateTotal");
   const estimateHintEl = document.getElementById("estimateHint");
   const statusEl = document.getElementById("formStatus");
   const submitBtn = form.querySelector('button[type="submit"]');
 
-  const OFFER_PRICES = {
-    issue_3: 8,
-    issue_2: 7,
-    issue_1: 7,
-    pack_3: 18
-  };
-
   if (nameInput) nameInput.required = true;
   if (contactInput) contactInput.required = true;
-  if (quantityInput) {
-    quantityInput.required = true;
-    quantityInput.min = "1";
-    if (!quantityInput.value) quantityInput.value = "1";
-  }
   if (addressInput) addressInput.required = false;
-  if (commentInput) commentInput.required = false;
+  if (notesInput) notesInput.required = false;
 
   function updateAddressField() {
-    const mode = deliverySelect ? deliverySelect.value : "parcel";
+    const mode = deliverySelect ? deliverySelect.value : "friends";
     if (!addressLabel || !addressInput) return;
 
     addressInput.required = false;
 
-    if (mode === "pickup") {
-      addressLabel.textContent = "Город / уточнение по самовывозу (необязательно)";
-      addressInput.placeholder = "Например: город или удобный способ встречи (необязательно)";
-    } else if (mode === "post") {
-      addressLabel.textContent = "Почтовый адрес (необязательно)";
-      addressInput.placeholder = "Индекс, страна, город, улица, дом, квартира (необязательно)";
+    if (mode === "friends") {
+      addressLabel.textContent = "Город / с кем передать (необязательно)";
+      addressInput.placeholder = "Например: через знакомых или город встречи (необязательно)";
+    } else if (mode === "baltic") {
+      addressLabel.textContent = "Пакомат / адрес по Прибалтике (необязательно)";
+      addressInput.placeholder = "Например: Рига, пакомат Omniva или DPD (необязательно)";
+    } else if (mode === "europe") {
+      addressLabel.textContent = "Адрес или страна доставки по Европе (необязательно)";
+      addressInput.placeholder = "Страна, город, почтовый индекс или адрес (необязательно)";
     } else {
-      addressLabel.textContent = "Почтомат / адрес доставки (необязательно)";
-      addressInput.placeholder = "Например: Omniva / DPD / город (необязательно)";
+      addressLabel.textContent = "Адрес / пакомат / передача (необязательно)";
+      addressInput.placeholder = "Укажите удобный вариант или оставьте пустым";
     }
   }
 
-  function updateEstimate() {
-    const offerKey = offerSelect ? offerSelect.value : "";
-    const rawQty = quantityInput ? parseInt(quantityInput.value, 10) : 1;
-    const qty = Number.isFinite(rawQty) && rawQty > 0 ? rawQty : 1;
+  function calculateEstimate() {
+    const selectedOption =
+      offerSelect && offerSelect.selectedOptions[0] ? offerSelect.selectedOptions[0] : null;
+    const offerValue = offerSelect ? offerSelect.value : "single_1";
+    const deliveryValue = deliverySelect ? deliverySelect.value : "friends";
 
-    if (quantityInput && quantityInput.value !== "" && String(qty) !== quantityInput.value) {
-      quantityInput.value = String(qty);
+    const basePrice = selectedOption
+      ? Number(selectedOption.getAttribute("data-price") || 0)
+      : 0;
+    const balticFree = selectedOption
+      ? selectedOption.getAttribute("data-baltic-free") === "true"
+      : false;
+
+    let deliveryCost = 0;
+    let deliveryNote = "";
+
+    if (offerValue === "custom" || deliveryValue === "other") {
+      deliveryNote =
+        "Ориентир уточняется с редакцией после отправки заявки.";
+    } else if (deliveryValue === "friends") {
+      deliveryCost = 0;
+      deliveryNote =
+        "Доставка через знакомых — 0 €. Точные условия подтвердим после заявки.";
+    } else if (deliveryValue === "baltic") {
+      deliveryCost = balticFree ? 0 : 3;
+      deliveryNote = balticFree
+        ? "Доставка по Прибалтике для выбранного варианта уже включена (0 €)."
+        : "Доставка по Прибалтике — ориентировочно +3 €.";
+    } else if (deliveryValue === "europe") {
+      deliveryCost = 5;
+      deliveryNote = "Доставка по Европе — ориентировочно +5 €.";
     }
 
-    const unitPrice = OFFER_PRICES[offerKey] ?? 0;
-    const total = unitPrice * qty;
+    const total = basePrice + deliveryCost;
 
     if (estimateTotalEl) {
-      estimateTotalEl.textContent = `Ориентировочно за выпуски: €${total}`;
+      if (offerValue === "custom" || deliveryValue === "other") {
+        estimateTotalEl.textContent = "Ориентировочная сумма: по согласованию";
+      } else {
+        estimateTotalEl.textContent = `Ориентировочная сумма: ${total} €`;
+      }
     }
+
     if (estimateHintEl) {
       estimateHintEl.textContent =
-        "Стоимость доставки уточняется отдельно после подтверждения заявки.";
+        `${deliveryNote} Точные условия и реквизиты подтвердим после заявки.`;
     }
+
+    return {
+      totalText:
+        offerValue === "custom" || deliveryValue === "other"
+          ? "по согласованию"
+          : `${total} €`
+    };
   }
 
   if (deliverySelect) {
-    deliverySelect.addEventListener("change", updateAddressField);
+    deliverySelect.addEventListener("change", () => {
+      updateAddressField();
+      calculateEstimate();
+    });
   }
   if (offerSelect) {
-    offerSelect.addEventListener("change", updateEstimate);
-  }
-  if (quantityInput) {
-    quantityInput.addEventListener("input", updateEstimate);
-    quantityInput.addEventListener("change", updateEstimate);
+    offerSelect.addEventListener("change", calculateEstimate);
   }
 
   updateAddressField();
-  updateEstimate();
+  calculateEstimate();
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const offerVal = offerSelect ? offerSelect.value.trim() : "";
-    const offerText =
-      offerSelect && offerSelect.selectedOptions[0]
-        ? offerSelect.selectedOptions[0].textContent.trim()
-        : offerVal;
-    const rawQty = quantityInput ? parseInt(quantityInput.value, 10) : 0;
+    const selectedOption =
+      offerSelect && offerSelect.selectedOptions[0] ? offerSelect.selectedOptions[0] : null;
+    const offerText = selectedOption
+      ? (selectedOption.getAttribute("data-label") || selectedOption.textContent).trim()
+      : offerSelect
+      ? offerSelect.value.trim()
+      : "";
+
+    const selectedDelivery =
+      deliverySelect && deliverySelect.selectedOptions[0]
+        ? deliverySelect.selectedOptions[0]
+        : null;
+    const deliveryText = selectedDelivery
+      ? (selectedDelivery.getAttribute("data-label") || selectedDelivery.textContent).trim()
+      : deliverySelect
+      ? deliverySelect.value.trim()
+      : "";
+
     const customerName = nameInput ? nameInput.value.trim() : "";
     const contact = contactInput ? contactInput.value.trim() : "";
-    const deliveryText =
-      deliverySelect && deliverySelect.selectedOptions[0]
-        ? deliverySelect.selectedOptions[0].textContent.trim()
-        : deliverySelect
-        ? deliverySelect.value.trim()
-        : "";
     const address = addressInput ? addressInput.value.trim() : "";
-    const comment = commentInput ? commentInput.value.trim() : "";
+    const notes = notesInput ? notesInput.value.trim() : "";
 
     if (!customerName) {
-      if (statusEl) statusEl.textContent = "Пожалуйста, укажите имя — это обязательное поле.";
+      if (statusEl) {
+        statusEl.textContent = "Пожалуйста, укажите имя и фамилию — это обязательное поле.";
+      }
       if (nameInput) nameInput.focus();
       return;
     }
 
     if (!contact) {
-      if (statusEl) statusEl.textContent = "Пожалуйста, укажите контакт (Telegram, телефон или почту) — это обязательное поле.";
+      if (statusEl) {
+        statusEl.textContent =
+          "Пожалуйста, укажите контакты (Telegram, телефон или email) — это обязательное поле.";
+      }
       if (contactInput) contactInput.focus();
       return;
     }
 
-    if (!Number.isFinite(rawQty) || rawQty < 1) {
-      if (statusEl) statusEl.textContent = "Укажите количество экземпляров (минимум 1) — это обязательное поле.";
-      if (quantityInput) quantityInput.focus();
-      return;
-    }
-
-    const unitPrice = OFFER_PRICES[offerVal] ?? 0;
-    const total = unitPrice * rawQty;
+    const { totalText } = calculateEstimate();
 
     const messageLines = [
       "Новый заказ — журнал «Псалом 150»",
-      `Имя: ${customerName}`,
-      `Контакт: ${contact}`,
+      `Имя и фамилия: ${customerName}`,
+      `Контакты: ${contact}`,
       offerText ? `Вариант: ${offerText}` : null,
-      `Количество: ${rawQty}`,
-      `Сумма за выпуски: €${total}`,
       deliveryText ? `Доставка: ${deliveryText}` : null,
-      address ? `Адрес / почтомат: ${address}` : null,
-      comment ? `Дополнительно: ${comment}` : null
+      `Ориентировочная сумма: ${totalText}`,
+      address ? `Адрес / пакомат / передача: ${address}` : null,
+      notes ? `Комментарий: ${notes}` : null
     ].filter(Boolean);
 
     if (statusEl) {
@@ -1064,9 +1070,8 @@ function initOrderPage() {
           "Заявка отправлена! Мы свяжемся с вами для подтверждения заказа и доставки.";
       }
       form.reset();
-      if (quantityInput) quantityInput.value = "1";
       updateAddressField();
-      updateEstimate();
+      calculateEstimate();
     } catch (err) {
       if (statusEl) {
         statusEl.textContent =
