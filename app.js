@@ -308,14 +308,212 @@ const LIBRARY_ENTRIES = [
   }
 ];
 
-const LIBRARY_ISSUES = [
+// Три последних выпуска всегда в порядке №3, №2, №1
+const HOME_ISSUES = [
+  {
+    issueId: 3,
+    issueTitle: "Выпуск №3",
+    folder: "pages3",
+    subtitle: "Свежий номер журнала «Псалом 150»"
+  },
   {
     issueId: 2,
     issueTitle: "Выпуск №2",
-    issueUrl: "issue-2.html",
-    subtitle: "Материалы 2-го выпуска"
+    folder: "pages2",
+    subtitle: "Статьи, интервью, история и поэзия"
+  },
+  {
+    issueId: 1,
+    issueTitle: "Выпуск №1",
+    folder: "pages1",
+    subtitle: "Первый выпуск журнала «Псалом 150»"
   }
 ];
+
+function formatPageName(pageNum) {
+  return `${String(pageNum).padStart(2, "0")}.png`;
+}
+
+function getPageSrc(folder, pageNum) {
+  return `${folder}/${formatPageName(pageNum)}`;
+}
+
+function checkImageExists(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = src;
+  });
+}
+
+let viewerState = {
+  issue: null,
+  currentPage: 1,
+  maxKnownPage: 1,
+  reachedEnd: false,
+  loading: false
+};
+
+function updateViewerUi() {
+  const titleEl = document.getElementById("issueViewerTitle");
+  const pageInfoEl = document.getElementById("issueViewerPageInfo");
+  const prevBtn = document.getElementById("issuePrevPageBtn");
+  const nextBtn = document.getElementById("issueNextPageBtn");
+
+  if (!viewerState.issue) return;
+
+  if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
+  if (pageInfoEl) {
+    const endLabel = viewerState.reachedEnd ? ` / ${viewerState.maxKnownPage}` : "";
+    pageInfoEl.textContent = `Страница ${viewerState.currentPage}${endLabel}`;
+  }
+  if (prevBtn) {
+    prevBtn.disabled = viewerState.loading || viewerState.currentPage <= 1;
+  }
+  if (nextBtn) {
+    const atKnownEnd = viewerState.reachedEnd && viewerState.currentPage >= viewerState.maxKnownPage;
+    nextBtn.disabled = viewerState.loading || atKnownEnd;
+  }
+}
+
+async function showIssuePage(pageNum) {
+  const modal = document.getElementById("issueViewerModal");
+  const imgEl = document.getElementById("issuePageImage");
+  const statusEl = document.getElementById("issueViewerStatus");
+  if (!modal || !imgEl || !viewerState.issue) return;
+
+  if (pageNum < 1) return;
+  if (viewerState.reachedEnd && pageNum > viewerState.maxKnownPage) return;
+
+  viewerState.loading = true;
+  updateViewerUi();
+  if (statusEl) statusEl.textContent = "Загрузка страницы...";
+
+  const src = getPageSrc(viewerState.issue.folder, pageNum);
+  const exists = await checkImageExists(src);
+
+  if (exists) {
+    viewerState.currentPage = pageNum;
+    if (pageNum > viewerState.maxKnownPage) {
+      viewerState.maxKnownPage = pageNum;
+    }
+    imgEl.src = src;
+    imgEl.alt = `${viewerState.issue.issueTitle} — страница ${pageNum}`;
+    if (statusEl) statusEl.textContent = "";
+  } else {
+    viewerState.reachedEnd = true;
+    viewerState.maxKnownPage = Math.max(1, pageNum - 1);
+    if (statusEl) {
+      statusEl.textContent =
+        pageNum === 1
+          ? `Страницы для ${viewerState.issue.folder}/01.png пока не найдены.`
+          : "Это последняя страница выпуска.";
+    }
+    setTimeout(() => {
+      if (statusEl && statusEl.textContent === "Это последняя страница выпуска.") {
+        statusEl.textContent = "";
+      }
+    }, 1800);
+  }
+
+  viewerState.loading = false;
+  updateViewerUi();
+}
+
+async function openIssueViewer(issueId) {
+  const issue = HOME_ISSUES.find((item) => item.issueId === Number(issueId));
+  const modal = document.getElementById("issueViewerModal");
+  if (!issue || !modal) return;
+
+  viewerState = {
+    issue,
+    currentPage: 1,
+    maxKnownPage: 1,
+    reachedEnd: false,
+    loading: false
+  };
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+
+  await showIssuePage(1);
+}
+
+function closeIssueViewer() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
+
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function toggleViewerFullscreen() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+function initIssueViewer() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  const prevBtn = document.getElementById("issuePrevPageBtn");
+  const nextBtn = document.getElementById("issueNextPageBtn");
+  const closeBtn = document.getElementById("issueCloseViewerBtn");
+  const fsBtn = document.getElementById("issueFullscreenBtn");
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      if (viewerState.currentPage > 1) {
+        showIssuePage(viewerState.currentPage - 1);
+      }
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      showIssuePage(viewerState.currentPage + 1);
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeIssueViewer);
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", toggleViewerFullscreen);
+  }
+
+  document.querySelectorAll("[data-open-issue]").forEach((el) => {
+    el.addEventListener("click", () => {
+      const id = el.getAttribute("data-open-issue");
+      if (id) openIssueViewer(id);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("open")) return;
+    if (event.key === "Escape") closeIssueViewer();
+    if (event.key === "ArrowLeft" && viewerState.currentPage > 1) {
+      showIssuePage(viewerState.currentPage - 1);
+    }
+    if (event.key === "ArrowRight") {
+      showIssuePage(viewerState.currentPage + 1);
+    }
+  });
+}
 
 function initDrawer() {
   const openBtn = document.getElementById("openDrawerBtn");
@@ -441,26 +639,63 @@ function closeEntryReader() {
   document.body.style.overflow = "";
 }
 
+function renderHomeIssues() {
+  const homeGrid = document.getElementById("homeLatestIssues");
+  if (!homeGrid) return;
+
+  homeGrid.innerHTML = "";
+  HOME_ISSUES.forEach((issue) => {
+    const card = document.createElement("article");
+    card.className = "issue-card";
+    const coverSrc = getPageSrc(issue.folder, 1);
+
+    card.innerHTML = `
+      <div class="issue-cover-wrap">
+        <img class="issue-cover-img" src="${coverSrc}" alt="Обложка ${issue.issueTitle}" />
+      </div>
+      <h3>${issue.issueTitle}</h3>
+      <p>${issue.subtitle}</p>
+      <div class="entry-actions">
+        <button type="button" class="btn">Открыть во весь экран</button>
+      </div>
+    `;
+
+    card.addEventListener("click", () => openIssueViewer(issue.issueId));
+    homeGrid.appendChild(card);
+  });
+}
+
 function renderCoversGrid() {
   const gridEl = document.getElementById("libraryCoversGrid");
   if (!gridEl) return;
 
   gridEl.innerHTML = "";
-  LIBRARY_ISSUES.forEach((issue) => {
+  HOME_ISSUES.forEach((issue) => {
     const card = document.createElement("article");
     card.className = "issue-card";
+    const coverSrc = getPageSrc(issue.folder, 1);
+
     card.innerHTML = `
+      <div class="issue-cover-wrap">
+        <img class="issue-cover-img" src="${coverSrc}" alt="Обложка ${issue.issueTitle}" />
+      </div>
       <h3>${issue.issueTitle}</h3>
       <p>${issue.subtitle}</p>
-      <a class="btn" href="${issue.issueUrl}">Открыть выпуск</a>
+      <div class="entry-actions">
+        <button type="button" class="btn">Открыть выпуск</button>
+      </div>
     `;
+
+    card.addEventListener("click", () => openIssueViewer(issue.issueId));
     gridEl.appendChild(card);
   });
 }
 
 function initLibraryPage() {
   initDrawer();
+  renderHomeIssues();
   renderCoversGrid();
+  initIssueViewer();
 
   const listEl = document.getElementById("libraryEntriesList");
   if (!listEl) return;

@@ -22,9 +22,9 @@
     </div>
     <div class="drawer-group">
       <div class="drawer-label">Выпуски</div>
-      <a class="drawer-link" href="issue-3.html"><span>Выпуск №3</span><span>#3</span></a>
-      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
-      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
+      <button type="button" class="drawer-link drawer-btn-link" data-open-issue="3"><span>Выпуск №3</span><span>#3</span></button>
+      <button type="button" class="drawer-link drawer-btn-link" data-open-issue="2"><span>Выпуск №2</span><span>#2</span></button>
+      <button type="button" class="drawer-link drawer-btn-link" data-open-issue="1"><span>Выпуск №1</span><span>#1</span></button>
     </div>
   </aside>
 
@@ -42,29 +42,7 @@
     </header>
 
     <section aria-label="Последние выпуски">
-      <div id="homeLatestIssues" class="issues-grid">
-        <article class="issue-card">
-          <h3>Выпуск №3</h3>
-          <p>Свежий номер журнала «Псалом 150».</p>
-          <div class="entry-actions">
-            <a class="btn" href="issue-3.html">Открыть выпуск</a>
-          </div>
-        </article>
-        <article class="issue-card">
-          <h3>Выпуск №2</h3>
-          <p>Второй выпуск: статьи, интервью, история, поэзия и материалы.</p>
-          <div class="entry-actions">
-            <a class="btn" href="issue-2.html">Открыть выпуск</a>
-          </div>
-        </article>
-        <article class="issue-card">
-          <h3>Выпуск №1</h3>
-          <p>Первый выпуск журнала «Псалом 150».</p>
-          <div class="entry-actions">
-            <a class="btn" href="issue-1.html">Открыть выпуск</a>
-          </div>
-        </article>
-      </div>
+      <div id="homeLatestIssues" class="issues-grid"></div>
     </section>
 
     <section class="order-banner" aria-label="Заказать выпуск">
@@ -80,6 +58,26 @@
       <a class="social-icon-btn" href="https://t.me/Psalm150DSVJ" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">✈</a>
       <a class="social-icon-btn" href="#support" aria-label="Поддержка (скоро)" title="Поддержка (заглушка)">♥</a>
     </footer>
+  </div>
+
+  <!-- Полноэкранный просмотрщик страниц выпуска -->
+  <div id="issueViewerModal" class="issue-viewer" aria-hidden="true">
+    <div class="issue-viewer-topbar">
+      <div class="issue-viewer-title-wrap">
+        <strong id="issueViewerTitle">Выпуск</strong>
+        <span id="issueViewerPageInfo" class="issue-viewer-page-info"></span>
+      </div>
+      <div class="issue-viewer-controls">
+        <button id="issuePrevPageBtn" type="button" class="viewer-btn">← Назад</button>
+        <button id="issueNextPageBtn" type="button" class="viewer-btn">Вперёд →</button>
+        <button id="issueFullscreenBtn" type="button" class="viewer-btn" title="На весь экран">⛶</button>
+        <button id="issueCloseViewerBtn" type="button" class="viewer-btn viewer-close-btn">✕ Закрыть</button>
+      </div>
+    </div>
+    <div id="issueViewerStage" class="issue-viewer-stage">
+      <img id="issuePageImage" class="issue-page-image" alt="" />
+      <div id="issueViewerStatus" class="issue-viewer-status"></div>
+    </div>
   </div>
 
   <script src="app.js"></script>
