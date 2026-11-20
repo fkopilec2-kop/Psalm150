@@ -693,6 +693,86 @@ function initIssueViewer() {
       }
       updateViewerUi();
     });
+
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panScrollLeft = 0;
+    let panScrollTop = 0;
+
+    stageEl.addEventListener("mousedown", (event) => {
+      if (event.button !== 0) return;
+      if (viewerState.zoom <= 1.01) return;
+      if (!event.target.classList.contains("issue-page-image")) return;
+
+      isPanning = true;
+      stageEl.classList.add("is-dragging");
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panScrollLeft = stageEl.scrollLeft;
+      panScrollTop = stageEl.scrollTop;
+    });
+
+    window.addEventListener("mousemove", (event) => {
+      if (!isPanning) return;
+      const dx = event.clientX - panStartX;
+      const dy = event.clientY - panStartY;
+      stageEl.scrollLeft = panScrollLeft - dx;
+      stageEl.scrollTop = panScrollTop - dy;
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (!isPanning) return;
+      isPanning = false;
+      stageEl.classList.remove("is-dragging");
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    stageEl.addEventListener(
+      "touchstart",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (event.touches.length !== 1) return;
+
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        isSwiping = true;
+      },
+      { passive: true }
+    );
+
+    stageEl.addEventListener(
+      "touchend",
+      (event) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (!event.changedTouches || event.changedTouches.length === 0) return;
+
+        const touchEndX = event.changedTouches[0].clientX;
+        const touchEndY = event.changedTouches[0].clientY;
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
+
+        // Срабатываем только при чётком горизонтальном свайпе (минимум 55px и сильнее вертикального сдвига)
+        if (Math.abs(dx) < 55 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+
+        if (dx < 0) {
+          const target = getNextTargetPage();
+          if (target !== null) showIssuePage(target);
+        } else {
+          const target = getPrevTargetPage();
+          if (target !== null) showIssuePage(target);
+        }
+      },
+      { passive: true }
+    );
   }
 
   window.addEventListener("resize", () => {

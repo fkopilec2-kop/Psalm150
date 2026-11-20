@@ -459,16 +459,22 @@ h2 {
 }
 
 .issue-viewer-stage.is-zoomed {
-  align-items: flex-start;
-  justify-content: flex-start;
+  display: block;
+  text-align: center;
+  overflow: auto;
+  user-select: none;
 }
 
 .issue-viewer-stage.is-zoomed .issue-page-image {
+  display: inline-block;
+  vertical-align: middle;
   cursor: grab;
   flex-shrink: 0;
+  transition: none;
 }
 
-.issue-viewer-stage.is-zoomed .issue-page-image:active {
+.issue-viewer-stage.is-zoomed .issue-page-image:active,
+.issue-viewer-stage.is-zoomed.is-dragging .issue-page-image {
   cursor: grabbing;
 }
 
