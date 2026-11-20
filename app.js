@@ -371,7 +371,7 @@ let viewerState = {
   currentPage: 1,
   totalPages: 1,
   spreadMode: true,
-  zoom: 0.55,
+  zoom: 0.8,
   baseWidth: 0,
   baseHeight: 0,
   loading: false
@@ -402,7 +402,7 @@ function ensureViewerPagesWrap(stageEl, firstImgEl) {
 function captureBasePagesSize(wrap) {
   if (!wrap) return;
   const rect = wrap.getBoundingClientRect();
-  const currentZoom = viewerState.zoom || 0.55;
+  const currentZoom = viewerState.zoom || 0.8;
   viewerState.baseWidth = rect.width / currentZoom;
   viewerState.baseHeight = rect.height / currentZoom;
 }
@@ -414,14 +414,14 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
   if (!wrap) return;
 
   const clamped = Math.min(2.5, Math.max(0.5, Number(nextZoom.toFixed(2))));
-  const prevZoom = viewerState.zoom || 0.55;
+  const prevZoom = viewerState.zoom || 0.8;
 
   if (!viewerState.baseWidth || !viewerState.baseHeight) {
     captureBasePagesSize(wrap);
   }
 
   viewerState.zoom = clamped;
-  const isZoomed = clamped > 0.56;
+  const isZoomed = clamped > 0.81;
   stageEl.classList.toggle("is-zoomed", isZoomed);
 
   wrap.style.transformOrigin = isZoomed ? "0 0" : "center center";
@@ -461,7 +461,7 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
 }
 
 function resetViewerZoom() {
-  applyViewerZoom(0.55);
+  applyViewerZoom(0.8);
 }
 
 function isSpreadViewport() {
@@ -529,7 +529,7 @@ function updateViewerUi() {
 
   const pages = getSpreadPages(viewerState.currentPage, viewerState.totalPages);
   const labelPages = pages.length === 2 ? `${pages[0]}–${pages[1]}` : `${pages[0]}`;
-  const zoomSuffix = viewerState.zoom > 0.56 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
+  const zoomSuffix = viewerState.zoom > 0.81 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
 
   if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
   if (pageInfoEl) {
@@ -633,7 +633,7 @@ async function openIssueViewer(issueId) {
     currentPage: 1,
     totalPages: Number(issue.totalPages) || 1,
     spreadMode: window.innerWidth > 768,
-    zoom: 0.55,
+    zoom: 0.8,
     baseWidth: 0,
     baseHeight: 0,
     loading: false
@@ -737,15 +737,15 @@ function initIssueViewer() {
       (event) => {
         if (!modal.classList.contains("open")) return;
         const shouldZoom =
-          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 0.56;
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 0.81;
         if (!shouldZoom) return;
 
         event.preventDefault();
         const rawStep = Math.abs(event.deltaY) > 40 ? 0.04 : 0.02;
         const step = event.deltaY < 0 ? rawStep : -rawStep;
         let nextZoom = viewerState.zoom + step;
-        if (viewerState.zoom <= 0.56 && event.deltaY < 0) {
-          nextZoom = 0.6;
+        if (viewerState.zoom <= 0.81 && event.deltaY < 0) {
+          nextZoom = 0.85;
         }
         if (nextZoom < 0.5) {
           resetViewerZoom();
@@ -758,10 +758,10 @@ function initIssueViewer() {
     );
 
     stageEl.addEventListener("dblclick", (event) => {
-      if (viewerState.zoom > 0.56) {
+      if (viewerState.zoom > 0.81) {
         resetViewerZoom();
       } else {
-        applyViewerZoom(1.1, event.clientX, event.clientY);
+        applyViewerZoom(1.35, event.clientX, event.clientY);
       }
       updateViewerUi();
     });
@@ -774,7 +774,7 @@ function initIssueViewer() {
 
     stageEl.addEventListener("mousedown", (event) => {
       if (event.button !== 0) return;
-      if (viewerState.zoom <= 0.56) return;
+      if (viewerState.zoom <= 0.81) return;
       if (!event.target.closest(".issue-viewer-pages")) return;
 
       isPanning = true;
@@ -807,7 +807,7 @@ function initIssueViewer() {
       "touchstart",
       (event) => {
         if (!modal.classList.contains("open")) return;
-        if (viewerState.zoom > 0.56) return;
+        if (viewerState.zoom > 0.81) return;
         if (event.touches.length !== 1) return;
 
         touchStartX = event.touches[0].clientX;
@@ -824,7 +824,7 @@ function initIssueViewer() {
         isSwiping = false;
 
         if (!modal.classList.contains("open")) return;
-        if (viewerState.zoom > 0.56) return;
+        if (viewerState.zoom > 0.81) return;
         if (!event.changedTouches || event.changedTouches.length === 0) return;
 
         const touchEndX = event.changedTouches[0].clientX;
@@ -863,7 +863,7 @@ function initIssueViewer() {
   document.addEventListener("keydown", (event) => {
     if (!modal.classList.contains("open")) return;
     if (event.key === "Escape") {
-      if (viewerState.zoom > 0.56) {
+      if (viewerState.zoom > 0.81) {
         resetViewerZoom();
         updateViewerUi();
       } else {
