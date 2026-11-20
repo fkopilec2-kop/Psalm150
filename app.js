@@ -605,7 +605,7 @@ const LIBRARY_ENTRIES = [
     pdfUrl: "Golos-hochu.pdf",
     note: "Ноты / материал песни из 2-го выпуска (PDF).",
     content: []
-  }
+  },
   {
     id: "iss3-theory-chords",
     title: "Разные системы записи аккордов",
