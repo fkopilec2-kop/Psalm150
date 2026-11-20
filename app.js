@@ -353,38 +353,121 @@ function checkImageExists(src) {
   });
 }
 
+const preloadedPageCache = new Set();
+
+function preloadIssuePage(folder, pageNum, totalPages) {
+  if (!folder || pageNum < 1 || pageNum > totalPages) return;
+  const src = getPageSrc(folder, pageNum);
+  if (preloadedPageCache.has(src)) return;
+
+  preloadedPageCache.add(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
 let viewerState = {
   issue: null,
   currentPage: 1,
   totalPages: 1,
+  spreadMode: true,
   loading: false
 };
+
+function isSpreadViewport() {
+  return window.innerWidth > 768 && Boolean(viewerState.spreadMode);
+}
+
+function getSpreadPages(pageNum, totalPages) {
+  if (!isSpreadViewport()) {
+    return [pageNum];
+  }
+  if (pageNum <= 1) {
+    return [1];
+  }
+  if (pageNum >= totalPages) {
+    return [totalPages];
+  }
+  // Для внутренних страниц показываем пару: чётная слева, нечётная справа
+  const left = pageNum % 2 === 0 ? pageNum : pageNum - 1;
+  const right = left + 1 <= totalPages ? left + 1 : null;
+  return right ? [left, right] : [left];
+}
+
+function preloadForCurrentView(issue, visiblePages) {
+  if (!issue) return;
+  const total = Number(issue.totalPages) || 1;
+  visiblePages.forEach((p) => {
+    preloadIssuePage(issue.folder, p - 1, total);
+    preloadIssuePage(issue.folder, p + 1, total);
+  });
+  const maxVisible = Math.max(...visiblePages);
+  const minVisible = Math.min(...visiblePages);
+  preloadIssuePage(issue.folder, maxVisible + 1, total);
+  preloadIssuePage(issue.folder, maxVisible + 2, total);
+  preloadIssuePage(issue.folder, minVisible - 1, total);
+}
+
+function getPrevTargetPage() {
+  const cur = viewerState.currentPage;
+  if (cur <= 1) return null;
+  if (!isSpreadViewport()) return cur - 1;
+  if (cur <= 3) return 1;
+  const left = cur % 2 === 0 ? cur : cur - 1;
+  return Math.max(1, left - 2);
+}
+
+function getNextTargetPage() {
+  const cur = viewerState.currentPage;
+  const total = viewerState.totalPages;
+  if (cur >= total) return null;
+  if (!isSpreadViewport()) return cur + 1;
+  if (cur === 1) return total >= 2 ? 2 : null;
+  const left = cur % 2 === 0 ? cur : cur - 1;
+  const right = left + 1 <= total ? left + 1 : left;
+  if (right >= total) return null;
+  return right + 1;
+}
 
 function updateViewerUi() {
   const titleEl = document.getElementById("issueViewerTitle");
   const pageInfoEl = document.getElementById("issueViewerPageInfo");
   const prevBtn = document.getElementById("issuePrevPageBtn");
   const nextBtn = document.getElementById("issueNextPageBtn");
+  const spreadBtn = document.getElementById("issueSpreadToggleBtn");
 
   if (!viewerState.issue) return;
 
+  const pages = getSpreadPages(viewerState.currentPage, viewerState.totalPages);
+  const labelPages = pages.length === 2 ? `${pages[0]}–${pages[1]}` : `${pages[0]}`;
+
   if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
   if (pageInfoEl) {
-    pageInfoEl.textContent = `Страница ${viewerState.currentPage} / ${viewerState.totalPages}`;
+    pageInfoEl.textContent = `Страница ${labelPages} / ${viewerState.totalPages}`;
   }
   if (prevBtn) {
-    prevBtn.disabled = viewerState.loading || viewerState.currentPage <= 1;
+    prevBtn.disabled = viewerState.loading || getPrevTargetPage() === null;
   }
   if (nextBtn) {
-    nextBtn.disabled = viewerState.loading || viewerState.currentPage >= viewerState.totalPages;
+    nextBtn.disabled = viewerState.loading || getNextTargetPage() === null;
+  }
+  if (spreadBtn) {
+    if (window.innerWidth <= 768) {
+      spreadBtn.textContent = "1 стр. (экран узкий)";
+      spreadBtn.disabled = true;
+    } else {
+      spreadBtn.disabled = false;
+      spreadBtn.textContent = viewerState.spreadMode ? "1 страница" : "Разворот";
+    }
   }
 }
 
 async function showIssuePage(pageNum) {
   const modal = document.getElementById("issueViewerModal");
-  const imgEl = document.getElementById("issuePageImage");
+  const stageEl = document.getElementById("issueViewerStage");
+  const firstImgEl = document.getElementById("issuePageImage");
   const statusEl = document.getElementById("issueViewerStatus");
-  if (!modal || !imgEl || !viewerState.issue) return;
+  if (!modal || !stageEl || !firstImgEl || !viewerState.issue) return;
 
   if (pageNum < 1 || pageNum > viewerState.totalPages) return;
 
@@ -392,17 +475,57 @@ async function showIssuePage(pageNum) {
   updateViewerUi();
   if (statusEl) statusEl.textContent = "Загрузка страницы...";
 
-  const src = getPageSrc(viewerState.issue.folder, pageNum);
-  const exists = await checkImageExists(src);
+  const targetPages = getSpreadPages(pageNum, viewerState.totalPages);
+  const checks = await Promise.all(
+    targetPages.map(async (p) => {
+      const src = getPageSrc(viewerState.issue.folder, p);
+      const exists = await checkImageExists(src);
+      return { page: p, src, exists };
+    })
+  );
 
-  if (exists) {
-    viewerState.currentPage = pageNum;
-    imgEl.src = src;
-    imgEl.alt = `${viewerState.issue.issueTitle} — страница ${pageNum}`;
+  const available = checks.filter((item) => item.exists);
+  if (available.length > 0) {
+    viewerState.currentPage = targetPages[0];
+
+    let secondImgEl = document.getElementById("issuePageImageRight");
+    if (!secondImgEl) {
+      secondImgEl = document.createElement("img");
+      secondImgEl.id = "issuePageImageRight";
+      secondImgEl.className = "issue-page-image";
+      firstImgEl.insertAdjacentElement("afterend", secondImgEl);
+    }
+
+    const activeSpread = isSpreadViewport() && available.length === 2;
+    stageEl.classList.toggle("spread-mode", isSpreadViewport());
+    stageEl.classList.toggle("single-slot", !activeSpread);
+
+    const leftItem = available[0];
+    preloadedPageCache.add(leftItem.src);
+    firstImgEl.src = leftItem.src;
+    firstImgEl.alt = `${viewerState.issue.issueTitle} — страница ${leftItem.page}`;
+    firstImgEl.style.display = "block";
+
+    if (activeSpread) {
+      const rightItem = available[1];
+      preloadedPageCache.add(rightItem.src);
+      secondImgEl.src = rightItem.src;
+      secondImgEl.alt = `${viewerState.issue.issueTitle} — страница ${rightItem.page}`;
+      secondImgEl.style.display = "block";
+    } else {
+      secondImgEl.removeAttribute("src");
+      secondImgEl.style.display = "none";
+    }
+
     if (statusEl) statusEl.textContent = "";
+    preloadForCurrentView(
+      viewerState.issue,
+      available.map((x) => x.page)
+    );
   } else {
+    const missingSrc = checks[0] ? checks[0].src : "";
     if (statusEl) {
-      statusEl.textContent = `Файл ${src} не найден.`;
+      statusEl.textContent = `Файл ${missingSrc} не найден.`;
     }
   }
 
@@ -419,6 +542,7 @@ async function openIssueViewer(issueId) {
     issue,
     currentPage: 1,
     totalPages: Number(issue.totalPages) || 1,
+    spreadMode: window.innerWidth > 768,
     loading: false
   };
 
@@ -459,21 +583,32 @@ function initIssueViewer() {
 
   const prevBtn = document.getElementById("issuePrevPageBtn");
   const nextBtn = document.getElementById("issueNextPageBtn");
+  const spreadBtn = document.getElementById("issueSpreadToggleBtn");
   const closeBtn = document.getElementById("issueCloseViewerBtn");
   const fsBtn = document.getElementById("issueFullscreenBtn");
 
   if (prevBtn) {
     prevBtn.addEventListener("click", () => {
-      if (viewerState.currentPage > 1) {
-        showIssuePage(viewerState.currentPage - 1);
-      }
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
     });
   }
 
   if (nextBtn) {
     nextBtn.addEventListener("click", () => {
-      if (viewerState.currentPage < viewerState.totalPages) {
-        showIssuePage(viewerState.currentPage + 1);
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
+    });
+  }
+
+  if (spreadBtn) {
+    spreadBtn.addEventListener("click", () => {
+      if (window.innerWidth <= 768) return;
+      viewerState.spreadMode = !viewerState.spreadMode;
+      if (viewerState.issue && modal.classList.contains("open")) {
+        showIssuePage(viewerState.currentPage);
+      } else {
+        updateViewerUi();
       }
     });
   }
@@ -486,6 +621,12 @@ function initIssueViewer() {
     fsBtn.addEventListener("click", toggleViewerFullscreen);
   }
 
+  window.addEventListener("resize", () => {
+    if (viewerState.issue && modal.classList.contains("open")) {
+      showIssuePage(viewerState.currentPage);
+    }
+  });
+
   document.querySelectorAll("[data-open-issue]").forEach((el) => {
     el.addEventListener("click", (event) => {
       event.preventDefault();
@@ -497,11 +638,13 @@ function initIssueViewer() {
   document.addEventListener("keydown", (event) => {
     if (!modal.classList.contains("open")) return;
     if (event.key === "Escape") closeIssueViewer();
-    if (event.key === "ArrowLeft" && viewerState.currentPage > 1) {
-      showIssuePage(viewerState.currentPage - 1);
+    if (event.key === "ArrowLeft") {
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
     }
-    if (event.key === "ArrowRight" && viewerState.currentPage < viewerState.totalPages) {
-      showIssuePage(viewerState.currentPage + 1);
+    if (event.key === "ArrowRight") {
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
     }
   });
 }

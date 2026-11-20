@@ -429,6 +429,7 @@ h2 {
   display: flex;
   align-items: center;
   justify-content: center;
+  gap: 12px;
   padding: 16px;
   overflow: auto;
   position: relative;
@@ -442,6 +443,21 @@ h2 {
   object-fit: contain;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
   border-radius: 4px;
+}
+
+.issue-viewer-stage.spread-mode .issue-page-image {
+  max-width: 48%;
+  max-height: 100%;
+}
+
+.issue-viewer-stage.spread-mode.single-slot .issue-page-image {
+  max-width: 100%;
+}
+
+@media (max-width: 768px) {
+  .issue-viewer-stage.spread-mode .issue-page-image {
+    max-width: 100%;
+  }
 }
 
 .issue-viewer-status {
