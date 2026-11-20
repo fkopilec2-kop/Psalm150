@@ -421,7 +421,7 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
   }
 
   viewerState.zoom = clamped;
-  const isZoomed = clamped > 1.01;
+  const isZoomed = clamped > 1.005;
   stageEl.classList.toggle("is-zoomed", isZoomed);
 
   if (!isZoomed) {
@@ -742,12 +742,21 @@ function initIssueViewer() {
       (event) => {
         if (!modal.classList.contains("open")) return;
         const shouldZoom =
-          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.01;
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.005;
         if (!shouldZoom) return;
 
         event.preventDefault();
-        const step = event.deltaY < 0 ? 0.18 : -0.18;
-        applyViewerZoom(viewerState.zoom + step, event.clientX, event.clientY);
+        const rawStep = Math.abs(event.deltaY) > 40 ? 0.04 : 0.02;
+        const step = event.deltaY < 0 ? rawStep : -rawStep;
+        let nextZoom = viewerState.zoom + step;
+        if (viewerState.zoom <= 1.005 && event.deltaY < 0) {
+          nextZoom = 1.01;
+        }
+        if (nextZoom <= 1.005) {
+          resetViewerZoom();
+        } else {
+          applyViewerZoom(nextZoom, event.clientX, event.clientY);
+        }
         updateViewerUi();
       },
       { passive: false }
@@ -758,7 +767,7 @@ function initIssueViewer() {
       if (viewerState.zoom > 1.01) {
         resetViewerZoom();
       } else {
-        applyViewerZoom(1.25, event.clientX, event.clientY);
+        applyViewerZoom(1.10, event.clientX, event.clientY);
       }
       updateViewerUi();
     });
