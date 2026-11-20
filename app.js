@@ -195,7 +195,7 @@ const LIBRARY_ENTRIES = [
       "Мартин Лютер и церковное пение",
       "",
       "В 1526 году Мартин Лютер опубликовал трактат «Немецкая месса» в котором описал, правильный по его мнению, ход христианского Богослужения. С точки зрения музыки, богослов подчеркивает важность общего пения на понятном (немецком) языке в противовес только хоровому пению на латыни.",
-    "",
+      "",
       "Лютер разделяет три вида богослужений, это важно учитывать, потому что в каждом из них у пения немного отличная форма и функция.",
       "",
       "Подробнее об этом можно узнать из предисловия к «Немецкой мессе». Отсканируйте QR",
@@ -413,15 +413,15 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
   const wrap = stageEl.querySelector(".issue-viewer-pages");
   if (!wrap) return;
 
-  const clamped = Math.min(2.5, Math.max(1, Number(nextZoom.toFixed(2))));
+  const clamped = Math.min(2.5, Math.max(0.8, Number(nextZoom.toFixed(2))));
   const prevZoom = viewerState.zoom || 1;
 
-  if (prevZoom <= 1.01 && clamped > 1.01) {
+  if (prevZoom <= 0.81 && clamped > 0.81) {
     captureBasePagesSize(wrap);
   }
 
   viewerState.zoom = clamped;
-  const isZoomed = clamped > 1.005;
+  const isZoomed = clamped > 0.81;
   stageEl.classList.toggle("is-zoomed", isZoomed);
 
   if (!isZoomed) {
@@ -534,7 +534,7 @@ function updateViewerUi() {
 
   const pages = getSpreadPages(viewerState.currentPage, viewerState.totalPages);
   const labelPages = pages.length === 2 ? `${pages[0]}–${pages[1]}` : `${pages[0]}`;
-  const zoomSuffix = viewerState.zoom > 1.01 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
+  const zoomSuffix = viewerState.zoom > 0.81 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
 
   if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
   if (pageInfoEl) {
@@ -742,17 +742,17 @@ function initIssueViewer() {
       (event) => {
         if (!modal.classList.contains("open")) return;
         const shouldZoom =
-          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.005;
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 0.81;
         if (!shouldZoom) return;
 
         event.preventDefault();
         const rawStep = Math.abs(event.deltaY) > 40 ? 0.04 : 0.02;
         const step = event.deltaY < 0 ? rawStep : -rawStep;
         let nextZoom = viewerState.zoom + step;
-        if (viewerState.zoom <= 1.005 && event.deltaY < 0) {
-          nextZoom = 1.01;
+        if (viewerState.zoom <= 0.81 && event.deltaY < 0) {
+          nextZoom = 0.8;
         }
-        if (nextZoom <= 1.005) {
+        if (nextZoom < 0.8) {
           resetViewerZoom();
         } else {
           applyViewerZoom(nextZoom, event.clientX, event.clientY);
@@ -763,11 +763,10 @@ function initIssueViewer() {
     );
 
     stageEl.addEventListener("dblclick", (event) => {
-      if (!event.target.classList.contains("issue-page-image")) return;
-      if (viewerState.zoom > 1.01) {
+      if (viewerState.zoom > 0.81) {
         resetViewerZoom();
       } else {
-        applyViewerZoom(1.10, event.clientX, event.clientY);
+        applyViewerZoom(0.8, event.clientX, event.clientY);
       }
       updateViewerUi();
     });
@@ -780,7 +779,7 @@ function initIssueViewer() {
 
     stageEl.addEventListener("mousedown", (event) => {
       if (event.button !== 0) return;
-      if (viewerState.zoom <= 1.01) return;
+      if (viewerState.zoom <= 0.81) return;
       if (!event.target.closest(".issue-viewer-pages")) return;
 
       isPanning = true;
@@ -813,7 +812,7 @@ function initIssueViewer() {
       "touchstart",
       (event) => {
         if (!modal.classList.contains("open")) return;
-        if (viewerState.zoom > 1.01) return;
+        if (viewerState.zoom > 0.81) return;
         if (event.touches.length !== 1) return;
 
         touchStartX = event.touches[0].clientX;
@@ -830,7 +829,7 @@ function initIssueViewer() {
         isSwiping = false;
 
         if (!modal.classList.contains("open")) return;
-        if (viewerState.zoom > 1.01) return;
+        if (viewerState.zoom > 0.81) return;
         if (!event.changedTouches || event.changedTouches.length === 0) return;
 
         const touchEndX = event.changedTouches[0].clientX;
@@ -869,7 +868,7 @@ function initIssueViewer() {
   document.addEventListener("keydown", (event) => {
     if (!modal.classList.contains("open")) return;
     if (event.key === "Escape") {
-      if (viewerState.zoom > 1.01) {
+      if (viewerState.zoom > 0.81) {
         resetViewerZoom();
         updateViewerUi();
       } else {
