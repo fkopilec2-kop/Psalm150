@@ -462,12 +462,11 @@ h2 {
 }
 
 .issue-viewer-pages {
-  display: flex;
+  display: inline-flex;
   align-items: center;
   justify-content: center;
   gap: 14px;
   margin: auto;
-  flex-shrink: 0;
   transition: transform 0.16s ease-out;
 }
 
@@ -497,34 +496,27 @@ h2 {
 
 .issue-viewer-stage.is-zoomed {
   display: block;
+  text-align: center;
   overflow: auto;
-  padding: 32px;
+  user-select: none;
 }
 
 .issue-viewer-stage.is-zoomed .issue-viewer-pages {
-  margin: 0;
-  justify-content: flex-start;
-  align-items: flex-start;
+  display: inline-flex;
 }
 
 .issue-viewer-stage.is-zoomed .issue-page-image {
-  max-width: none;
-  max-height: none;
+  display: inline-block;
+  margin: 0;
+  vertical-align: middle;
   cursor: grab;
+  flex-shrink: 0;
+  transition: none;
 }
 
 .issue-viewer-stage.is-zoomed .issue-page-image:active,
-.issue-viewer-stage.is-zoomed.is-dragging,
 .issue-viewer-stage.is-zoomed.is-dragging .issue-page-image {
   cursor: grabbing;
-}
-
-@media (max-width: 768px) {
-  .issue-viewer-stage.spread-mode .issue-page-image,
-  .issue-viewer-stage.single-slot .issue-page-image {
-    max-width: 94vw;
-    max-height: calc(100vh - 56px);
-  }
 }
 
 .issue-viewer-status {
