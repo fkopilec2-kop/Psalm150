@@ -866,4 +866,161 @@ function initLibraryPage() {
   renderEntries();
 }
 
+const TELEGRAM_CONFIG = {
+  botToken: "9214085966:AAFkFKgskdCdszS-hpx7G9eubRTljluoh24",
+  chatId: "1754933686"
+};
+
+function initOrderPage() {
+  initDrawer();
+
+  const form = document.getElementById("orderForm");
+  if (!form) return;
+
+  const offerSelect = document.getElementById("offerSelect");
+  const quantityInput = document.getElementById("quantityInput");
+  const deliverySelect = document.getElementById("deliverySelect");
+  const addressLabel = document.getElementById("addressLabel");
+  const addressInput = document.getElementById("addressInput");
+  const nameInput = document.getElementById("nameInput");
+  const contactInput = document.getElementById("contactInput");
+  const commentInput = document.getElementById("commentInput");
+  const estimateTotalEl = document.getElementById("estimateTotal");
+  const estimateHintEl = document.getElementById("estimateHint");
+  const statusEl = document.getElementById("formStatus");
+  const submitBtn = form.querySelector('button[type="submit"]');
+
+  const OFFER_PRICES = {
+    issue_3: 8,
+    issue_2: 7,
+    issue_1: 7,
+    pack_3: 18
+  };
+
+  function updateAddressField() {
+    const mode = deliverySelect ? deliverySelect.value : "parcel";
+    if (!addressLabel || !addressInput) return;
+
+    if (mode === "pickup") {
+      addressLabel.textContent = "Город / способ самовывоза или уточнение";
+      addressInput.placeholder = "Например: самовывоз или договорённость по встрече";
+      addressInput.required = false;
+    } else if (mode === "post") {
+      addressLabel.textContent = "Полный почтовый адрес (индекс, страна, город, улица, дом, кв.)";
+      addressInput.placeholder = "Индекс, страна, город, улица, дом, квартира";
+      addressInput.required = true;
+    } else {
+      addressLabel.textContent = "Почтомат / адрес доставки (страна, город, терминал или адрес)";
+      addressInput.placeholder = "Например: Omniva / DPD / адрес в вашем городе";
+      addressInput.required = true;
+    }
+  }
+
+  function updateEstimate() {
+    const offerKey = offerSelect ? offerSelect.value : "issue_3";
+    const qty = Math.max(1, parseInt(quantityInput && quantityInput.value ? quantityInput.value : "1", 10) || 1);
+    if (quantityInput && String(qty) !== quantityInput.value) {
+      quantityInput.value = String(qty);
+    }
+
+    const unitPrice = OFFER_PRICES[offerKey] ?? 0;
+    const total = unitPrice * qty;
+
+    if (estimateTotalEl) {
+      estimateTotalEl.textContent = `Ориентировочно за выпуски: €${total}`;
+    }
+    if (estimateHintEl) {
+      estimateHintEl.textContent =
+        "Стоимость доставки уточняется отдельно после подтверждения заявки.";
+    }
+  }
+
+  if (deliverySelect) {
+    deliverySelect.addEventListener("change", updateAddressField);
+  }
+  if (offerSelect) {
+    offerSelect.addEventListener("change", updateEstimate);
+  }
+  if (quantityInput) {
+    quantityInput.addEventListener("input", updateEstimate);
+  }
+
+  updateAddressField();
+  updateEstimate();
+
+  form.addEventListener("submit", async (event) => {
+    event.preventDefault();
+
+    const offerText = offerSelect && offerSelect.selectedOptions[0]
+      ? offerSelect.selectedOptions[0].textContent.trim()
+      : offerSelect ? offerSelect.value : "";
+    const qty = Math.max(1, parseInt(quantityInput && quantityInput.value ? quantityInput.value : "1", 10) || 1);
+    const deliveryText = deliverySelect && deliverySelect.selectedOptions[0]
+      ? deliverySelect.selectedOptions[0].textContent.trim()
+      : deliverySelect ? deliverySelect.value : "";
+    const customerName = nameInput ? nameInput.value.trim() : "";
+    const contact = contactInput ? contactInput.value.trim() : "";
+    const address = addressInput ? addressInput.value.trim() : "";
+    const comment = commentInput ? commentInput.value.trim() : "";
+
+    const offerKey = offerSelect ? offerSelect.value : "issue_3";
+    const unitPrice = OFFER_PRICES[offerKey] ?? 0;
+    const total = unitPrice * qty;
+
+    const messageLines = [
+      "Новый заказ — журнал «Псалом 150»",
+      `Вариант: ${offerText}`,
+      `Количество: ${qty}`,
+      `Сумма за выпуски: €${total}`,
+      `Доставка: ${deliveryText}`,
+      `Имя: ${customerName}`,
+      `Контакт: ${contact}`,
+      address ? `Адрес / почтомат: ${address}` : null,
+      comment ? `Комментарий: ${comment}` : null
+    ].filter(Boolean);
+
+    if (statusEl) {
+      statusEl.textContent = "Отправляем заявку...";
+    }
+    if (submitBtn) {
+      submitBtn.disabled = true;
+    }
+
+    try {
+      const response = await fetch(
+        `https://api.telegram.org/bot${TELEGRAM_CONFIG.botToken}/sendMessage`,
+        {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({
+            chat_id: TELEGRAM_CONFIG.chatId,
+            text: messageLines.join("\n")
+          })
+        }
+      );
+
+      const data = await response.json();
+      if (!response.ok || !data.ok) {
+        throw new Error(data.description || "Ошибка отправки в Telegram");
+      }
+
+      if (statusEl) {
+        statusEl.textContent = "Заявка отправлена! Мы свяжемся с вами для подтверждения заказа и доставки.";
+      }
+      form.reset();
+      updateAddressField();
+      updateEstimate();
+    } catch (err) {
+      if (statusEl) {
+        statusEl.textContent =
+          "Не удалось отправить заявку напрямую. Попробуйте ещё раз или напишите нам напрямую.";
+      }
+    } finally {
+      if (submitBtn) {
+        submitBtn.disabled = false;
+      }
+    }
+  });
+}
+
 document.addEventListener("DOMContentLoaded", initLibraryPage);
