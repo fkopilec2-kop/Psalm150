@@ -195,120 +195,7 @@ const LIBRARY_ENTRIES = [
       "Мартин Лютер и церковное пение",
       "",
       "В 1526 году Мартин Лютер опубликовал трактат «Немецкая месса» в котором описал, правильный по его мнению, ход христианского Богослужения. С точки зрения музыки, богослов подчеркивает важность общего пения на понятном (немецком) языке в противовес только хоровому пению на латыни.",
-      "",
-      "Лютер разделяет три вида богослужений, это важно учитывать, потому что в каждом из них у пения немного отличная форма и функция.",
-      "",
-      "Подробнее об этом можно узнать из предисловия к «Немецкой мессе». Отсканируйте QR",
-      "",
-      "Среди них пение на немецком языке занимает самое важное место. В наше время мы бы назвали его евангелизационным. Вот что о нём пишет Мартин Лютер:",
-      "",
-      "«Прежде всего это делается ради простых людей и молодёжи, которых следует ежедневно наставлять в Священном Писании и Слове Божьем, дабы они были приучены к Писанию, были в нём искусны, сноровисты и сведущи, чтобы защищать свою веру и со временем научить других людей, умножая Царство Христово. Ради них и следует читать, петь, проповедовать, писать и сочинять. И если от этого будет польза, то пусть звонят все колокола, играют все органы и звучит всё, что может издавать звук».",
-      "",
-      "В богослужении песня — это инструмент который побуждает часто пассивного, равнодушного прихожанина, стать активным участником, пропевая библейские истины на простые, знакомые мелодии. На родном языке человеку стало гораздо проще их понять и принять.",
-      "",
-      "Творчество Лютера",
-      "",
-      "Интересно то, как Мартин Лютер создавал мелодии для своих песен. Часто он использовал метод контрафактуры (лат. contrafactum — «подделка» или «изменение») — это замена текста в известном музыкальном произведении при полном сохранении его мелодии.",
-      "",
-      "Иногда он брал народную мелодию и писал на неё христианский текст. Например мелодией для рождественского гимна «Vom Himmel hoch, da komm ich her» («С небес высоких я пришёл») была из шуточной застольной песни-игры для бродячих музыкантов. Но люди в церкви не могли настроиться на благоговейный лад из-за того, что мотив ассоциировался с шумом и пьяными играми. Позднее Лютер полностью отказался от этой идеи, и написал к тексту новую, собственную музыку, которая используется по сей день.",
-      "",
-      "Ещё один способ которым пользовался не только Мартин Лютер, но и многие другие композиторы в разные времена — это использование григорианского хорала как основы для мелодии. Мартин Лютер переводил латинские тексты хоралов и немного изменял ритм чтобы его было легче запомнить и исполнить простым прихожанам.",
-      "",
-      "Наследие Лютера",
-      "",
-      "Тексты Мартина Лютера всегда наполнены глубоким христианским смыслом. Часто это переработанные библейские тексты или молитвы обращенные к Богу. (Ein feste Burg ist unser Gott» (Псалом 45) и «Aus tiefer Not schrei ich zu dir» (Псалом 129).",
-      "",
-      "Самым известным его произведением стал гимн, созданный в конце 1520-х годов «Ein feste Burg ist unser Gott» («Господь наш — твердыня»), ставший манифестом Реформации. В будущем на этот мотив И. С. Бах напишет большое вокально-инструментальное произведение.",
-      "",
-      "Всего Мартин Лютер написал около 36 хоралов, многие из них в будущем стали частью других произведений немецких классиков, таким образом повлияв не только на лютеранское движение, но и на европейскую культуру в целом.",
-      "",
-      "Реформа церковного пения в XVI веке послужила отправной точкой для традиции общего пения, через которое к Богу пришли тысячи людей, и каждый из нас не раз получал ободрение и вдохновение.",
-      "",
-      "Пусть Бог благословит каждого из нас быть активным участником этого служения"
-    ]
-  },
-  {
-    id: "iss2-poem-darkness",
-    title: "Не всегда будет время тьмы",
-    rubric: "Стих",
-    journalRubric: null,
-    author: "Вера Вылегжанина",
-    issueId: 2,
-    issueTitle: "Выпуск №2",
-    issueUrl: "issue-2.html",
-    pdfUrl: null,
-    note: "Стихотворение об уповании на Бога в трудные времена и грядущем рассвете.",
-    content: [
-      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИ не вечно тебе в пути\nБудет в спину бить ветер жгучий.",
-      "",
-      "Не навеки душе твоей\nСреди зноя пустыни томиться,\nНе всегда из усталых очей\nБудут горькие слёзы литься.",
-      "",
-      "День настанет, придёт рассвет,\nВоссияет опять правда Божья.\nГде казалось, что выхода нет\nТы поймёшь, с Ним пройти всё возможно.",
-      "",
-      "И прольётся обещанный дождь\nНа иссохшую, твёрдую землю.\nВытрет слёзы с очей Господь\nИ узнаешь — Твой Бог не дремлет.",
-      "",
-      "Жди, настанет желанный день\nКогда в небо откроются двери\nИ отступит смертная тень\nДля того, кто в Мессию поверил.",
-      "",
-      "Ибо знаю, Спаситель мой жив\nОн, однажды восставши из гроба,\nСвоей Кровью смерть победив,\nВновь воссел одесную Бога.",
-      "",
-      "Он и душу мою воскресит,\nНепосильные камни отвалит.\nИисус. Его Имя — мой щит.\nВ тяжкой битве меня не оставит.",
-      "",
-      "Смерть, не властна ты надо мной!\nАд, разбиты твои оковы!\nИисус и сегодня живой!\nБуду я вспоминать это снова.",
-      "",
-      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИисус не оставит в пути,\nМы идём под рукою могучей.",
-      "",
-      "День настанет, ответ придёт,\nБог откроет небесные двери.\nВремя близко, Господь грядёт!\nО, блажен, кто Ему всё доверил.",
-      "",
-      "автор: Вера Вылегжанина"
-    ]
-  },
-  {
-    id: "iss2-poem-winner",
-    title: "Только победитель",
-    rubric: "Стих",
-    journalRubric: null,
-    author: "Вера Вылегжанина",
-    issueId: 2,
-    issueTitle: "Выпуск №2",
-    issueUrl: "issue-2.html",
-    pdfUrl: null,
-    note: "Стихотворение о стойкости, молитве и верности до конца пути.",
-    content: [
-      "Без усилий никуда ты не дойдёшь.\nУдостоится венца не каждый житель.\nТолько если победителем войдёшь,\nВход откроется в небесную обитель.",
-      "",
-      "Пусть потерпишь поражение — вставай.\nЭто не конец войны, только начало.\nНе ломайся и не унывай ,\nЕщё будет битв в пути немало.",
-      "",
-      "Наступает враг и с каждым днём\nВсё сложней тебе стоять в проломе.\nНету сил, одолевает сон,\nХочется остаться просто дома,",
-      "",
-      "Но не сможешь битву победить\nЛёжа просто на своем диване.\nНе поможет просто слёзы лить\nКогда бой подобен урагану.",
-      "",
-      "Наша цель — идти. Только вперёд.\nТак возьми же меч свой крепко в руку.\nИисус — наш вождь. Он поведёт.\nНе пугайся, даже в шторм и вьюгу.",
-      "",
-      "Даже если ветер бьёт в лицо\nИ враги всё ближе подступают —\nПобеждай, как побеждал Христос.\nЛишь таких награда ожидает.",
-      "",
-      "Встань на стражу. Силы укрепи.\nПредстоит ещё неоднократно битва\nНо победа — в Господа Крови\nИ залог успеха — есть молитва.",
-      "",
-      "Взяв щит веры и одев броню\nОставайся до могилы верным.\nПобедившего здесь на земле войну\nВ небе встретит Бог с венцом нетленным.",
-      "",
-      "автор: Вера Вылегжанина.\nЗдесь можно найти ещё больше поэзии Веры (@VERAVOLEGZANINA)."
-    ]
-  },
-  {
-    id: "iss2-song-golos-hochu",
-    title: "Голос хочу",
-    rubric: "Песня",
-    journalRubric: null,
-    author: null,
-    issueId: 2,
-    issueTitle: "Выпуск №2",
-    issueUrl: "issue-2.html",
-    pdfUrl: "Golos-hochu.pdf",
-    note: "Ноты / материал песни из 2-го выпуска (PDF).",
-    content: []
-  }
-];
-
-// Три последних выпуска всегда в порядке №3, №2, №1
+    // Три последних выпуска всегда в порядке №3, №2, №1
 const HOME_ISSUES = [
   {
     issueId: 3,
@@ -316,7 +203,7 @@ const HOME_ISSUES = [
     folder: "pages3",
     totalPages: 32,
     pdfUrl: "psalm-150-issue-3.pdf",
-    subtitle: "Свежий номер журнала «Псалом 150» (34 стр.)"
+    subtitle: "Свежий номер журнала «Псалом 150» (32 стр.)"
   },
   {
     issueId: 2,
@@ -372,42 +259,96 @@ let viewerState = {
   totalPages: 1,
   spreadMode: true,
   zoom: 1,
+  baseWidth: 0,
+  baseHeight: 0,
   loading: false
 };
+
+function ensureViewerPagesWrap(stageEl, firstImgEl) {
+  let wrap = stageEl.querySelector(".issue-viewer-pages");
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.className = "issue-viewer-pages";
+    stageEl.insertBefore(wrap, firstImgEl);
+  }
+  if (firstImgEl && firstImgEl.parentElement !== wrap) {
+    wrap.appendChild(firstImgEl);
+  }
+  let secondImgEl = document.getElementById("issuePageImageRight");
+  if (!secondImgEl && firstImgEl) {
+    secondImgEl = document.createElement("img");
+    secondImgEl.id = "issuePageImageRight";
+    secondImgEl.className = "issue-page-image";
+    wrap.appendChild(secondImgEl);
+  } else if (secondImgEl && secondImgEl.parentElement !== wrap) {
+    wrap.appendChild(secondImgEl);
+  }
+  return { wrap, firstImgEl, secondImgEl };
+}
+
+function captureBasePagesSize(wrap) {
+  if (!wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const currentZoom = viewerState.zoom || 1;
+  viewerState.baseWidth = rect.width / currentZoom;
+  viewerState.baseHeight = rect.height / currentZoom;
+}
 
 function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
   const stageEl = document.getElementById("issueViewerStage");
   if (!stageEl) return;
+  const wrap = stageEl.querySelector(".issue-viewer-pages");
+  if (!wrap) return;
 
   const clamped = Math.min(2.5, Math.max(1, Number(nextZoom.toFixed(2))));
   const prevZoom = viewerState.zoom || 1;
-  viewerState.zoom = clamped;
 
+  if (prevZoom <= 1.01 && clamped > 1.01) {
+    captureBasePagesSize(wrap);
+  }
+
+  viewerState.zoom = clamped;
   const isZoomed = clamped > 1.01;
   stageEl.classList.toggle("is-zoomed", isZoomed);
 
-  const images = stageEl.querySelectorAll(".issue-page-image");
-  images.forEach((img) => {
-    if (img.style.display === "none") return;
-    if (isZoomed) {
-      img.style.zoom = String(clamped);
-      img.style.transform = "none";
-    } else {
-      img.style.zoom = "";
-      img.style.transform = "none";
-    }
-  });
+  if (!isZoomed) {
+    wrap.style.transform = "";
+    wrap.style.transformOrigin = "";
+    wrap.style.width = "";
+    wrap.style.height = "";
+    wrap.style.minWidth = "";
+    wrap.style.minHeight = "";
+    stageEl.scrollLeft = 0;
+    stageEl.scrollTop = 0;
+    return;
+  }
+
+  if (!viewerState.baseWidth || !viewerState.baseHeight) {
+    captureBasePagesSize(wrap);
+  }
+
+  const scaledW = Math.round(viewerState.baseWidth * clamped);
+  const scaledH = Math.round(viewerState.baseHeight * clamped);
+
+  wrap.style.transformOrigin = "0 0";
+  wrap.style.transform = `scale(${clamped})`;
+  wrap.style.width = `${viewerState.baseWidth}px`;
+  wrap.style.height = `${viewerState.baseHeight}px`;
+  wrap.style.minWidth = `${scaledW}px`;
+  wrap.style.minHeight = `${scaledH}px`;
 
   if (anchorClientX !== null && anchorClientY !== null && clamped !== prevZoom) {
     const rect = stageEl.getBoundingClientRect();
-    const offsetX = anchorClientX - rect.left + stageEl.scrollLeft;
-    const offsetY = anchorClientY - rect.top + stageEl.scrollTop;
+    const viewX = anchorClientX - rect.left;
+    const viewY = anchorClientY - rect.top;
+    const contentX = stageEl.scrollLeft + viewX;
+    const contentY = stageEl.scrollTop + viewY;
     const ratio = clamped / prevZoom;
-    stageEl.scrollLeft = Math.max(0, offsetX * ratio - (anchorClientX - rect.left));
-    stageEl.scrollTop = Math.max(0, offsetY * ratio - (anchorClientY - rect.top));
-  } else if (!isZoomed) {
-    stageEl.scrollLeft = 0;
-    stageEl.scrollTop = 0;
+
+    requestAnimationFrame(() => {
+      stageEl.scrollLeft = Math.max(0, contentX * ratio - viewX);
+      stageEl.scrollTop = Math.max(0, contentY * ratio - viewY);
+    });
   }
 }
 
@@ -530,13 +471,7 @@ async function showIssuePage(pageNum) {
     viewerState.currentPage = targetPages[0];
     resetViewerZoom();
 
-    let secondImgEl = document.getElementById("issuePageImageRight");
-    if (!secondImgEl) {
-      secondImgEl = document.createElement("img");
-      secondImgEl.id = "issuePageImageRight";
-      secondImgEl.className = "issue-page-image";
-      firstImgEl.insertAdjacentElement("afterend", secondImgEl);
-    }
+    const { wrap, secondImgEl } = ensureViewerPagesWrap(stageEl, firstImgEl);
 
     const activeSpread = isSpreadViewport() && available.length === 2;
     stageEl.classList.toggle("spread-mode", isSpreadViewport());
@@ -548,16 +483,21 @@ async function showIssuePage(pageNum) {
     firstImgEl.alt = `${viewerState.issue.issueTitle} — страница ${leftItem.page}`;
     firstImgEl.style.display = "block";
 
-    if (activeSpread) {
-      const rightItem = available[1];
-      preloadedPageCache.add(rightItem.src);
-      secondImgEl.src = rightItem.src;
-      secondImgEl.alt = `${viewerState.issue.issueTitle} — страница ${rightItem.page}`;
-      secondImgEl.style.display = "block";
-    } else {
-      secondImgEl.removeAttribute("src");
-      secondImgEl.style.display = "none";
+    if (secondImgEl) {
+      if (activeSpread) {
+        const rightItem = available[1];
+        preloadedPageCache.add(rightItem.src);
+        secondImgEl.src = rightItem.src;
+        secondImgEl.alt = `${viewerState.issue.issueTitle} — страница ${rightItem.page}`;
+        secondImgEl.style.display = "block";
+      } else {
+        secondImgEl.removeAttribute("src");
+        secondImgEl.style.display = "none";
+      }
     }
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    captureBasePagesSize(wrap);
 
     if (statusEl) statusEl.textContent = "";
     preloadForCurrentView(
@@ -586,6 +526,8 @@ async function openIssueViewer(issueId) {
     totalPages: Number(issue.totalPages) || 1,
     spreadMode: window.innerWidth > 768,
     zoom: 1,
+    baseWidth: 0,
+    baseHeight: 0,
     loading: false
   };
 
@@ -601,6 +543,7 @@ function closeIssueViewer() {
   if (!modal) return;
 
   resetViewerZoom();
+  modal.classList.remove("topbar-visible");
 
   if (document.fullscreenElement) {
     document.exitFullscreen().catch(() => {});
@@ -620,6 +563,887 @@ function toggleViewerFullscreen() {
   } else {
     document.exitFullscreen().catch(() => {});
   }
+}
+
+function initIssueViewer() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  const stageEl = document.getElementById("issueViewerStage");
+  const topbarEl = modal.querySelector(".issue-viewer-topbar");
+  const prevBtn = document.getElementById("issuePrevPageBtn");
+  const nextBtn = document.getElementById("issueNextPageBtn");
+  const spreadBtn = document.getElementById("issueSpreadToggleBtn");
+  const closeBtn = document.getElementById("issueCloseViewerBtn");
+  const fsBtn = document.getElementById("issueFullscreenBtn");
+
+  modal.addEventListener("mousemove", (event) => {
+    if (!modal.classList.contains("open")) return;
+    const nearTop = event.clientY <= 52;
+    const insideTopbar = topbarEl ? topbarEl.contains(event.target) : false;
+    const hasFocusInside = topbarEl ? topbarEl.contains(document.activeElement) : false;
+    modal.classList.toggle("topbar-visible", nearTop || insideTopbar || hasFocusInside);
+  });
+
+  modal.addEventListener("mouseleave", () => {
+    modal.classList.remove("topbar-visible");
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
+    });
+  }
+
+  if (spreadBtn) {
+    spreadBtn.addEventListener("click", () => {
+      if (window.innerWidth <= 768) return;
+      viewerState.spreadMode = !viewerState.spreadMode;
+      if (viewerState.issue && modal.classList.contains("open")) {
+        showIssuePage(viewerState.currentPage);
+      } else {
+        updateViewerUi();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeIssueViewer);
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", toggleViewerFullscreen);
+  }
+
+  if (stageEl) {
+    stageEl.addEventListener(
+      "wheel",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        const shouldZoom =
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.01;
+        if (!shouldZoom) return;
+
+        event.preventDefault();
+        const step = event.deltaY < 0 ? 0.18 : -0.18;
+        applyViewerZoom(viewerState.zoom + step, event.clientX, event.clientY);
+        updateViewerUi();
+      },
+      { passive: false }
+    );
+
+    stageEl.addEventListener("dblclick", (event) => {
+      if (!event.target.classList.contains("issue-page-image")) return;
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+      } else {
+        applyViewerZoom(1.5, event.clientX, event.clientY);
+      }
+      updateViewerUi();
+    });
+
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panScrollLeft = 0;
+    let panScrollTop = 0;
+
+    stageEl.addEventListener("mousedown", (event) => {
+      if (event.button !== 0) return;
+      if (viewerState.zoom <= 1.01) return;
+      if (!event.target.closest(".issue-viewer-pages")) return;
+
+      isPanning = true;
+      stageEl.classList.add("is-dragging");
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panScrollLeft = stageEl.scrollLeft;
+      panScrollTop = stageEl.scrollTop;
+    });
+
+    window.addEventListener("mousemove", (event) => {
+      if (!isPanning) return;
+      const dx = event.clientX - panStartX;
+      const dy = event.clientY - panStartY;
+      stageEl.scrollLeft = Math.max(0, panScrollLeft - dx);
+      stageEl.scrollTop = Math.max(0, panScrollTop - dy);
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (!isPanning) return;
+      isPanning = false;
+      stageEl.classList.remove("is-dragging");
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    stageEl.addEventListener(
+      "touchstart",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (event.touches.length !== 1) return;
+
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        isSwiping = true;
+      },
+      { passive: true }
+    );
+
+    stageEl.addEventListener(
+      "touchend",
+      (event) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (!event.changedTouches || event.changedTouches.length === 0) return;
+
+        const touchEndX = event.changedTouches[0].clientX;
+        const touchEndY = event.changedTouches[0].clientY;
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
+
+        if (Math.abs(dx) < 55 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+
+        if (dx < 0) {
+          const target = getNextTargetPage();
+          if (target !== null) showIssuePage(target);
+        } else {
+          const target = getPrevTargetPage();
+          if (target !== null) showIssuePage(target);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  window.addEventListener("resize", () => {
+    if (viewerState.issue && modal.classList.contains("open")) {
+      showIssuePage(viewerState.currentPage);
+    }
+  });
+
+  document.querySelectorAll("[data-open-issue]").forEach((el) => {
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
+      const id = el.getAttribute("data-open-issue");
+      if (id) openIssueViewer(id);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("open")) return;
+    if (event.key === "Escape") {
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+        updateViewerUi();
+      } else {
+        closeIssueViewer();
+      }
+    }
+    if (event.key === "ArrowLeft") {
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
+    }
+    if (event.key === "ArrowRight") {
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
+    }
+  });
+}  "",
+      "Лютер разделяет три вида богослужений, это важно учитывать, потому что в каждом из них у пения немного отличная форма и функция.",
+      "",
+      "Подробнее об этом можно узнать из предисловия к «Немецкой мессе». Отсканируйте QR",
+      "",
+      "Среди них пение на немецком языке занимает самое важное место. В наше время мы бы назвали его евангелизационным. Вот что о нём пишет Мартин Лютер:",
+      "",
+      "«Прежде всего это делается ради простых людей и молодёжи, которых следует ежедневно наставлять в Священном Писании и Слове Божьем, дабы они были приучены к Писанию, были в нём искусны, сноровисты и сведущи, чтобы защищать свою веру и со временем научить других людей, умножая Царство Христово. Ради них и следует читать, петь, проповедовать, писать и сочинять. И если от этого будет польза, то пусть звонят все колокола, играют все органы и звучит всё, что может издавать звук».",
+      "",
+      "В богослужении песня — это инструмент который побуждает часто пассивного, равнодушного прихожанина, стать активным участником, пропевая библейские истины на простые, знакомые мелодии. На родном языке человеку стало гораздо проще их понять и принять.",
+      "",
+      "Творчество Лютера",
+      "",
+      "Интересно то, как Мартин Лютер создавал мелодии для своих песен. Часто он использовал метод контрафактуры (лат. contrafactum — «подделка» или «изменение») — это замена текста в известном музыкальном произведении при полном сохранении его мелодии.",
+      "",
+      "Иногда он брал народную мелодию и писал на неё христианский текст. Например мелодией для рождественского гимна «Vom Himmel hoch, da komm ich her» («С небес высоких я пришёл») была из шуточной застольной песни-игры для бродячих музыкантов. Но люди в церкви не могли настроиться на благоговейный лад из-за того, что мотив ассоциировался с шумом и пьяными играми. Позднее Лютер полностью отказался от этой идеи, и написал к тексту новую, собственную музыку, которая используется по сей день.",
+      "",
+      "Ещё один способ которым пользовался не только Мартин Лютер, но и многие другие композиторы в разные времена — это использование григорианского хорала как основы для мелодии. Мартин Лютер переводил латинские тексты хоралов и немного изменял ритм чтобы его было легче запомнить и исполнить простым прихожанам.",
+      "",
+      "Наследие Лютера",
+      "",
+      "Тексты Мартина Лютера всегда наполнены глубоким христианским смыслом. Часто это переработанные библейские тексты или молитвы обращенные к Богу. (Ein feste Burg ist unser Gott» (Псалом 45) и «Aus tiefer Not schrei ich zu dir» (Псалом 129).",
+      "",
+      "Самым известным его произведением стал гимн, созданный в конце 1520-х годов «Ein feste Burg ist unser Gott» («Господь наш — твердыня»), ставший манифестом Реформации. В будущем на этот мотив И. С. Бах напишет большое вокально-инструментальное произведение.",
+      "",
+      "Всего Мартин Лютер написал около 36 хоралов, многие из них в будущем стали частью других произведений немецких классиков, таким образом повлияв не только на лютеранское движение, но и на европейскую культуру в целом.",
+      "",
+      "Реформа церковного пения в XVI веке послужила отправной точкой для традиции общего пения, через которое к Богу пришли тысячи людей, и каждый из нас не раз получал ободрение и вдохновение.",
+      "",
+      "Пусть Бог благословит каждого из нас быть активным участником этого служения"
+    ]
+  },
+  {
+    id: "iss2-poem-darkness",
+    title: "Не всегда будет время тьмы",
+    rubric: "Стих",
+    journalRubric: null,
+    author: "Вера Вылегжанина",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "Стихотворение об уповании на Бога в трудные времена и грядущем рассвете.",
+    content: [
+      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИ не вечно тебе в пути\nБудет в спину бить ветер жгучий.",
+      "",
+      "Не навеки душе твоей\nСреди зноя пустыни томиться,\nНе всегда из усталых очей\nБудут горькие слёзы литься.",
+      "",
+      "День настанет, придёт рассвет,\nВоссияет опять правда Божья.\nГде казалось, что выхода нет\nТы поймёшь, с Ним пройти всё возможно.",
+      "",
+      "И прольётся обещанный дождь\nНа иссохшую, твёрдую землю.\nВытрет слёзы с очей Господь\nИ узнаешь — Твой Бог не дремлет.",
+      "",
+      "Жди, настанет желанный день\nКогда в небо откроются двери\nИ отступит смертная тень\nДля того, кто в Мессию поверил.",
+      "",
+      "Ибо знаю, Спаситель мой жив\nОн, однажды восставши из гроба,\nСвоей Кровью смерть победив,\nВновь воссел одесную Бога.",
+      "",
+      "Он и душу мою воскресит,\nНепосильные камни отвалит.\nИисус. Его Имя — мой щит.\nВ тяжкой битве меня не оставит.",
+      "",
+      "Смерть, не властна ты надо мной!\nАд, разбиты твои оковы!\nИисус и сегодня живой!\nБуду я вспоминать это снова.",
+      "",
+      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИисус не оставит в пути,\nМы идём под рукою могучей.",
+      "",
+      "День настанет, ответ придёт,\nБог откроет небесные двери.\nВремя близко, Господь грядёт!\nО, блажен, кто Ему всё доверил.",
+      "",
+      "автор: Вера Вылегжанина"
+    ]
+  },
+  {
+    id: "iss2-poem-winner",
+    title: "Только победитель",
+    rubric: "Стих",
+    journalRubric: null,
+    author: "Вера Вылегжанина",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "Стихотворение о стойкости, молитве и верности до конца пути.",
+    content: [
+      "Без усилий никуда ты не дойдёшь.\nУдостоится венца не каждый житель.\nТолько если победителем войдёшь,\nВход откроется в небесную обитель.",
+      "",
+      "Пусть потерпишь поражение — вставай.\nЭто не конец войны, только начало.\nНе ломайся и не унывай ,\nЕщё будет битв в пути немало.",
+      "",
+      "Наступает враг и с каждым днём\nВсё сложней тебе стоять в проломе.\nНету сил, одолевает сон,\nХочется остаться просто дома,",
+      "",
+      "Но не сможешь битву победить\nЛёжа просто на своем диване.\nНе поможет просто слёзы лить\nКогда бой подобен урагану.",
+      "",
+      "Наша цель — идти. Только вперёд.\nТак возьми же меч свой крепко в руку.\nИисус — наш вождь. Он поведёт.\nНе пугайся, даже в шторм и вьюгу.",
+      "",
+      "Даже если ветер бьёт в лицо\nИ враги всё ближе подступают —\nПобеждай, как побеждал Христос.\nЛишь таких награда ожидает.",
+      "",
+      "Встань на стражу. Силы укрепи.\nПредстоит ещё неоднократно битва\nНо победа — в Господа Крови\nИ залог успеха — есть молитва.",
+      "",
+      "Взяв щит веры и одев броню\nОставайся до могилы верным.\nПобедившего здесь на земле войну\nВ небе встретит Бог с венцом нетленным.",
+      "",
+      "автор: Вера Вылегжанина.\nЗдесь можно найти ещё больше поэзии Веры (@VERAVOLEGZANINA)."
+    ]
+  },
+  {
+    id: "iss2-song-golos-hochu",
+    title: "Голос хочу",
+    rubric: "Песня",
+    journalRubric: null,
+    author: null,
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: "Golos-hochu.pdf",
+    note: "Ноты / материал песни из 2-го выпуска (PDF).",
+    content: []
+  }
+];
+
+// Три последних выпуска всегда в порядке №3, №2, №1
+const HOME_ISSUES = [
+  {
+    issueId: 3,
+    issueTitle: "Выпуск №3",
+    folder: "pages3",
+    totalPages: 32,
+    pdfUrl: "psalm-150-issue-3.pdf",
+    subtitle: "Свежий номер журнала «Псалом 150» (32 стр.)"
+  },
+  {
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    folder: "pages2",
+    totalPages: 20,
+    pdfUrl: "psalm-150-issue-2.pdf",
+    subtitle: "Статьи, интервью, история и поэзия (20 стр.)"
+  },
+  {
+    issueId: 1,
+    issueTitle: "Выпуск №1",
+    folder: "pages1",
+    totalPages: 24,
+    pdfUrl: "psalm-150-issue-1.pdf",
+    subtitle: "Первый выпуск журнала «Псалом 150» (24 стр.)"
+  }
+];
+
+function formatPageName(pageNum) {
+  return `${String(pageNum).padStart(2, "0")}.png`;
+}
+
+function getPageSrc(folder, pageNum) {
+  return `${folder}/${formatPageName(pageNum)}`;
+}
+
+function checkImageExists(src) {
+  return new Promise((resolve) => {
+    const img = new Image();
+    img.onload = () => resolve(true);
+    img.onerror = () => resolve(false);
+    img.src = src;
+  });
+}
+
+const preloadedPageCache = new Set();
+
+function preloadIssuePage(folder, pageNum, totalPages) {
+  if (!folder || pageNum < 1 || pageNum > totalPages) return;
+  const src = getPageSrc(folder, pageNum);
+  if (preloadedPageCache.has(src)) return;
+
+  preloadedPageCache.add(src);
+  const img = new Image();
+  img.decoding = "async";
+  img.src = src;
+}
+
+let viewerState = {
+  issue: null,
+  currentPage: 1,
+  totalPages: 1,
+  spreadMode: true,
+  zoom: 1,
+  baseWidth: 0,
+  baseHeight: 0,
+  loading: false
+};
+
+function ensureViewerPagesWrap(stageEl, firstImgEl) {
+  let wrap = stageEl.querySelector(".issue-viewer-pages");
+  if (!wrap) {
+    wrap = document.createElement("div");
+    wrap.className = "issue-viewer-pages";
+    stageEl.insertBefore(wrap, firstImgEl);
+  }
+  if (firstImgEl && firstImgEl.parentElement !== wrap) {
+    wrap.appendChild(firstImgEl);
+  }
+  let secondImgEl = document.getElementById("issuePageImageRight");
+  if (!secondImgEl && firstImgEl) {
+    secondImgEl = document.createElement("img");
+    secondImgEl.id = "issuePageImageRight";
+    secondImgEl.className = "issue-page-image";
+    wrap.appendChild(secondImgEl);
+  } else if (secondImgEl && secondImgEl.parentElement !== wrap) {
+    wrap.appendChild(secondImgEl);
+  }
+  return { wrap, firstImgEl, secondImgEl };
+}
+
+function captureBasePagesSize(wrap) {
+  if (!wrap) return;
+  const rect = wrap.getBoundingClientRect();
+  const currentZoom = viewerState.zoom || 1;
+  viewerState.baseWidth = rect.width / currentZoom;
+  viewerState.baseHeight = rect.height / currentZoom;
+}
+
+function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
+  const stageEl = document.getElementById("issueViewerStage");
+  if (!stageEl) return;
+  const wrap = stageEl.querySelector(".issue-viewer-pages");
+  if (!wrap) return;
+
+  const clamped = Math.min(2.5, Math.max(1, Number(nextZoom.toFixed(2))));
+  const prevZoom = viewerState.zoom || 1;
+
+  if (prevZoom <= 1.01 && clamped > 1.01) {
+    captureBasePagesSize(wrap);
+  }
+
+  viewerState.zoom = clamped;
+  const isZoomed = clamped > 1.01;
+  stageEl.classList.toggle("is-zoomed", isZoomed);
+
+  if (!isZoomed) {
+    wrap.style.transform = "";
+    wrap.style.transformOrigin = "";
+    wrap.style.width = "";
+    wrap.style.height = "";
+    wrap.style.minWidth = "";
+    wrap.style.minHeight = "";
+    stageEl.scrollLeft = 0;
+    stageEl.scrollTop = 0;
+    return;
+  }
+
+  if (!viewerState.baseWidth || !viewerState.baseHeight) {
+    captureBasePagesSize(wrap);
+  }
+
+  const scaledW = Math.round(viewerState.baseWidth * clamped);
+  const scaledH = Math.round(viewerState.baseHeight * clamped);
+
+  wrap.style.transformOrigin = "0 0";
+  wrap.style.transform = `scale(${clamped})`;
+  wrap.style.width = `${viewerState.baseWidth}px`;
+  wrap.style.height = `${viewerState.baseHeight}px`;
+  wrap.style.minWidth = `${scaledW}px`;
+  wrap.style.minHeight = `${scaledH}px`;
+
+  if (anchorClientX !== null && anchorClientY !== null && clamped !== prevZoom) {
+    const rect = stageEl.getBoundingClientRect();
+    const viewX = anchorClientX - rect.left;
+    const viewY = anchorClientY - rect.top;
+    const contentX = stageEl.scrollLeft + viewX;
+    const contentY = stageEl.scrollTop + viewY;
+    const ratio = clamped / prevZoom;
+
+    requestAnimationFrame(() => {
+      stageEl.scrollLeft = Math.max(0, contentX * ratio - viewX);
+      stageEl.scrollTop = Math.max(0, contentY * ratio - viewY);
+    });
+  }
+}
+
+function resetViewerZoom() {
+  applyViewerZoom(1);
+}
+
+function isSpreadViewport() {
+  return window.innerWidth > 768 && Boolean(viewerState.spreadMode);
+}
+
+function getSpreadPages(pageNum, totalPages) {
+  if (!isSpreadViewport()) {
+    return [pageNum];
+  }
+  if (pageNum <= 1) {
+    return [1];
+  }
+  if (pageNum >= totalPages) {
+    return [totalPages];
+  }
+  const left = pageNum % 2 === 0 ? pageNum : pageNum - 1;
+  const right = left + 1 <= totalPages ? left + 1 : null;
+  return right ? [left, right] : [left];
+}
+
+function preloadForCurrentView(issue, visiblePages) {
+  if (!issue) return;
+  const total = Number(issue.totalPages) || 1;
+  visiblePages.forEach((p) => {
+    preloadIssuePage(issue.folder, p - 1, total);
+    preloadIssuePage(issue.folder, p + 1, total);
+  });
+  const maxVisible = Math.max(...visiblePages);
+  const minVisible = Math.min(...visiblePages);
+  preloadIssuePage(issue.folder, maxVisible + 1, total);
+  preloadIssuePage(issue.folder, maxVisible + 2, total);
+  preloadIssuePage(issue.folder, minVisible - 1, total);
+}
+
+function getPrevTargetPage() {
+  const cur = viewerState.currentPage;
+  if (cur <= 1) return null;
+  if (!isSpreadViewport()) return cur - 1;
+  if (cur <= 3) return 1;
+  const left = cur % 2 === 0 ? cur : cur - 1;
+  return Math.max(1, left - 2);
+}
+
+function getNextTargetPage() {
+  const cur = viewerState.currentPage;
+  const total = viewerState.totalPages;
+  if (cur >= total) return null;
+  if (!isSpreadViewport()) return cur + 1;
+  if (cur === 1) return total >= 2 ? 2 : null;
+  const left = cur % 2 === 0 ? cur : cur - 1;
+  const right = left + 1 <= total ? left + 1 : left;
+  if (right >= total) return null;
+  return right + 1;
+}
+
+function updateViewerUi() {
+  const titleEl = document.getElementById("issueViewerTitle");
+  const pageInfoEl = document.getElementById("issueViewerPageInfo");
+  const prevBtn = document.getElementById("issuePrevPageBtn");
+  const nextBtn = document.getElementById("issueNextPageBtn");
+  const spreadBtn = document.getElementById("issueSpreadToggleBtn");
+
+  if (!viewerState.issue) return;
+
+  const pages = getSpreadPages(viewerState.currentPage, viewerState.totalPages);
+  const labelPages = pages.length === 2 ? `${pages[0]}–${pages[1]}` : `${pages[0]}`;
+  const zoomSuffix = viewerState.zoom > 1.01 ? ` · ${Math.round(viewerState.zoom * 100)}%` : "";
+
+  if (titleEl) titleEl.textContent = viewerState.issue.issueTitle;
+  if (pageInfoEl) {
+    pageInfoEl.textContent = `Страница ${labelPages} / ${viewerState.totalPages}${zoomSuffix}`;
+  }
+  if (prevBtn) {
+    prevBtn.disabled = viewerState.loading || getPrevTargetPage() === null;
+  }
+  if (nextBtn) {
+    nextBtn.disabled = viewerState.loading || getNextTargetPage() === null;
+  }
+  if (spreadBtn) {
+    if (window.innerWidth <= 768) {
+      spreadBtn.textContent = "1 стр. (экран узкий)";
+      spreadBtn.disabled = true;
+    } else {
+      spreadBtn.disabled = false;
+      spreadBtn.textContent = viewerState.spreadMode ? "1 страница" : "Разворот";
+    }
+  }
+}
+
+async function showIssuePage(pageNum) {
+  const modal = document.getElementById("issueViewerModal");
+  const stageEl = document.getElementById("issueViewerStage");
+  const firstImgEl = document.getElementById("issuePageImage");
+  const statusEl = document.getElementById("issueViewerStatus");
+  if (!modal || !stageEl || !firstImgEl || !viewerState.issue) return;
+
+  if (pageNum < 1 || pageNum > viewerState.totalPages) return;
+
+  viewerState.loading = true;
+  updateViewerUi();
+  if (statusEl) statusEl.textContent = "Загрузка страницы...";
+
+  const targetPages = getSpreadPages(pageNum, viewerState.totalPages);
+  const checks = await Promise.all(
+    targetPages.map(async (p) => {
+      const src = getPageSrc(viewerState.issue.folder, p);
+      const exists = await checkImageExists(src);
+      return { page: p, src, exists };
+    })
+  );
+
+  const available = checks.filter((item) => item.exists);
+  if (available.length > 0) {
+    viewerState.currentPage = targetPages[0];
+    resetViewerZoom();
+
+    const { wrap, secondImgEl } = ensureViewerPagesWrap(stageEl, firstImgEl);
+
+    const activeSpread = isSpreadViewport() && available.length === 2;
+    stageEl.classList.toggle("spread-mode", isSpreadViewport());
+    stageEl.classList.toggle("single-slot", !activeSpread);
+
+    const leftItem = available[0];
+    preloadedPageCache.add(leftItem.src);
+    firstImgEl.src = leftItem.src;
+    firstImgEl.alt = `${viewerState.issue.issueTitle} — страница ${leftItem.page}`;
+    firstImgEl.style.display = "block";
+
+    if (secondImgEl) {
+      if (activeSpread) {
+        const rightItem = available[1];
+        preloadedPageCache.add(rightItem.src);
+        secondImgEl.src = rightItem.src;
+        secondImgEl.alt = `${viewerState.issue.issueTitle} — страница ${rightItem.page}`;
+        secondImgEl.style.display = "block";
+      } else {
+        secondImgEl.removeAttribute("src");
+        secondImgEl.style.display = "none";
+      }
+    }
+
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    captureBasePagesSize(wrap);
+
+    if (statusEl) statusEl.textContent = "";
+    preloadForCurrentView(
+      viewerState.issue,
+      available.map((x) => x.page)
+    );
+  } else {
+    const missingSrc = checks[0] ? checks[0].src : "";
+    if (statusEl) {
+      statusEl.textContent = `Файл ${missingSrc} не найден.`;
+    }
+  }
+
+  viewerState.loading = false;
+  updateViewerUi();
+}
+
+async function openIssueViewer(issueId) {
+  const issue = HOME_ISSUES.find((item) => item.issueId === Number(issueId));
+  const modal = document.getElementById("issueViewerModal");
+  if (!issue || !modal) return;
+
+  viewerState = {
+    issue,
+    currentPage: 1,
+    totalPages: Number(issue.totalPages) || 1,
+    spreadMode: window.innerWidth > 768,
+    zoom: 1,
+    baseWidth: 0,
+    baseHeight: 0,
+    loading: false
+  };
+
+  modal.classList.add("open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+
+  await showIssuePage(1);
+}
+
+function closeIssueViewer() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  resetViewerZoom();
+  modal.classList.remove("topbar-visible");
+
+  if (document.fullscreenElement) {
+    document.exitFullscreen().catch(() => {});
+  }
+
+  modal.classList.remove("open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
+function toggleViewerFullscreen() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  if (!document.fullscreenElement) {
+    modal.requestFullscreen().catch(() => {});
+  } else {
+    document.exitFullscreen().catch(() => {});
+  }
+}
+
+function initIssueViewer() {
+  const modal = document.getElementById("issueViewerModal");
+  if (!modal) return;
+
+  const stageEl = document.getElementById("issueViewerStage");
+  const topbarEl = modal.querySelector(".issue-viewer-topbar");
+  const prevBtn = document.getElementById("issuePrevPageBtn");
+  const nextBtn = document.getElementById("issueNextPageBtn");
+  const spreadBtn = document.getElementById("issueSpreadToggleBtn");
+  const closeBtn = document.getElementById("issueCloseViewerBtn");
+  const fsBtn = document.getElementById("issueFullscreenBtn");
+
+  modal.addEventListener("mousemove", (event) => {
+    if (!modal.classList.contains("open")) return;
+    const nearTop = event.clientY <= 52;
+    const insideTopbar = topbarEl ? topbarEl.contains(event.target) : false;
+    const hasFocusInside = topbarEl ? topbarEl.contains(document.activeElement) : false;
+    modal.classList.toggle("topbar-visible", nearTop || insideTopbar || hasFocusInside);
+  });
+
+  modal.addEventListener("mouseleave", () => {
+    modal.classList.remove("topbar-visible");
+  });
+
+  if (prevBtn) {
+    prevBtn.addEventListener("click", () => {
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
+    });
+  }
+
+  if (nextBtn) {
+    nextBtn.addEventListener("click", () => {
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
+    });
+  }
+
+  if (spreadBtn) {
+    spreadBtn.addEventListener("click", () => {
+      if (window.innerWidth <= 768) return;
+      viewerState.spreadMode = !viewerState.spreadMode;
+      if (viewerState.issue && modal.classList.contains("open")) {
+        showIssuePage(viewerState.currentPage);
+      } else {
+        updateViewerUi();
+      }
+    });
+  }
+
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeIssueViewer);
+  }
+
+  if (fsBtn) {
+    fsBtn.addEventListener("click", toggleViewerFullscreen);
+  }
+
+  if (stageEl) {
+    stageEl.addEventListener(
+      "wheel",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        const shouldZoom =
+          event.ctrlKey || event.metaKey || event.altKey || viewerState.zoom > 1.01;
+        if (!shouldZoom) return;
+
+        event.preventDefault();
+        const step = event.deltaY < 0 ? 0.18 : -0.18;
+        applyViewerZoom(viewerState.zoom + step, event.clientX, event.clientY);
+        updateViewerUi();
+      },
+      { passive: false }
+    );
+
+    stageEl.addEventListener("dblclick", (event) => {
+      if (!event.target.classList.contains("issue-page-image")) return;
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+      } else {
+        applyViewerZoom(1.5, event.clientX, event.clientY);
+      }
+      updateViewerUi();
+    });
+
+    let isPanning = false;
+    let panStartX = 0;
+    let panStartY = 0;
+    let panScrollLeft = 0;
+    let panScrollTop = 0;
+
+    stageEl.addEventListener("mousedown", (event) => {
+      if (event.button !== 0) return;
+      if (viewerState.zoom <= 1.01) return;
+      if (!event.target.closest(".issue-viewer-pages")) return;
+
+      isPanning = true;
+      stageEl.classList.add("is-dragging");
+      panStartX = event.clientX;
+      panStartY = event.clientY;
+      panScrollLeft = stageEl.scrollLeft;
+      panScrollTop = stageEl.scrollTop;
+    });
+
+    window.addEventListener("mousemove", (event) => {
+      if (!isPanning) return;
+      const dx = event.clientX - panStartX;
+      const dy = event.clientY - panStartY;
+      stageEl.scrollLeft = Math.max(0, panScrollLeft - dx);
+      stageEl.scrollTop = Math.max(0, panScrollTop - dy);
+    });
+
+    window.addEventListener("mouseup", () => {
+      if (!isPanning) return;
+      isPanning = false;
+      stageEl.classList.remove("is-dragging");
+    });
+
+    let touchStartX = 0;
+    let touchStartY = 0;
+    let isSwiping = false;
+
+    stageEl.addEventListener(
+      "touchstart",
+      (event) => {
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (event.touches.length !== 1) return;
+
+        touchStartX = event.touches[0].clientX;
+        touchStartY = event.touches[0].clientY;
+        isSwiping = true;
+      },
+      { passive: true }
+    );
+
+    stageEl.addEventListener(
+      "touchend",
+      (event) => {
+        if (!isSwiping) return;
+        isSwiping = false;
+
+        if (!modal.classList.contains("open")) return;
+        if (viewerState.zoom > 1.01) return;
+        if (!event.changedTouches || event.changedTouches.length === 0) return;
+
+        const touchEndX = event.changedTouches[0].clientX;
+        const touchEndY = event.changedTouches[0].clientY;
+        const dx = touchEndX - touchStartX;
+        const dy = touchEndY - touchStartY;
+
+        if (Math.abs(dx) < 55 || Math.abs(dx) <= Math.abs(dy) * 1.2) return;
+
+        if (dx < 0) {
+          const target = getNextTargetPage();
+          if (target !== null) showIssuePage(target);
+        } else {
+          const target = getPrevTargetPage();
+          if (target !== null) showIssuePage(target);
+        }
+      },
+      { passive: true }
+    );
+  }
+
+  window.addEventListener("resize", () => {
+    if (viewerState.issue && modal.classList.contains("open")) {
+      showIssuePage(viewerState.currentPage);
+    }
+  });
+
+  document.querySelectorAll("[data-open-issue]").forEach((el) => {
+    el.addEventListener("click", (event) => {
+      event.preventDefault();
+      const id = el.getAttribute("data-open-issue");
+      if (id) openIssueViewer(id);
+    });
+  });
+
+  document.addEventListener("keydown", (event) => {
+    if (!modal.classList.contains("open")) return;
+    if (event.key === "Escape") {
+      if (viewerState.zoom > 1.01) {
+        resetViewerZoom();
+        updateViewerUi();
+      } else {
+        closeIssueViewer();
+      }
+    }
+    if (event.key === "ArrowLeft") {
+      const target = getPrevTargetPage();
+      if (target !== null) showIssuePage(target);
+    }
+    if (event.key === "ArrowRight") {
+      const target = getNextTargetPage();
+      if (target !== null) showIssuePage(target);
+    }
+  });
 }
 
 function initIssueViewer() {

@@ -375,15 +375,40 @@ h2 {
   display: flex;
 }
 
+.issue-viewer-hover-zone {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 44px;
+  z-index: 2005;
+  pointer-events: auto;
+}
+
 .issue-viewer-topbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 2010;
   display: flex;
   justify-content: space-between;
   align-items: center;
   gap: 12px;
   padding: 12px 18px;
-  background: #1e1c19;
+  background: rgba(30, 28, 25, 0.96);
+  backdrop-filter: blur(6px);
   border-bottom: 1px solid #332f2a;
   flex-wrap: wrap;
+  transform: translateY(-100%);
+  transition: transform 0.2s ease;
+}
+
+.issue-viewer-hover-zone:hover + .issue-viewer-topbar,
+.issue-viewer-topbar:hover,
+.issue-viewer-topbar:focus-within,
+.issue-viewer.topbar-visible .issue-viewer-topbar {
+  transform: translateY(0);
 }
 
 .issue-viewer-title-wrap {
@@ -426,54 +451,69 @@ h2 {
 .issue-viewer-stage {
   flex: 1 1 auto;
   min-height: 0;
+  width: 100%;
+  height: 100%;
   display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 14px;
-  padding: 12px 16px;
+  align-items: safe center;
+  justify-content: safe center;
+  padding: 16px;
   overflow: auto;
   position: relative;
 }
 
+.issue-viewer-pages {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 14px;
+  margin: auto;
+  flex-shrink: 0;
+}
+
 .issue-page-image {
+  display: block;
   max-width: min(92vw, 1100px);
-  max-height: calc(100vh - 125px);
+  max-height: calc(100vh - 48px);
   width: auto;
   height: auto;
   object-fit: contain;
   box-shadow: 0 18px 45px rgba(0, 0, 0, 0.55);
   border-radius: 4px;
-  transform-origin: center center;
-  transition: transform 0.14s ease-out;
   cursor: zoom-in;
+  user-select: none;
+  -webkit-user-drag: none;
 }
 
 .issue-viewer-stage.spread-mode .issue-page-image {
   max-width: min(46vw, 720px);
-  max-height: calc(100vh - 125px);
+  max-height: calc(100vh - 48px);
 }
 
 .issue-viewer-stage.single-slot .issue-page-image {
-  max-width: min(72vw, 900px);
-  max-height: calc(100vh - 125px);
+  max-width: min(74vw, 920px);
+  max-height: calc(100vh - 48px);
 }
 
 .issue-viewer-stage.is-zoomed {
   display: block;
-  text-align: center;
   overflow: auto;
-  user-select: none;
+  padding: 32px;
+}
+
+.issue-viewer-stage.is-zoomed .issue-viewer-pages {
+  margin: 0;
+  justify-content: flex-start;
+  align-items: flex-start;
 }
 
 .issue-viewer-stage.is-zoomed .issue-page-image {
-  display: inline-block;
-  vertical-align: middle;
+  max-width: none;
+  max-height: none;
   cursor: grab;
-  flex-shrink: 0;
-  transition: none;
 }
 
 .issue-viewer-stage.is-zoomed .issue-page-image:active,
+.issue-viewer-stage.is-zoomed.is-dragging,
 .issue-viewer-stage.is-zoomed.is-dragging .issue-page-image {
   cursor: grabbing;
 }
@@ -482,12 +522,12 @@ h2 {
   .issue-viewer-stage.spread-mode .issue-page-image,
   .issue-viewer-stage.single-slot .issue-page-image {
     max-width: 94vw;
-    max-height: calc(100vh - 135px);
+    max-height: calc(100vh - 56px);
   }
 }
 
 .issue-viewer-status {
-  position: absolute;
+  position: fixed;
   bottom: 14px;
   left: 50%;
   transform: translateX(-50%);
@@ -496,6 +536,11 @@ h2 {
   padding: 6px 12px;
   border-radius: 8px;
   font-size: 0.88rem;
+  z-index: 2015;
+}
+
+.issue-viewer-status:empty {
+  display: none;
 }
 
 .issue-viewer-status:empty {
