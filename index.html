@@ -22,9 +22,9 @@
     </div>
     <div class="drawer-group">
       <div class="drawer-label">Выпуски</div>
-      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
-      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
       <a class="drawer-link" href="issue-3.html"><span>Выпуск №3</span><span>#3</span></a>
+      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
+      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
     </div>
   </aside>
 
@@ -41,80 +41,45 @@
       </div>
     </header>
 
-    <section>
-      <h2>Выпуски журнала</h2>
-      <div id="homeIssuesGrid" class="issues-grid"></div>
-    </section>
-
-    <section class="order-banner">
-      <div>
-        <h2 style="margin-bottom:6px;">Печатные номера и абонементы</h2>
-        <p class="muted" style="margin:0;">Оформить заказ на выпуск, абонемент или оптовую партию можно на отдельной странице.</p>
-      </div>
-      <a class="btn" href="order.html">Перейти к заказу</a>
-    </section>
-
-    <section class="contacts-section">
-      <h2>Связаться с редакцией</h2>
-      <div class="contacts-grid">
-        <!-- Почта -->
-        <a class="contact-card" href="mailto:Psalm150dvjs@gmail.com">
-          <span class="contact-icon-box" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M4 6h16a2 2 0 0 1 2 2v8a2 2 0 0 1-2 2H4a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2zm0 2v.4l8 5 8-5V8H4zm16 8v-5.2l-7.4 4.63a1 1 0 0 1-1.2 0L4 10.8V16h16z"/>
-            </svg>
-          </span>
-          <span class="contact-info">
-            <span class="contact-label">Почта</span>
-            <span class="contact-value">Psalm150dvjs@gmail.com</span>
-            <span class="contact-hint">Для писем и материалов</span>
-          </span>
-        </a>
-
-        <!-- YouTube -->
-        <a class="contact-card" href="https://www.youtube.com/@Psalm150-DVJS" target="_blank" rel="noopener">
-          <span class="contact-icon-box" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M21.6 7.2a2.75 2.75 0 0 0-1.94-1.95C17.95 4.8 12 4.8 12 4.8s-5.95 0-7.66.45A2.75 2.75 0 0 0 2.4 7.2 28.8 28.8 0 0 0 2 12a28.8 28.8 0 0 0 .4 4.8 2.75 2.75 0 0 0 1.94 1.95c1.71.45 7.66.45 7.66.45s5.95 0 7.66-.45a2.75 2.75 0 0 0 1.94-1.95A28.8 28.8 0 0 0 22 12a28.8 28.8 0 0 0-.4-4.8zM10 15.1V8.9l5.4 3.1-5.4 3.1z"/>
-            </svg>
-          </span>
-          <span class="contact-info">
-            <span class="contact-label">YouTube</span>
-            <span class="contact-value">@Psalm150-DVJS</span>
-            <span class="contact-hint">Аудиовыпуски и записи</span>
-          </span>
-        </a>
-
-        <!-- Telegram -->
-        <a class="contact-card" href="https://t.me/Psalm150DSVJ" target="_blank" rel="noopener">
-          <span class="contact-icon-box" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M20.66 4.71 3.38 11.38c-1.18.47-1.17 1.13-.22 1.42l4.43 1.38 10.25-6.47c.48-.3.93-.14.56.19l-8.3 7.49-.31 4.56c.45 0 .65-.21.9-.45l2.16-2.1 4.5 3.32c.83.46 1.42.22 1.63-.76l2.95-13.9c.3-1.22-.47-1.77-1.27-1.21z"/>
-            </svg>
-          </span>
-          <span class="contact-info">
-            <span class="contact-label">Telegram</span>
-            <span class="contact-value">@Psalm150DSVJ</span>
-            <span class="contact-hint">Новости, вопросы и связь</span>
-          </span>
-        </a>
-
-        <!-- Поддержка (заглушка в стиле двойного P с картинки) -->
-        <a class="contact-card" href="https://t.me/Psalm150DSVJ" target="_blank" rel="noopener">
-          <span class="contact-icon-box" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="currentColor">
-              <path d="M7.2 4.5h5.3c2.5 0 4.1 1.3 4.1 3.4 0 2.3-1.7 3.9-4.3 3.9H9.5l-.7 4.2H6.1l1.1-11.5zm2.4 5.3h1.6c1.3 0 2.2-.7 2.2-1.9 0-.9-.6-1.4-1.8-1.4H10l-.4 3.3z" opacity="0.58"/>
-              <path d="M9.8 7.5h5.3c2.5 0 4.1 1.3 4.1 3.4 0 2.3-1.7 3.9-4.3 3.9h-2.1l-.7 4.2H9.4l.4-11.5zm2.4 5.3h1.6c1.3 0 2.2-.7 2.2-1.9 0-.9-.6-1.4-1.8-1.4h-1.6l-.4 3.3z"/>
-            </svg>
-          </span>
-          <span class="contact-info">
-            <span class="contact-label">Поддержка</span>
-            <span class="contact-value">Поддержать журнал</span>
-            <span class="contact-hint">Написать в редакцию о помощи выпуску</span>
-          </span>
-        </a>
+    <section aria-label="Последние выпуски">
+      <div id="homeLatestIssues" class="issues-grid">
+        <article class="issue-card">
+          <h3>Выпуск №3</h3>
+          <p>Свежий номер журнала «Псалом 150».</p>
+          <div class="entry-actions">
+            <a class="btn" href="issue-3.html">Открыть выпуск</a>
+          </div>
+        </article>
+        <article class="issue-card">
+          <h3>Выпуск №2</h3>
+          <p>Второй выпуск: статьи, интервью, история, поэзия и материалы.</p>
+          <div class="entry-actions">
+            <a class="btn" href="issue-2.html">Открыть выпуск</a>
+          </div>
+        </article>
+        <article class="issue-card">
+          <h3>Выпуск №1</h3>
+          <p>Первый выпуск журнала «Псалом 150».</p>
+          <div class="entry-actions">
+            <a class="btn" href="issue-1.html">Открыть выпуск</a>
+          </div>
+        </article>
       </div>
     </section>
+
+    <section class="order-banner" aria-label="Заказать выпуск">
+      <a class="order-banner-link" href="order.html">
+        <span>Заказать выпуск</span>
+        <span>→</span>
+      </a>
+    </section>
+
+    <footer class="social-bar" aria-label="Соцсети и контакты">
+      <a class="social-icon-btn" href="https://www.youtube.com/@Psalm150-DVJS" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">▶</a>
+      <a class="social-icon-btn" href="mailto:Psalm150dvjs@gmail.com" aria-label="Почта" title="Почта">✉</a>
+      <a class="social-icon-btn" href="https://t.me/Psalm150DSVJ" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">✈</a>
+      <a class="social-icon-btn" href="#support" aria-label="Поддержка (скоро)" title="Поддержка (заглушка)">♥</a>
+    </footer>
   </div>
 
   <script src="app.js"></script>
