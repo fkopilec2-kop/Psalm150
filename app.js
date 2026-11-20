@@ -877,14 +877,35 @@ function initOrderPage() {
   const form = document.getElementById("orderForm");
   if (!form) return;
 
-  const offerSelect = document.getElementById("offerSelect");
-  const quantityInput = document.getElementById("quantityInput");
-  const deliverySelect = document.getElementById("deliverySelect");
+  function pickField(ids, names) {
+    for (const id of ids) {
+      const el = document.getElementById(id) || form.querySelector(`#${id}`);
+      if (el) return el;
+    }
+    for (const name of names) {
+      const el = form.querySelector(`[name="${name}"]`);
+      if (el) return el;
+    }
+    return null;
+  }
+
+  const offerSelect = pickField(["offerSelect"], ["offer"]);
+  const quantityInput = pickField(["quantityInput"], ["quantity", "qty"]);
+  const deliverySelect = pickField(["deliverySelect"], ["delivery"]);
   const addressLabel = document.getElementById("addressLabel");
-  const addressInput = document.getElementById("addressInput");
-  const nameInput = document.getElementById("nameInput");
-  const contactInput = document.getElementById("contactInput");
-  const commentInput = document.getElementById("commentInput");
+  const addressInput = pickField(["addressInput"], ["address"]);
+  const nameInput = pickField(
+    ["nameInput", "customerName", "orderName"],
+    ["name", "customer_name", "customerName"]
+  );
+  const contactInput = pickField(
+    ["contactInput", "contactValue", "orderContact"],
+    ["contact", "phone", "telegram", "email"]
+  );
+  const commentInput = pickField(
+    ["commentInput", "notesInput", "extraInput"],
+    ["comment", "notes", "extra", "issues"]
+  );
   const estimateTotalEl = document.getElementById("estimateTotal");
   const estimateHintEl = document.getElementById("estimateHint");
   const statusEl = document.getElementById("formStatus");
@@ -897,29 +918,40 @@ function initOrderPage() {
     pack_3: 18
   };
 
+  if (nameInput) nameInput.required = true;
+  if (contactInput) contactInput.required = true;
+  if (quantityInput) {
+    quantityInput.required = true;
+    quantityInput.min = "1";
+    if (!quantityInput.value) quantityInput.value = "1";
+  }
+  if (addressInput) addressInput.required = false;
+  if (commentInput) commentInput.required = false;
+
   function updateAddressField() {
     const mode = deliverySelect ? deliverySelect.value : "parcel";
     if (!addressLabel || !addressInput) return;
 
+    addressInput.required = false;
+
     if (mode === "pickup") {
-      addressLabel.textContent = "Город / способ самовывоза или уточнение";
-      addressInput.placeholder = "Например: самовывоз или договорённость по встрече";
-      addressInput.required = false;
+      addressLabel.textContent = "Город / уточнение по самовывозу (необязательно)";
+      addressInput.placeholder = "Например: город или удобный способ встречи (необязательно)";
     } else if (mode === "post") {
-      addressLabel.textContent = "Полный почтовый адрес (индекс, страна, город, улица, дом, кв.)";
-      addressInput.placeholder = "Индекс, страна, город, улица, дом, квартира";
-      addressInput.required = true;
+      addressLabel.textContent = "Почтовый адрес (необязательно)";
+      addressInput.placeholder = "Индекс, страна, город, улица, дом, квартира (необязательно)";
     } else {
-      addressLabel.textContent = "Почтомат / адрес доставки (страна, город, терминал или адрес)";
-      addressInput.placeholder = "Например: Omniva / DPD / адрес в вашем городе";
-      addressInput.required = true;
+      addressLabel.textContent = "Почтомат / адрес доставки (необязательно)";
+      addressInput.placeholder = "Например: Omniva / DPD / город (необязательно)";
     }
   }
 
   function updateEstimate() {
-    const offerKey = offerSelect ? offerSelect.value : "issue_3";
-    const qty = Math.max(1, parseInt(quantityInput && quantityInput.value ? quantityInput.value : "1", 10) || 1);
-    if (quantityInput && String(qty) !== quantityInput.value) {
+    const offerKey = offerSelect ? offerSelect.value : "";
+    const rawQty = quantityInput ? parseInt(quantityInput.value, 10) : 1;
+    const qty = Number.isFinite(rawQty) && rawQty > 0 ? rawQty : 1;
+
+    if (quantityInput && quantityInput.value !== "" && String(qty) !== quantityInput.value) {
       quantityInput.value = String(qty);
     }
 
@@ -943,6 +975,7 @@ function initOrderPage() {
   }
   if (quantityInput) {
     quantityInput.addEventListener("input", updateEstimate);
+    quantityInput.addEventListener("change", updateEstimate);
   }
 
   updateAddressField();
@@ -951,32 +984,54 @@ function initOrderPage() {
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
 
-    const offerText = offerSelect && offerSelect.selectedOptions[0]
-      ? offerSelect.selectedOptions[0].textContent.trim()
-      : offerSelect ? offerSelect.value : "";
-    const qty = Math.max(1, parseInt(quantityInput && quantityInput.value ? quantityInput.value : "1", 10) || 1);
-    const deliveryText = deliverySelect && deliverySelect.selectedOptions[0]
-      ? deliverySelect.selectedOptions[0].textContent.trim()
-      : deliverySelect ? deliverySelect.value : "";
+    const offerVal = offerSelect ? offerSelect.value.trim() : "";
+    const offerText =
+      offerSelect && offerSelect.selectedOptions[0]
+        ? offerSelect.selectedOptions[0].textContent.trim()
+        : offerVal;
+    const rawQty = quantityInput ? parseInt(quantityInput.value, 10) : 0;
     const customerName = nameInput ? nameInput.value.trim() : "";
     const contact = contactInput ? contactInput.value.trim() : "";
+    const deliveryText =
+      deliverySelect && deliverySelect.selectedOptions[0]
+        ? deliverySelect.selectedOptions[0].textContent.trim()
+        : deliverySelect
+        ? deliverySelect.value.trim()
+        : "";
     const address = addressInput ? addressInput.value.trim() : "";
     const comment = commentInput ? commentInput.value.trim() : "";
 
-    const offerKey = offerSelect ? offerSelect.value : "issue_3";
-    const unitPrice = OFFER_PRICES[offerKey] ?? 0;
-    const total = unitPrice * qty;
+    if (!customerName) {
+      if (statusEl) statusEl.textContent = "Пожалуйста, укажите имя — это обязательное поле.";
+      if (nameInput) nameInput.focus();
+      return;
+    }
+
+    if (!contact) {
+      if (statusEl) statusEl.textContent = "Пожалуйста, укажите контакт (Telegram, телефон или почту) — это обязательное поле.";
+      if (contactInput) contactInput.focus();
+      return;
+    }
+
+    if (!Number.isFinite(rawQty) || rawQty < 1) {
+      if (statusEl) statusEl.textContent = "Укажите количество экземпляров (минимум 1) — это обязательное поле.";
+      if (quantityInput) quantityInput.focus();
+      return;
+    }
+
+    const unitPrice = OFFER_PRICES[offerVal] ?? 0;
+    const total = unitPrice * rawQty;
 
     const messageLines = [
       "Новый заказ — журнал «Псалом 150»",
-      `Вариант: ${offerText}`,
-      `Количество: ${qty}`,
-      `Сумма за выпуски: €${total}`,
-      `Доставка: ${deliveryText}`,
       `Имя: ${customerName}`,
       `Контакт: ${contact}`,
+      offerText ? `Вариант: ${offerText}` : null,
+      `Количество: ${rawQty}`,
+      `Сумма за выпуски: €${total}`,
+      deliveryText ? `Доставка: ${deliveryText}` : null,
       address ? `Адрес / почтомат: ${address}` : null,
-      comment ? `Комментарий: ${comment}` : null
+      comment ? `Дополнительно: ${comment}` : null
     ].filter(Boolean);
 
     if (statusEl) {
@@ -1005,9 +1060,11 @@ function initOrderPage() {
       }
 
       if (statusEl) {
-        statusEl.textContent = "Заявка отправлена! Мы свяжемся с вами для подтверждения заказа и доставки.";
+        statusEl.textContent =
+          "Заявка отправлена! Мы свяжемся с вами для подтверждения заказа и доставки.";
       }
       form.reset();
+      if (quantityInput) quantityInput.value = "1";
       updateAddressField();
       updateEstimate();
     } catch (err) {
