@@ -1,450 +1,510 @@
-const TELEGRAM_CONFIG = {
-  botToken: "9214085966:AAFkFKgskdCdszS-hpx7G9eubRTljluoh24",
-  chatId: "1754933686"
-};
-
-const ISSUES_DATA = [
-  {
-    id: 1,
-    slug: "issue-1.html",
-    title: "Выпуск №1",
-    pagesCount: 24,
-    cover: "pages1/01.png",
-    pdf: "psalm-150-issue-1.pdf",
-    folder: "pages1",
-    rubrics: [
-      "Открытие номера и слово редакции",
-      "Интервью выпуска",
-      "Песня / ноты",
-      "История / очерк"
-    ]
-  },
-  {
-    id: 2,
-    slug: "issue-2.html",
-    title: "Выпуск №2",
-    pagesCount: 20,
-    cover: "pages2/01.png",
-    pdf: "psalm-150-issue-2.pdf",
-    folder: "pages2",
-    rubrics: [
-      "Слово выпуска",
-      "Интервью с музыкантом",
-      "Песня / ноты",
-      "Разбор и заметки"
-    ]
-  },
-  {
-    id: 3,
-    slug: "issue-3.html",
-    title: "Выпуск №3",
-    pagesCount: 34,
-    cover: "pages3/01.png",
-    pdf: "psalm-150-issue-3.pdf",
-    folder: "pages3",
-    rubrics: [
-      "Главный материал номера",
-      "Интервью",
-      "Песня / ноты",
-      "Истории и свидетельства"
-    ]
-  }
-];
-
-// Каталог материалов для библиотеки и поиска (можно пополнять реальными названиями и авторами)
 const LIBRARY_ENTRIES = [
   {
-    id: "m1",
-    title: "Интервью — Выпуск №1",
+    id: "iss2-interview-andy",
+    title: "Как это было с Анди",
     rubric: "Интервью",
-    author: "Редакция «Псалом 150»",
-    issueTitle: "Выпуск №1",
-    issueUrl: "issue-1.html",
-    note: "Разговор о музыке, служении и творчестве."
-  },
-  {
-    id: "m2",
-    title: "Ноты и текст — Выпуск №1",
-    rubric: "Песни и ноты",
-    author: "Авторы Выпуска №1",
-    issueTitle: "Выпуск №1",
-    issueUrl: "issue-1.html",
-    note: "Музыкальный материал из первого номера."
-  },
-  {
-    id: "m3",
-    title: "История — Выпуск №2",
-    rubric: "Истории",
-    author: "Авторы Выпуска №2",
+    journalRubric: "«Как это было?»",
+    author: "Анди Ильин",
+    issueId: 2,
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
-    note: "Очерк и живая история из второго выпуска."
+    pdfUrl: null,
+    note: "Свидетельство о пути в музыке, оркестре, регентстве и смирении перед Богом.",
+    content: [
+      "«Я понял, что путь смирения — самый благословенный и угодный нашему Богу путь».",
+      "",
+      "Я родился и вырос в Германии в христианской семье. В семье, где всегда раздавалось эхо христианских псалмов из родительских уст и наших маленьких детских сердец. С восьми лет я начал самостоятельно осваивать пианино, затем на протяжении нескольких лет брал частные уроки игры на гитаре. Но однажды, в 2006 году, который навсегда изменил мою жизнь, нашу поместную церковь посетил оркестр. Его звучание пронзило меня до глубины души, и казалось, будто небо опустилось на землю, заполняя всё пространство величием нашего Господа.",
+      "",
+      "Тогда, на том служении, в возрасте двенадцати лет, склонившись перед Богом, я сказал: «Боже, если есть на это Твоя воля, я бы очень хотел иметь такой оркестр в нашей церкви и трудиться в этом служении».",
+      "",
+      "Незадолго до моего тринадцатилетия, посетив одну семью в другом городе Германии, я впервые взял в руки скрипку. Нежное звучание её струн напоминало мне о том чудесном оркестре. В тот день на протяжении трёх часов я пытался играть псалом «Славьте Бога», что только усилило моё огромное желание научиться играть на этом инструменте.",
+      "",
+      "Несмотря на многие преграды, в четырнадцать лет я начал знакомиться со скрипкой, а через четыре года записался на частные уроки. Так я отучился девять лет.",
+      "",
+      "В 2014 году в нашей церкви уже образовался маленький оркестр, где я начал играть на скрипке, параллельно пытаясь дома аранжировать простые песни. В возрасте двадцати лет я принёс регенту церковного оркестра песню «Господи, услышь», в которой расписал хоровую партию для оркестра (сейчас я никогда бы такое не написал, но это было начало). Регент оркестра сказал: «Анди, я хочу, чтобы ты это продирижировал».",
+      "",
+      "Так, по желанию регента, не имея образования и обладая только базовыми знаниями, я впервые поднял свои легко дрожащие руки перед нашим маленьким оркестром.",
+      "",
+      "С 2015 по 2018 год я учился в христианской регентской школе в Германии. Желание, которое я изъявил Богу в 12 лет, — исполнилось. Позже, на дополнительных курсах, образовалась отдельная группа, в которой нас начали учить голосоведению. Это была ещё одна моя мечта — научиться правильно писать аранжировки. Тогда я ясно понял, что хочу и буду развиваться в этом направлении.",
+      "",
+      "В 2020 году друзья из Эстонии пригласили меня участвовать в оркестровом лагере, где была нужда в дирижёре. Так появилось ещё одно направление моего служения — труд в музыкальных лагерях.",
+      "",
+      "Последние два года учёбы на курсах были для меня большим испытанием. Бог начал обрабатывать меня, лепить из меня сосуд, который нужен был для труда на ниве Господней. Я был глиной, у которой было много недостатков: упрямства, гордости. Ведь музыканту, у которого, кажется, всё получается, не один раз приходят мысли: «как же я это хорошо могу».",
+      "",
+      "Не один раз я видел в своей жизни, как Бог преподносил уроки смирения и осознания того, что без Бога мы ничего не можем. Оглядываясь назад, я вижу, как Бог через это от многого сохранил и ещё больше благословил.",
+      "",
+      "Помню, на одной из встреч регентов, где присутствовали и служители, я предложил организовать подростковый хор в церкви. Была необходимость и достаточно регентов, однако один служитель наотрез сказал: «Нет». Я предложил ещё некоторые идеи, на что он также отвечал: «Нет, мы этого делать не будем».",
+      "",
+      "Я не мог понять, в чём дело: на все мои идеи служитель ясно давал понять — нет, не время.",
+      "",
+      "Потом мне рассказали, что он сам тогда не мог этого объяснить, но внутри у него было ясное осознание того, что нужно говорить «нет».",
+      "",
+      "Вначале было тяжело, я просил у Бога помощи смириться в этой ситуации. В дальнейшем получилось так, что один из регентов по некоторым обстоятельствам не смог продолжать регентскую школу, второй переехал в другую церковь, третий перешёл в другое служение. Так я понял: если бы мы тогда начали подростковый хор, нам пришлось бы его просто оставить.",
+      "",
+      "Я ещё раз осознал, что музыканту нужны не только уроки музыкальной регентской школы, но и уроки руководства Духа Святого. Как на самом деле важно в этом служении слышать голос Духа Святого, чтобы держаться правильного Божьего пути.",
+      "",
+      "Я понял, что путь смирения — самый благословенный и угодный нашему Богу путь. Ведь наш Христос выбрал тот же путь. Путь со страданиями, болями, слезами и оскорблениями.",
+      "",
+      "Помоги, Господь, мне и каждому, кто трудится на ниве Божьей, каждый день выбирать этот путь до конца своей жизни и прийти с полными руками плодов к нашему Христу.",
+      "",
+      "Ему да будет честь и слава!",
+      "",
+      "Подпись к фото: Оркестровый лагерь, благодарность сотрудникам. Анди в центре. (2025)"
+    ]
   },
   {
-    id: "m4",
-    title: "Песня / ноты — Выпуск №2",
-    rubric: "Песни и ноты",
-    author: "Редакция «Псалом 150»",
+    id: "iss2-theory-chorister",
+    title: "Что нужно знать хористу о своём голосе",
+    rubric: "Музыкальная теория",
+    journalRubric: "По ту сторону нот",
+    author: "Вероника Стасилевич-Балманжи",
+    issueId: 2,
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
-    note: "Песенный материал второго номера."
+    pdfUrl: null,
+    note: "Правила гигиены голоса для певцов и рекомендации дирижёру.",
+    content: [
+      "«Как и любой другой инструмент музыканта, голос требует особого внимания и ухода. Ведь голос — это и есть инструмент».",
+      "",
+      "Подобно тому, как скрипачи полируют свои скрипки, натирают смычки канифолью, духовики начищают медные трубы, обеспечивая весь необходимый уход за инструментом, певцы тоже должны ухаживать за своим голосом.",
+      "",
+      "Для того, чтобы весь голососовой аппарат был в хорошей форме, о нём нужно заботиться. Для этого и существует такое понятие, как гигиена голоса. Её особенно важно соблюдать, если вы поёте, выступаете или много говорите.",
+      "",
+      "Гигиена голоса — это система привычек и правил, которые помогают сохранить голос здоровым, чистым и выносливым.",
+      "",
+      "Правила для певцов",
+      "",
+      "• Не употребляйте перед нагрузкой на голос продукты, которые негативно влияют на связки и раздражают горло. К ним относятся орехи, печенье, шоколад, мороженое, семечки. Также стоит быть осторожным с острой, слишком солёной, горячей и холодной пищей.",
+      "• Не рекомендуется петь сразу после приёма пищи, так как это мешает естественному дыханию.",
+      "• Не пойте в болезненном состоянии — это одна из самых частых причин появления узелков.",
+      "• В холодное время года защищайте не только голову и шею от мороза и переохлаждения, но и голос: не разговаривайте и не пойте слишком много при температуре ниже +10 °C.",
+      "• Не подвергайте голосовой аппарат резким сменам температуры. Голосу вредят пыль и сухой воздух. После пения нельзя сразу выходить на улицу — голосовому аппарату нужно время, чтобы «остыть».",
+      "• Увлажняйте связки во время занятий простой тёплой водой. Желательно, чтобы в помещении был влажный воздух, так как сухие связки быстрее травмируются.",
+      "• Начинайте занятия с распевки — это важная часть гигиены голоса. Её цель схожа с разминкой спортсменов перед тренировкой. Распевание помогает подготовить голосовые связки и весь голосовой аппарат к работе. Не рекомендуется начинать пение сразу на fortissimo — неразогретый голос быстро утомится. Начинать следует с умеренного звучания (mezzo-forte), постепенно увеличивая силу звука до forte и fortissimo.",
+      "• Недопустимы длительное пение без перерывов, работа в несвойственной данному голосу тесситуре, злоупотребление высокими нотами и форсированным звучанием. Следует избегать чрезмерной речевой нагрузки, сильно утомляющей голос.",
+      "",
+      "Соблюдение этих правил помогает предотвратить заболевания голосового аппарата и создаёт условия, которые обеспечивают возможность сохранить голос для полноценной и продуктивной работы на долгие годы.",
+      "",
+      "Рекомендации Дирижёру",
+      "",
+      "Дирижёру очень важно выполнять эти требования (это возможно даже при наличии ограниченных голосовых данных), поскольку он должен уметь показать голосом то, чего хочет добиться от певцов.",
+      "",
+      "Выразительно спетая фраза и чётко оформленная мысль, переданная ясной и конкретной речью, в значительной степени облегчат работу дирижёра с хором."
+    ]
   },
   {
-    id: "m5",
-    title: "Интервью — Выпуск №3",
-    rubric: "Интервью",
-    author: "Авторы Выпуска №3",
-    issueTitle: "Выпуск №3",
-    issueUrl: "issue-3.html",
-    note: "Беседа из третьего выпуска."
+    id: "iss2-sermon-instrument",
+    title: "Музыкант — инструмент в руках Бога",
+    rubric: "Проповедь",
+    journalRubric: "То, что хотелось сказать",
+    author: "Артём Русалеев",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "Размышление о предназначении тела и служении музыканта на основе 1 Кор. 6:12–20.",
+    content: [
+      "«Не знаете ли, что тела ваши суть храм живущего в вас Святого Духа, Которого имеете вы от Бога, и вы не свои? Ибо вы куплены дорогою ценою. Посему прославляйте Бога и в телах ваших и в душах ваших, которые суть Божии» (1 Кор. 6:19–20).",
+      "",
+      "Темой сегодняшней статьи возьму отрывок из 1 Кор. 6:12–20. Для большего понимания смысла и общей картины прочтите его перед тем, как продолжить.",
+      "",
+      "Как бы ни казались слова апостола Павла «заезженными», всё же стоит обратить на них внимание. Данная статья не предполагает полного анализа текста, потому буду краток.",
+      "",
+      "Итак, начнём.",
+      "",
+      "Предназначение тела",
+      "",
+      "Рассмотрим главный тезис этого отрывка — предназначение тела.",
+      "",
+      "Во времена апостола Павла отношение к телу было неоднозначным. Одни (Платоники) считали, что тело — это тюрьма, временная оболочка, сковывающая и не позволяющая «расправиться» вечной душе. Другие — боготворили тело, особенно мужское, как символ власти, силы и героизма. Третьи были движимы идеологией, которую можно выразить так: «Моё тело — моё дело. Что хочу, то и делаю».",
+      "",
+      "Апостол Павел проливает божественный свет на истинное предназначение тела. Он противопоставляет идее «тело — темница» истину: тело — «храм Духа Святого». Но при этом из текста видно, что тело может стать инструментом греха, на что Павел отвечает: «Да не будет».",
+      "",
+      "Тело человека имеет большое значение для Бога, равно как дух и душа. Всё принадлежит Ему — и тело, и сама жизнь человека. Более того, Бог воскресит наши тела. Он воссоздаст их для вечной жизни в иной славе. Но это будет совершенное тело, очищенное для жизни в вечном свете. Тело не просто «фантик», не имеющий значимости, оно — часть нашего «я», которое причастно к вечности. И это подтверждено воскресением Иисуса Христа.",
+      "",
+      "Предназначение тела христианина",
+      "",
+      "Первое — быть инструментом праведности.",
+      "",
+      "Как пишет апостол Павел в послании к Римлянам:",
+      "",
+      "«...представьте себя Богу, как оживших из мёртвых, и члены ваши Богу в орудия праведности» (Рим. 6:13).",
+      "",
+      "Второе — быть храмом для Духа Святого.",
+      "",
+      "Не побоюсь сказать, что пламенное желание Бога в том, чтобы человек был «Боговместилищем» — сосудом, способным вмещать присутствие бесконечного Бога.",
+      "",
+      "Этот замысел Божий постепенно развивался и достиг своей реализации в том, что Бог поселился и обитал среди народа сначала в скинии, а затем в храме, куда доступ имел лишь первосвященник один раз в году. Но благодаря жертве Иисуса Христа, грех, который делал человека непригодным для Божьего присутствия — был устранён. Теперь рождённый свыше христианин является храмом Святого Духа и имеет доступ к Богу постоянно.",
+      "",
+      "Бог проживает с нами нашу жизнь всегда и везде. Он хочет действовать и действует через нас. Мы предоставляем себя как инструмент для выражения Его воли, Его характера и Его дела в этом мире. Какое же это высокое, сакральное и божественное предназначение.",
+      "",
+      "Понимание и осознание этого предназначения должно менять образ жизни и наполнять сердце благоговением.",
+      "",
+      "Музыкант как инструмент Бога",
+      "",
+      "С учётом всего вышесказанного ответственно провозглашаю:",
+      "",
+      "Музыкант, живущий Христом и осознающий себя храмом Божиим, становится каналом, через который Бог обращается зачастую напрямую к душе, и, минуя логику, несёт именно то, в чём она отчаянно нуждается.",
+      "",
+      "Музыкант! Ты готов предоставить себя в руки этого «Великого Мастера»?",
+      "",
+      "Так когда-то было с Давидом:",
+      "",
+      "«И когда дух от Бога бывал на Сауле, то Давид, взяв гусли, играл, — и отраднее и лучше становилось Саулу, и дух злой отступал от него». (1 Цар. 16:23)",
+      "",
+      "Талант, которым обладает музыкант, не его заслуга или достижение. Это Божье дарование и призыв к сотрудничеству. Потому это не отменяет личности музыканта и его ответственности.",
+      "",
+      "Речь идёт о синергии, где задачей музыканта является развить и верно употребить данную Богом способность быть чистым каналом для Божьего действия во всякое время. И неважно, в церкви или в светском обществе.",
+      "",
+      "Погоня за славой и чувство собственной значимости — ил, засоряющий «канал». Убегай этого, музыкант!",
+      "",
+      "Христианин-музыкант призван быть:",
+      "— трубой, возвещающей о Христовой славе;",
+      "— органом, через который льётся величие и святость Христа;",
+      "— арфой, несущей утешение, сострадание и покой усталой душе.",
+      "",
+      "Заключение",
+      "",
+      "Запомни, а лучше запиши прямо на скрижалях сердца следующее:",
+      "",
+      "любой музыкальный инструмент звучит совершенно, лишь находясь в руках Великого Мастера.",
+      "",
+      "Музыкант-христианин должен быть осознанным и послушным инструментом в руках Бога, живущего в Нём. Вся слава принадлежит лишь Ему одному, а не «инструменту».",
+      "",
+      "Музыкант! Ты готов предоставить себя в руки этого «Великого Мастера»?",
+      "",
+      "Здесь Артём делится своими мыслями: @RUSART1986"
+    ]
   },
   {
-    id: "m6",
-    title: "Песня / ноты — Выпуск №3",
-    rubric: "Песни и ноты",
-    author: "Редакция «Псалом 150»",
-    issueTitle: "Выпуск №3",
-    issueUrl: "issue-3.html",
-    note: "Ноты и материал из третьего выпуска."
+    id: "iss2-history-luther",
+    title: "История Мартина Лютера",
+    rubric: "Историческая справка",
+    journalRubric: "Записки прошлого",
+    author: "Иоганн Филипп Капиц",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "О роли Мартина Лютера (1483–1546) в реформе церковного пения и создании хоралов.",
+    content: [
+      "Записки прошлого",
+      "Мартин Лютер (1483–1546)",
+      "Статью подготовил Иоганн Филипп Капиц",
+      "",
+      "Мартин Лютер и церковное пение",
+      "",
+      "В 1526 году Мартин Лютер опубликовал трактат «Немецкая месса» в котором описал, правильный по его мнению, ход христианского Богослужения. С точки зрения музыки, богослов подчеркивает важность общего пения на понятном (немецком) языке в противовес только хоровому пению на латыни.",
+      "",
+      "Лютер разделяет три вида богослужений, это важно учитывать, потому что в каждом из них у пения немного отличная форма и функция.",
+      "",
+      "Подробнее об этом можно узнать из предисловия к «Немецкой мессе». Отсканируйте QR",
+      "",
+      "Среди них пение на немецком языке занимает самое важное место. В наше время мы бы назвали его евангелизационным. Вот что о нём пишет Мартин Лютер:",
+      "",
+      "«Прежде всего это делается ради простых людей и молодёжи, которых следует ежедневно наставлять в Священном Писании и Слове Божьем, дабы они были приучены к Писанию, были в нём искусны, сноровисты и сведущи, чтобы защищать свою веру и со временем научить других людей, умножая Царство Христово. Ради них и следует читать, петь, проповедовать, писать и сочинять. И если от этого будет польза, то пусть звонят все колокола, играют все органы и звучит всё, что может издавать звук».",
+      "",
+      "В богослужении песня — это инструмент который побуждает часто пассивного, равнодушного прихожанина, стать активным участником, пропевая библейские истины на простые, знакомые мелодии. На родном языке человеку стало гораздо проще их понять и принять.",
+      "",
+      "Творчество Лютера",
+      "",
+      "Интересно то, как Мартин Лютер создавал мелодии для своих песен. Часто он использовал метод контрафактуры (лат. contrafactum — «подделка» или «изменение») — это замена текста в известном музыкальном произведении при полном сохранении его мелодии.",
+      "",
+      "Иногда он брал народную мелодию и писал на неё христианский текст. Например мелодией для рождественского гимна «Vom Himmel hoch, da komm ich her» («С небес высоких я пришёл») была из шуточной застольной песни-игры для бродячих музыкантов. Но люди в церкви не могли настроиться на благоговейный лад из-за того, что мотив ассоциировался с шумом и пьяными играми. Позднее Лютер полностью отказался от этой идеи, и написал к тексту новую, собственную музыку, которая используется по сей день.",
+      "",
+      "Ещё один способ которым пользовался не только Мартин Лютер, но и многие другие композиторы в разные времена — это использование григорианского хорала как основы для мелодии. Мартин Лютер переводил латинские тексты хоралов и немного изменял ритм чтобы его было легче запомнить и исполнить простым прихожанам.",
+      "",
+      "Наследие Лютера",
+      "",
+      "Тексты Мартина Лютера всегда наполнены глубоким христианским смыслом. Часто это переработанные библейские тексты или молитвы обращенные к Богу. (Ein feste Burg ist unser Gott» (Псалом 45) и «Aus tiefer Not schrei ich zu dir» (Псалом 129).",
+      "",
+      "Самым известным его произведением стал гимн, созданный в конце 1520-х годов «Ein feste Burg ist unser Gott» («Господь наш — твердыня»), ставший манифестом Реформации. В будущем на этот мотив И. С. Бах напишет большое вокально-инструментальное произведение.",
+      "",
+      "Всего Мартин Лютер написал около 36 хоралов, многие из них в будущем стали частью других произведений немецких классиков, таким образом повлияв не только на лютеранское движение, но и на европейскую культуру в целом.",
+      "",
+      "Реформа церковного пения в XVI веке послужила отправной точкой для традиции общего пения, через которое к Богу пришли тысячи людей, и каждый из нас не раз получал ободрение и вдохновение.",
+      "",
+      "Пусть Бог благословит каждого из нас быть активным участником этого служения"
+    ]
+  },
+  {
+    id: "iss2-poem-darkness",
+    title: "Не всегда будет время тьмы",
+    rubric: "Стих",
+    journalRubric: null,
+    author: "Вера Вылегжанина",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "Стихотворение об уповании на Бога в трудные времена и грядущем рассвете.",
+    content: [
+      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИ не вечно тебе в пути\nБудет в спину бить ветер жгучий.",
+      "",
+      "Не навеки душе твоей\nСреди зноя пустыни томиться,\nНе всегда из усталых очей\nБудут горькие слёзы литься.",
+      "",
+      "День настанет, придёт рассвет,\nВоссияет опять правда Божья.\nГде казалось, что выхода нет\nТы поймёшь, с Ним пройти всё возможно.",
+      "",
+      "И прольётся обещанный дождь\nНа иссохшую, твёрдую землю.\nВытрет слёзы с очей Господь\nИ узнаешь — Твой Бог не дремлет.",
+      "",
+      "Жди, настанет желанный день\nКогда в небо откроются двери\nИ отступит смертная тень\nДля того, кто в Мессию поверил.",
+      "",
+      "Ибо знаю, Спаситель мой жив\nОн, однажды восставши из гроба,\nСвоей Кровью смерть победив,\nВновь воссел одесную Бога.",
+      "",
+      "Он и душу мою воскресит,\nНепосильные камни отвалит.\nИисус. Его Имя — мой щит.\nВ тяжкой битве меня не оставит.",
+      "",
+      "Смерть, не властна ты надо мной!\nАд, разбиты твои оковы!\nИисус и сегодня живой!\nБуду я вспоминать это снова.",
+      "",
+      "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИисус не оставит в пути,\nМы идём под рукою могучей.",
+      "",
+      "День настанет, ответ придёт,\nБог откроет небесные двери.\nВремя близко, Господь грядёт!\nО, блажен, кто Ему всё доверил.",
+      "",
+      "автор: Вера Вылегжанина"
+    ]
+  },
+  {
+    id: "iss2-poem-winner",
+    title: "Только победитель",
+    rubric: "Стих",
+    journalRubric: null,
+    author: "Вера Вылегжанина",
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: null,
+    note: "Стихотворение о стойкости, молитве и верности до конца пути.",
+    content: [
+      "Без усилий никуда ты не дойдёшь.\nУдостоится венца не каждый житель.\nТолько если победителем войдёшь,\nВход откроется в небесную обитель.",
+      "",
+      "Пусть потерпишь поражение — вставай.\nЭто не конец войны, только начало.\nНе ломайся и не унывай ,\nЕщё будет битв в пути немало.",
+      "",
+      "Наступает враг и с каждым днём\nВсё сложней тебе стоять в проломе.\nНету сил, одолевает сон,\nХочется остаться просто дома,",
+      "",
+      "Но не сможешь битву победить\nЛёжа просто на своем диване.\nНе поможет просто слёзы лить\nКогда бой подобен урагану.",
+      "",
+      "Наша цель — идти. Только вперёд.\nТак возьми же меч свой крепко в руку.\nИисус — наш вождь. Он поведёт.\nНе пугайся, даже в шторм и вьюгу.",
+      "",
+      "Даже если ветер бьёт в лицо\nИ враги всё ближе подступают —\nПобеждай, как побеждал Христос.\nЛишь таких награда ожидает.",
+      "",
+      "Встань на стражу. Силы укрепи.\nПредстоит ещё неоднократно битва\nНо победа — в Господа Крови\nИ залог успеха — есть молитва.",
+      "",
+      "Взяв щит веры и одев броню\nОставайся до могилы верным.\nПобедившего здесь на земле войну\nВ небе встретит Бог с венцом нетленным.",
+      "",
+      "автор: Вера Вылегжанина.\nЗдесь можно найти ещё больше поэзии Веры (@VERAVOLEGZANINA)."
+    ]
+  },
+  {
+    id: "iss2-song-golos-hochu",
+    title: "Голос хочу",
+    rubric: "Песня",
+    journalRubric: null,
+    author: null,
+    issueId: 2,
+    issueTitle: "Выпуск №2",
+    issueUrl: "issue-2.html",
+    pdfUrl: "Golos-hochu.pdf",
+    note: "Ноты / материал песни из 2-го выпуска (PDF).",
+    content: []
   }
 ];
 
-function getIssuePages(issue) {
-  return Array.from({ length: issue.pagesCount }, (_, i) => {
-    const num = String(i + 1).padStart(2, "0");
-    return `${issue.folder}/${num}.png`;
-  });
-}
+function ensureReaderModal() {
+  let modal = document.getElementById("articleReaderModal");
+  if (modal) return modal;
 
-// Right Side Drawer
-function initDrawer() {
-  const backdrop = document.getElementById("drawerBackdrop");
-  const drawer = document.getElementById("sideDrawer");
-  const openBtn = document.getElementById("openDrawerBtn");
-  const closeBtn = document.getElementById("closeDrawerBtn");
-
-  if (!backdrop || !drawer || !openBtn || !closeBtn) return;
-
-  function openDrawer() {
-    drawer.classList.add("open");
-    backdrop.classList.add("open");
-    drawer.setAttribute("aria-hidden", "false");
-    backdrop.setAttribute("aria-hidden", "false");
-  }
-
-  function closeDrawer() {
-    drawer.classList.remove("open");
-    backdrop.classList.remove("open");
-    drawer.setAttribute("aria-hidden", "true");
-    backdrop.setAttribute("aria-hidden", "true");
-  }
-
-  openBtn.addEventListener("click", openDrawer);
-  closeBtn.addEventListener("click", closeDrawer);
-  backdrop.addEventListener("click", closeDrawer);
-  drawer.querySelectorAll("a").forEach((a) => a.addEventListener("click", closeDrawer));
-}
-
-// Home page issues + rubrics text list
-function initHomeIssues() {
-  const grid = document.getElementById("homeIssuesGrid");
-  if (!grid) return;
-
-  grid.innerHTML = ISSUES_DATA.map((issue) => `
-    <article class="issue-card">
-      <a class="cover-link" href="${issue.slug}">
-        <img src="${issue.cover}" alt="Обложка ${issue.title}" loading="lazy" />
-        <span class="cover-badge">${issue.title}</span>
-      </a>
-      <div class="issue-body">
-        <h3><a href="${issue.slug}" style="text-decoration:none;color:inherit;">${issue.title}</a></h3>
-        <div class="issue-meta">${issue.pagesCount} страниц</div>
-        <div class="issue-rubrics-title">Рубрики в выпуске</div>
-        <ul class="issue-rubrics-list">
-          ${issue.rubrics.map((r) => `<li>${r}</li>`).join("")}
-        </ul>
-        <div class="issue-actions">
-          <a class="btn" href="${issue.slug}">Открыть выпуск</a>
-          <a class="btn btn-secondary" href="${issue.pdf}" download>PDF</a>
+  modal = document.createElement("div");
+  modal.id = "articleReaderModal";
+  modal.className = "reader-modal";
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="reader-modal__backdrop" data-close-reader="true"></div>
+    <div class="reader-modal__dialog" role="dialog" aria-modal="true" aria-labelledby="readerModalTitle">
+      <div class="reader-modal__header">
+        <div>
+          <div class="reader-modal__meta" id="readerModalMeta"></div>
+          <h2 class="reader-modal__title" id="readerModalTitle"></h2>
         </div>
+        <button type="button" class="reader-modal__close" id="readerModalClose" aria-label="Закрыть окно">✕</button>
       </div>
-    </article>
-  `).join("");
-}
+      <div class="reader-body" id="readerModalBody"></div>
+    </div>
+  `;
+  document.body.appendChild(modal);
 
-// Issue flipbook page
-function initIssuePage(issueId) {
-  const issue = ISSUES_DATA.find((item) => item.id === issueId);
-  if (!issue) return;
-
-  const pages = getIssuePages(issue);
-  let pageIdx = 0;
-  let zoomed = false;
-
-  const titleEl = document.getElementById("issuePageTitle");
-  const imgEl = document.getElementById("flipbookImg");
-  const counterEl = document.getElementById("flipbookCounter");
-  const stageEl = document.getElementById("flipbookStage");
-  const prevBtn = document.getElementById("flipbookPrev");
-  const nextBtn = document.getElementById("flipbookNext");
-  const zoomBtn = document.getElementById("flipbookZoom");
-  const rubricsListEl = document.getElementById("issuePageRubrics");
-  const pdfLinkEl = document.getElementById("issuePagePdf");
-
-  if (titleEl) titleEl.textContent = issue.title;
-  if (pdfLinkEl) pdfLinkEl.href = issue.pdf;
-
-  if (rubricsListEl) {
-    rubricsListEl.innerHTML = issue.rubrics.map((r) => `<li>${r}</li>`).join("");
-  }
-
-  function renderPage() {
-    if (!imgEl || !counterEl) return;
-    imgEl.src = pages[pageIdx];
-    imgEl.alt = `${issue.title}, страница ${pageIdx + 1}`;
-    counterEl.textContent = `Страница ${pageIdx + 1} из ${pages.length}`;
-    if (prevBtn) prevBtn.disabled = pageIdx === 0;
-    if (nextBtn) nextBtn.disabled = pageIdx >= pages.length - 1;
-    if (stageEl) {
-      stageEl.scrollTop = 0;
-      stageEl.scrollLeft = 0;
+  modal.addEventListener("click", (event) => {
+    if (event.target.dataset.closeReader === "true") {
+      closeEntryReader();
     }
+  });
+
+  const closeBtn = modal.querySelector("#readerModalClose");
+  if (closeBtn) {
+    closeBtn.addEventListener("click", closeEntryReader);
   }
 
-  if (zoomBtn && stageEl) {
-    zoomBtn.addEventListener("click", () => {
-      zoomed = !zoomed;
-      stageEl.classList.toggle("zoomed", zoomed);
-      zoomBtn.textContent = zoomed ? "По ширине" : "Увеличить";
-    });
-  }
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("is-open")) {
+      closeEntryReader();
+    }
+  });
 
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      if (pageIdx > 0) {
-        pageIdx--;
-        renderPage();
-      }
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      if (pageIdx < pages.length - 1) {
-        pageIdx++;
-        renderPage();
-      }
-    });
-  }
-
-  renderPage();
+  return modal;
 }
 
-// Library page (covers + search + rubric/author filters)
+function openEntryReader(entry) {
+  if (!entry) return;
+  const modal = ensureReaderModal();
+  const titleEl = modal.querySelector("#readerModalTitle");
+  const metaEl = modal.querySelector("#readerModalMeta");
+  const bodyEl = modal.querySelector("#readerModalBody");
+
+  const metaParts = [entry.issueTitle, entry.rubric];
+  if (entry.journalRubric) metaParts.push(entry.journalRubric);
+  if (entry.author) metaParts.push(entry.author);
+
+  metaEl.textContent = metaParts.join(" · ");
+  titleEl.textContent = entry.title;
+  bodyEl.innerHTML = "";
+
+  const lines = Array.isArray(entry.content) ? entry.content : [];
+  if (lines.length === 0) {
+    const p = document.createElement("p");
+    p.textContent = entry.note || "Текст для этого материала не добавлен.";
+    bodyEl.appendChild(p);
+  } else {
+    lines.forEach((line) => {
+      if (line === "") {
+        const spacer = document.createElement("div");
+        spacer.className = "reader-spacer";
+        bodyEl.appendChild(spacer);
+      } else {
+        const p = document.createElement("p");
+        p.textContent = line;
+        bodyEl.appendChild(p);
+      }
+    });
+  }
+
+  modal.classList.add("is-open");
+  modal.setAttribute("aria-hidden", "false");
+  document.body.style.overflow = "hidden";
+}
+
+function closeEntryReader() {
+  const modal = document.getElementById("articleReaderModal");
+  if (!modal) return;
+  modal.classList.remove("is-open");
+  modal.setAttribute("aria-hidden", "true");
+  document.body.style.overflow = "";
+}
+
 function initLibraryPage() {
-  const coversGrid = document.getElementById("libraryCoversGrid");
+  const listEl = document.getElementById("libraryEntriesList");
+  if (!listEl) return;
+
+  ensureReaderModal();
+
   const searchInput = document.getElementById("libSearchInput");
   const rubricSelect = document.getElementById("libRubricSelect");
   const authorSelect = document.getElementById("libAuthorSelect");
-  const entriesList = document.getElementById("libraryEntriesList");
-
-  if (!coversGrid || !entriesList) return;
-
-  coversGrid.innerHTML = ISSUES_DATA.map((issue) => `
-    <article class="issue-card">
-      <a class="cover-link" href="${issue.slug}">
-        <img src="${issue.cover}" alt="Обложка ${issue.title}" loading="lazy" />
-        <span class="cover-badge">${issue.title}</span>
-      </a>
-      <div class="issue-body">
-        <h3>${issue.title}</h3>
-        <div class="issue-meta">${issue.pagesCount} страниц</div>
-        <div class="issue-actions">
-          <a class="btn" href="${issue.slug}">Читать флипбук</a>
-          <a class="btn btn-secondary" href="${issue.pdf}" download>PDF</a>
-        </div>
-      </div>
-    </article>
-  `).join("");
 
   if (rubricSelect) {
-    const rubrics = [...new Set(LIBRARY_ENTRIES.map((e) => e.rubric))];
-    rubricSelect.innerHTML = `<option value="all">Все рубрики</option>` +
-      rubrics.map((r) => `<option value="${r}">${r}</option>`).join("");
+    const rubrics = [...new Set(LIBRARY_ENTRIES.map((e) => e.rubric).filter(Boolean))];
+    rubrics.forEach((rubric) => {
+      const option = document.createElement("option");
+      option.value = rubric;
+      option.textContent = rubric;
+      rubricSelect.appendChild(option);
+    });
   }
 
   if (authorSelect) {
-    const authors = [...new Set(LIBRARY_ENTRIES.map((e) => e.author))];
-    authorSelect.innerHTML = `<option value="all">Все авторы</option>` +
-      authors.map((a) => `<option value="${a}">${a}</option>`).join("");
+    const authors = [...new Set(LIBRARY_ENTRIES.map((e) => e.author).filter(Boolean))];
+    authors.forEach((author) => {
+      const option = document.createElement("option");
+      option.value = author;
+      option.textContent = author;
+      authorSelect.appendChild(option);
+    });
   }
 
-  function applyFilters() {
-    const q = (searchInput?.value || "").trim().toLowerCase();
-    const rubric = rubricSelect?.value || "all";
-    const author = authorSelect?.value || "all";
+  function renderEntries() {
+    const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+    const selectedRubric = rubricSelect ? rubricSelect.value : "";
+    const selectedAuthor = authorSelect ? authorSelect.value : "";
 
-    const filtered = LIBRARY_ENTRIES.filter((item) => {
-      const matchRubric = rubric === "all" || item.rubric === rubric;
-      const matchAuthor = author === "all" || item.author === author;
-      const matchQuery = !q ||
-        item.title.toLowerCase().includes(q) ||
-        item.rubric.toLowerCase().includes(q) ||
-        item.author.toLowerCase().includes(q) ||
-        item.note.toLowerCase().includes(q);
-      return matchRubric && matchAuthor && matchQuery;
+    const filtered = LIBRARY_ENTRIES.filter((entry) => {
+      if (selectedRubric && entry.rubric !== selectedRubric) return false;
+      if (selectedAuthor && entry.author !== selectedAuthor) return false;
+
+      if (!query) return true;
+      const haystack = [
+        entry.title,
+        entry.rubric,
+        entry.journalRubric,
+        entry.author,
+        entry.issueTitle,
+        entry.note,
+        ...(entry.content || [])
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
     });
 
-    if (!filtered.length) {
-      entriesList.innerHTML = `<p class="muted">По вашему запросу ничего не найдено.</p>`;
+    listEl.innerHTML = "";
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<p class="library-empty">По вашему запросу ничего не найдено.</p>`;
       return;
     }
 
-    entriesList.innerHTML = filtered.map((item) => `
-      <article class="entry-card">
-        <span class="entry-tag">${item.rubric}</span>
-        <h3>${item.title}</h3>
-        <div class="issue-meta">Автор: ${item.author} · ${item.issueTitle}</div>
-        <p class="muted" style="margin:0 0 12px;">${item.note}</p>
-        <a class="btn btn-secondary" href="${item.issueUrl}">Открыть выпуск</a>
-      </article>
-    `).join("");
+    filtered.forEach((entry) => {
+      const card = document.createElement("article");
+      card.className = "library-card";
+
+      const badgeParts = [entry.issueTitle, entry.rubric];
+      if (entry.journalRubric) badgeParts.push(entry.journalRubric);
+
+      const hasText = Array.isArray(entry.content) && entry.content.length > 0;
+      const actionsHtml = [];
+
+      if (hasText) {
+        actionsHtml.push(
+          `<button type="button" class="btn btn-primary" data-read-id="${entry.id}">Читать текст</button>`
+        );
+      }
+
+      if (entry.pdfUrl) {
+        actionsHtml.push(
+          `<a class="btn btn-secondary" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
+        );
+      }
+
+      card.innerHTML = `
+        <div class="library-card__meta">${badgeParts.join(" · ")}</div>
+        <h3 class="library-card__title">${entry.title}</h3>
+        ${entry.author ? `<div class="library-card__author">Автор: ${entry.author}</div>` : ""}
+        ${entry.note ? `<p class="library-card__note">${entry.note}</p>` : ""}
+        <div class="library-card__actions">${actionsHtml.join("")}</div>
+      `;
+
+      const readBtn = card.querySelector(`[data-read-id="${entry.id}"]`);
+      if (readBtn) {
+        readBtn.addEventListener("click", () => openEntryReader(entry));
+      }
+
+      listEl.appendChild(card);
+    });
   }
 
-  searchInput?.addEventListener("input", applyFilters);
-  rubricSelect?.addEventListener("change", applyFilters);
-  authorSelect?.addEventListener("change", applyFilters);
-  applyFilters();
+  if (searchInput) searchInput.addEventListener("input", renderEntries);
+  if (rubricSelect) rubricSelect.addEventListener("change", renderEntries);
+  if (authorSelect) authorSelect.addEventListener("change", renderEntries);
+
+  renderEntries();
 }
 
-// Order page form + Telegram
-function initOrderPage() {
-  const offerSelect = document.getElementById("offerSelect");
-  const deliverySelect = document.getElementById("deliverySelect");
-  const estimateTotal = document.getElementById("estimateTotal");
-  const estimateHint = document.getElementById("estimateHint");
-  const addressLabel = document.getElementById("addressLabel");
-  const customerAddress = document.getElementById("customerAddress");
-  const orderForm = document.getElementById("orderForm");
-  const formStatus = document.getElementById("formStatus");
-
-  if (!offerSelect || !deliverySelect || !orderForm) return;
-
-  function calculateEstimate() {
-    const offerOpt = offerSelect.options[offerSelect.selectedIndex];
-    const basePrice = Number(offerOpt.dataset.price || 0);
-    const balticFree = offerOpt.dataset.balticFree === "true";
-    const offerKey = offerSelect.value;
-    const deliveryKey = deliverySelect.value;
-
-    let deliveryEst = 0;
-    let deliveryText = "0 €";
-    let hintText = "Сумма примерная: точные условия и реквизиты подтвердим после заявки.";
-
-    if (offerKey === "custom") {
-      estimateTotal.textContent = "Ориентировочная сумма: по согласованию";
-      estimateHint.textContent = "Опишите в комментарии нужные выпуски или количество — рассчитаем индивидуально.";
-      return { summaryText: "По согласованию" };
-    }
-
-    if (deliveryKey === "friends") {
-      deliveryEst = 0;
-      deliveryText = "0 € (через знакомых)";
-      addressLabel.textContent = "С кем или где удобно передать (имя / город)";
-      customerAddress.placeholder = "Например: передать через знакомых или указать город";
-      hintText = "Передача через знакомых — бесплатно (0 €). Укажите детали в комментарии.";
-    } else if (deliveryKey === "baltic") {
-      addressLabel.textContent = "Страна Прибалтики, город и пакомат (Omniva, DPD и др.)";
-      customerAddress.placeholder = "Например: Латвия, Лиепая, пакомат Omniva...";
-      if (balticFree) {
-        deliveryEst = 0;
-        deliveryText = "0 € (включена в цену абонемента / опта)";
-        hintText = "Для подписки и оптовых предложений доставка по Прибалтике уже включена в стоимость.";
-      } else {
-        deliveryEst = 3;
-        deliveryText = "~3 € (ориентировочно)";
-        hintText = "Для 1 экземпляра доставка по Прибалтике ориентировочно ~3 €.";
-      }
-    } else if (deliveryKey === "europe") {
-      deliveryEst = 5;
-      deliveryText = "~5 € (ориентировочно)";
-      addressLabel.textContent = "Страна в Европе, город и адрес / индекс";
-      customerAddress.placeholder = "Например: Польша, город, почтовый индекс...";
-      hintText = "Ориентир по отправке в Европу — около ~5 €; точный тариф уточним.";
-    } else {
-      deliveryEst = 0;
-      deliveryText = "уточняется";
-      addressLabel.textContent = "Город / страна и пожелания по доставке";
-      customerAddress.placeholder = "Укажите город или удобный способ получения";
-      hintText = "Нестандартный способ или направление согласуем лично после отправки заявки.";
-    }
-
-    const totalEst = basePrice + deliveryEst;
-    const summaryText = deliveryKey === "other"
-      ? `от ${basePrice} € + доставка уточняется`
-      : `~${totalEst} € (товар: ${basePrice} €, доставка: ${deliveryText})`;
-
-    estimateTotal.textContent = `Ориентировочная сумма: ${summaryText}`;
-    estimateHint.textContent = hintText;
-    return { summaryText };
-  }
-
-  offerSelect.addEventListener("change", calculateEstimate);
-  deliverySelect.addEventListener("change", calculateEstimate);
-  calculateEstimate();
-
-  orderForm.addEventListener("submit", async (e) => {
-    e.preventDefault();
-    const { summaryText } = calculateEstimate();
-    const offerLabel = offerSelect.options[offerSelect.selectedIndex].dataset.label;
-    const deliveryLabel = deliverySelect.options[deliverySelect.selectedIndex].dataset.label;
-    const fullName = document.getElementById("customerFullName").value.trim();
-    const contact = document.getElementById("customerContact").value.trim();
-    const address = customerAddress.value.trim() || "не указан";
-    const notes = document.getElementById("customerNotes").value.trim() || "нет";
-
-    const message = [
-      "Новая заявка — журнал «Псалом 150»",
-      `Вариант: ${offerLabel}`,
-      `Доставка: ${deliveryLabel}`,
-      `Ориентир: ${summaryText}`,
-      `Имя и фамилия: ${fullName}`,
-      `Контакты: ${contact}`,
-      `Адрес / передача: ${address}`,
-      `Комментарий: ${notes}`
-    ].join("\n");
-
-    const token = TELEGRAM_CONFIG.botToken.trim();
-    const chatId = TELEGRAM_CONFIG.chatId.trim();
-
-    if (!token || !chatId) {
-      formStatus.textContent = "Не указаны botToken или chatId в TELEGRAM_CONFIG.";
-      return;
-    }
-
-    formStatus.textContent = "Отправляем заявку...";
-    try {
-      const res = await fetch(`https://api.telegram.org/bot${encodeURIComponent(token)}/sendMessage`, {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ chat_id: chatId, text: message })
-      });
-      const data = await res.json().catch(() => null);
-      if (!res.ok || !data || !data.ok) {
-        throw new Error(data?.description || `HTTP ${res.status}`);
-      }
-      formStatus.textContent = "Заявка отправлена! Мы свяжемся с вами для подтверждения деталей.";
-      orderForm.reset();
-      calculateEstimate();
-    } catch (err) {
-      formStatus.textContent = `Ошибка отправки в Telegram (${err.message}).`;
-    }
-  });
-}
-
-document.addEventListener("DOMContentLoaded", () => {
-  initDrawer();
-  initHomeIssues();
-  initLibraryPage();
-  initOrderPage();
-});
+document.addEventListener("DOMContentLoaded", initLibraryPage);
