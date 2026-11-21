@@ -2862,5 +2862,169 @@ function initOrderPage() {
     }
   });
 }
+function openIssueViewerById(issueId) {
+  const numId = Number(issueId);
+  if (typeof openIssueViewer === "function") {
+    openIssueViewer(numId);
+    return;
+  }
+  const viewerModal = document.getElementById("issueViewerModal");
+  const issue = HOME_ISSUES.find((item) => Number(item.issueId) === numId);
+  if (viewerModal && issue) {
+    viewerModal.classList.add("open", "topbar-visible");
+    viewerModal.setAttribute("aria-hidden", "false");
+    const titleEl = document.getElementById("issueViewerTitle");
+    if (titleEl) titleEl.textContent = issue.issueTitle || `Выпуск №${numId}`;
+    if (typeof showIssuePage === "function") {
+      viewerState.issue = issue;
+      viewerState.totalPages = Number(issue.totalPages) || 1;
+      viewerState.currentPage = 1;
+      showIssuePage(1);
+    }
+  }
+}
 
+function initIssuePage(issueId) {
+  const targetIssueId = Number(issueId);
+  if (!targetIssueId) return;
+
+  initDrawer();
+  renderHomeIssues();
+  renderCoversGrid();
+  initIssueViewer();
+  ensureReaderModal();
+
+  const issue = HOME_ISSUES.find((item) => Number(item.issueId) === targetIssueId);
+
+  const heroTitleEl = document.getElementById("issuePageTitle");
+  const heroSubtitleEl = document.getElementById("issuePageSubtitle");
+  const heroCoverEl = document.getElementById("issuePageCover");
+  const readFullBtn = document.getElementById("openFullIssueBtn");
+  const pdfLinkEl = document.getElementById("issuePdfLink");
+
+  if (issue) {
+    if (heroTitleEl) heroTitleEl.textContent = issue.issueTitle || `Выпуск №${targetIssueId}`;
+    if (heroSubtitleEl && issue.subtitle) heroSubtitleEl.textContent = issue.subtitle;
+    if (heroCoverEl && issue.folder) {
+      heroCoverEl.src = getPageSrc(issue.folder, 1);
+      heroCoverEl.alt = `${issue.issueTitle || `Выпуск №${targetIssueId}`} — обложка`;
+    }
+    if (pdfLinkEl) {
+      if (issue.pdfUrl) {
+        pdfLinkEl.href = issue.pdfUrl;
+        pdfLinkEl.style.display = "";
+      } else {
+        pdfLinkEl.style.display = "none";
+      }
+    }
+  }
+
+  if (readFullBtn) {
+    readFullBtn.addEventListener("click", () => openIssueViewerById(targetIssueId));
+  }
+
+  const listEl = document.getElementById("issueEntriesList");
+  if (!listEl) return;
+
+  const issueEntries = LIBRARY_ENTRIES.filter(
+    (entry) => Number(entry.issueId) === targetIssueId
+  );
+
+  const searchInput = document.getElementById("issueSearchInput");
+  const rubricSelect = document.getElementById("issueRubricSelect");
+
+  if (rubricSelect) {
+    rubricSelect.innerHTML = `<option value="">Все рубрики выпуска</option>`;
+    const rubrics = [...new Set(issueEntries.map((e) => e.rubric).filter(Boolean))];
+    rubrics.forEach((rubric) => {
+      const option = document.createElement("option");
+      option.value = rubric;
+      option.textContent = rubric;
+      rubricSelect.appendChild(option);
+    });
+  }
+
+  function renderIssueCards() {
+    const query = (searchInput ? searchInput.value : "").trim().toLowerCase();
+    const selectedRubric = rubricSelect ? rubricSelect.value : "";
+
+    const filtered = issueEntries.filter((entry) => {
+      if (selectedRubric && entry.rubric !== selectedRubric) return false;
+      if (!query) return true;
+
+      const entryAuthors =
+        typeof getEntryAuthorsList === "function" ? getEntryAuthorsList(entry) : [];
+      const haystack = [
+        entry.title,
+        entry.rubric,
+        entry.journalRubric,
+        entry.author,
+        ...entryAuthors,
+        entry.note,
+        ...(entry.content || [])
+      ]
+        .filter(Boolean)
+        .join(" ")
+        .toLowerCase();
+
+      return haystack.includes(query);
+    });
+
+    listEl.innerHTML = "";
+
+    if (filtered.length === 0) {
+      listEl.innerHTML = `<p class="library-empty">Материалов по этому фильтру в выпуске не найдено.</p>`;
+      return;
+    }
+
+    filtered.forEach((entry) => {
+      const card = document.createElement("article");
+      card.className = "entry-card";
+
+      const badgeParts = [entry.rubric];
+      if (entry.journalRubric) badgeParts.push(entry.journalRubric);
+
+      const hasText = Array.isArray(entry.content) && entry.content.length > 0;
+      const actionsHtml = [];
+
+      if (hasText) {
+        actionsHtml.push(
+          `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
+        );
+      }
+
+      if (entry.chordsPdfUrl) {
+        actionsHtml.push(
+          `<a class="btn btn-secondary" href="${entry.chordsPdfUrl}" download>Аккорды PDF</a>`
+        );
+      }
+
+      if (entry.pdfUrl) {
+        actionsHtml.push(
+          `<a class="btn" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
+        );
+      }
+
+      card.innerHTML = `
+        <div class="entry-meta">${badgeParts.filter(Boolean).join(" · ")}</div>
+        <h3 class="entry-title">${entry.title}</h3>
+        ${entry.author ? `<div class="entry-author">Автор: ${entry.author}</div>` : ""}
+        ${entry.note ? `<p class="entry-note">${entry.note}</p>` : ""}
+        <div class="entry-actions">${actionsHtml.join("")}</div>
+      `;
+
+      const readBtn = card.querySelector(`[data-read-id="${entry.id}"]`);
+      if (readBtn && typeof openEntryReader === "function") {
+        readBtn.addEventListener("click", () => openEntryReader(entry));
+      }
+
+      listEl.appendChild(card);
+    });
+  }
+
+  if (searchInput) searchInput.addEventListener("input", renderIssueCards);
+  if (rubricSelect) rubricSelect.addEventListener("change", renderIssueCards);
+
+  renderIssueCards();
+}
 document.addEventListener("DOMContentLoaded", initLibraryPage);

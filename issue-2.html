@@ -22,9 +22,10 @@
     </div>
     <div class="drawer-group">
       <div class="drawer-label">Выпуски</div>
-      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
-      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
+      <a class="drawer-link" href="issue-4.html"><span>Выпуск №4</span><span>#4</span></a>
       <a class="drawer-link" href="issue-3.html"><span>Выпуск №3</span><span>#3</span></a>
+      <a class="drawer-link" href="issue-2.html"><span>Выпуск №2</span><span>#2</span></a>
+      <a class="drawer-link" href="issue-1.html"><span>Выпуск №1</span><span>#1</span></a>
     </div>
   </aside>
 
@@ -41,30 +42,71 @@
       </div>
     </header>
 
-    <div class="flipbook-top">
-      <h1 id="issuePageTitle" style="margin:0;">Выпуск №2</h1>
-      <div style="display:flex;gap:8px;flex-wrap:wrap;">
-        <button id="flipbookZoom" type="button" class="btn btn-secondary">Увеличить</button>
-        <a id="issuePagePdf" class="btn btn-secondary" href="psalm-150-issue-2.pdf" download>Скачать PDF</a>
-        <a class="btn" href="order.html">Заказать выпуск</a>
+    <section class="order-panel" aria-label="Информация о выпуске">
+      <div class="form-grid" style="align-items: center; margin-bottom: 0;">
+        <div>
+          <h1 id="issuePageTitle" style="margin-bottom: 8px;">Выпуск №2</h1>
+          <p id="issuePageSubtitle" class="muted" style="margin: 0 0 16px;"></p>
+          <div class="entry-actions">
+            <button id="openFullIssueBtn" type="button" class="btn">Читать выпуск целиком</button>
+            <a id="issuePdfLink" class="btn btn-secondary" href="psalm-150-issue-2.pdf" download>Скачать PDF</a>
+            <a class="btn btn-secondary" href="order.html">Заказать выпуск</a>
+          </div>
+        </div>
+        <div class="issue-cover-wrap" style="max-width: 240px; margin: 0 auto 0 0;">
+          <img id="issuePageCover" class="issue-cover-img" src="" alt="" />
+        </div>
+      </div>
+    </section>
+
+    <h2>Материалы выпуска</h2>
+
+    <section class="filter-panel" aria-label="Фильтр материалов выпуска">
+      <div class="filter-grid">
+        <div>
+          <label for="issueRubricSelect">Рубрика</label>
+          <select id="issueRubricSelect">
+            <option value="">Все рубрики выпуска</option>
+          </select>
+        </div>
+        <div>
+          <label for="issueSearchInput">Поиск по выпуску</label>
+          <input id="issueSearchInput" type="search" placeholder="Название, автор или текст..." />
+        </div>
+      </div>
+    </section>
+
+    <section style="margin-top: 18px;" aria-label="Карточки материалов выпуска">
+      <div id="issueEntriesList" class="entries-list"></div>
+    </section>
+
+    <footer class="social-bar" aria-label="Соцсети и контакты">
+      <a class="social-icon-btn" href="https://www.youtube.com/@Psalm150-DVJS" target="_blank" rel="noopener noreferrer" aria-label="YouTube" title="YouTube">▶</a>
+      <a class="social-icon-btn" href="mailto:Psalm150dvjs@gmail.com" aria-label="Почта" title="Почта">✉</a>
+      <a class="social-icon-btn" href="https://t.me/Psalm150DSVJ" target="_blank" rel="noopener noreferrer" aria-label="Telegram" title="Telegram">✈</a>
+      <a class="social-icon-btn" href="#support" aria-label="Поддержка (скоро)" title="Поддержка (заглушка)">♥</a>
+    </footer>
+  </div>
+
+  <div id="issueViewerModal" class="issue-viewer" aria-hidden="true">
+    <div class="issue-viewer-hover-zone" aria-hidden="true"></div>
+    <div class="issue-viewer-topbar">
+      <div class="issue-viewer-title-wrap">
+        <strong id="issueViewerTitle">Выпуск</strong>
+        <span id="issueViewerPageInfo" class="issue-viewer-page-info"></span>
+      </div>
+      <div class="issue-viewer-controls">
+        <button id="issuePrevPageBtn" type="button" class="viewer-btn">← Назад</button>
+        <button id="issueNextPageBtn" type="button" class="viewer-btn">Вперёд →</button>
+        <button id="issueSpreadToggleBtn" type="button" class="viewer-btn">Разворот</button>
+        <button id="issueFullscreenBtn" type="button" class="viewer-btn" title="На весь экран">⛶</button>
+        <button id="issueCloseViewerBtn" type="button" class="viewer-btn viewer-close-btn">✕ Закрыть</button>
       </div>
     </div>
-
-    <section class="flipbook-panel">
-      <div id="flipbookStage" class="flipbook-stage">
-        <img id="flipbookImg" src="" alt="Страница журнала" />
-      </div>
-      <div class="flipbook-controls">
-        <button id="flipbookPrev" type="button" class="btn btn-secondary">Назад</button>
-        <span id="flipbookCounter">Страница 1 из 1</span>
-        <button id="flipbookNext" type="button" class="btn btn-secondary">Вперёд</button>
-      </div>
-    </section>
-
-    <section class="flipbook-panel">
-      <h2>Рубрики выпуска</h2>
-      <ul id="issuePageRubrics" class="issue-rubrics-list" style="margin-bottom:0;"></ul>
-    </section>
+    <div id="issueViewerStage" class="issue-viewer-stage">
+      <img id="issuePageImage" class="issue-page-image" alt="" />
+      <div id="issueViewerStatus" class="issue-viewer-status"></div>
+    </div>
   </div>
 
   <script src="app.js"></script>
