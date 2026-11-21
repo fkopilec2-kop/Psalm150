@@ -1699,6 +1699,19 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
     captureBasePagesSize(wrap);
   }
 
+  const rect = stageEl.getBoundingClientRect();
+  const hasAnchor =
+    typeof anchorClientX === "number" &&
+    typeof anchorClientY === "number" &&
+    !Number.isNaN(anchorClientX) &&
+    !Number.isNaN(anchorClientY);
+
+  const viewX = hasAnchor ? anchorClientX - rect.left : stageEl.clientWidth / 2;
+  const viewY = hasAnchor ? anchorClientY - rect.top : stageEl.clientHeight / 2;
+
+  const contentX = stageEl.scrollLeft + viewX;
+  const contentY = stageEl.scrollTop + viewY;
+
   viewerState.zoom = clamped;
   const isZoomed = clamped > 0.81;
   stageEl.classList.toggle("is-zoomed", isZoomed);
@@ -1724,18 +1737,10 @@ function applyViewerZoom(nextZoom, anchorClientX = null, anchorClientY = null) {
   wrap.style.minWidth = `${scaledW}px`;
   wrap.style.minHeight = `${scaledH}px`;
 
-  if (anchorClientX !== null && anchorClientY !== null && clamped !== prevZoom) {
-    const rect = stageEl.getBoundingClientRect();
-    const viewX = anchorClientX - rect.left;
-    const viewY = anchorClientY - rect.top;
-    const contentX = stageEl.scrollLeft + viewX;
-    const contentY = stageEl.scrollTop + viewY;
+  if (clamped !== prevZoom && prevZoom > 0) {
     const ratio = clamped / prevZoom;
-
-    requestAnimationFrame(() => {
-      stageEl.scrollLeft = Math.max(0, contentX * ratio - viewX);
-      stageEl.scrollTop = Math.max(0, contentY * ratio - viewY);
-    });
+    stageEl.scrollLeft = Math.max(0, contentX * ratio - viewX);
+    stageEl.scrollTop = Math.max(0, contentY * ratio - viewY);
   }
 }
 
@@ -1885,6 +1890,7 @@ async function showIssuePage(pageNum) {
     await new Promise((resolve) => requestAnimationFrame(resolve));
     captureBasePagesSize(wrap);
     await new Promise((resolve) => requestAnimationFrame(resolve));
+
     const savedZoom = viewerState.zoom || 0.8;
     viewerState.baseWidth = 0;
     viewerState.baseHeight = 0;
@@ -1892,6 +1898,17 @@ async function showIssuePage(pageNum) {
     captureBasePagesSize(wrap);
     if (savedZoom > 0.81) {
       applyViewerZoom(savedZoom);
+      await new Promise((resolve) => requestAnimationFrame(resolve));
+      const stageRect = stageEl.getBoundingClientRect();
+      const imgRect = firstImgEl.getBoundingClientRect();
+      stageEl.scrollLeft = Math.max(
+        0,
+        stageEl.scrollLeft + (imgRect.left - stageRect.left)
+      );
+      stageEl.scrollTop = Math.max(
+        0,
+        stageEl.scrollTop + (imgRect.top - stageRect.top)
+      );
     }
 
     if (statusEl) statusEl.textContent = "";
@@ -2135,7 +2152,20 @@ function initIssueViewer() {
 
   window.addEventListener("resize", () => {
     if (viewerState.issue && modal.classList.contains("open")) {
-      showIssuePage(viewerState.currentPage);
+      if (viewerState.zoom <= 0.81) {
+        showIssuePage(viewerState.currentPage);
+      } else {
+        const stageEl = document.getElementById("issueViewerStage");
+        const wrap = stageEl ? stageEl.querySelector(".issue-viewer-pages") : null;
+        if (wrap) {
+          const activeZoom = viewerState.zoom;
+          viewerState.baseWidth = 0;
+          viewerState.baseHeight = 0;
+          applyViewerZoom(0.8);
+          captureBasePagesSize(wrap);
+          applyViewerZoom(activeZoom);
+        }
+      }
     }
   });
 

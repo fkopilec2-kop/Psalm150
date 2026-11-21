@@ -558,7 +558,7 @@ h2 {
 
 .issue-viewer-stage.is-zoomed {
   display: block;
-  text-align: center;
+  text-align: left;
   overflow: auto;
   user-select: none;
 }
