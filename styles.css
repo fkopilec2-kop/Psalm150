@@ -1,4 +1,4 @@
-- {
+* {
   box-sizing: border-box;
 }
 
@@ -177,6 +177,16 @@ h2 {
   opacity: 0.9;
 }
 
+.btn-secondary {
+  background: #fff;
+  color: #1f1e1c;
+  border-color: #cfc8ba;
+}
+
+.btn-secondary:hover {
+  background: #f3efe6;
+  opacity: 1;
+}
 /* Боковое меню */
 .drawer-backdrop {
   display: none;
@@ -599,16 +609,6 @@ h2 {
 
   .top-links {
     display: none;
-  }
-
-  .issue-viewer-pages {
-    flex-direction: column;
-    gap: 10px;
-  }
-
-  .issue-viewer-stage.spread-mode .issue-page-image {
-    max-width: min(92vw, 720px);
-    max-height: calc(50vh - 36px);
   }
 }
 

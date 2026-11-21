@@ -1093,19 +1093,17 @@ const LIBRARY_ENTRIES = [
     note: "Песня из 3-го выпуска (автор: Вадим Агуреев), партитура в PDF.",
     content: []
   },
-  {
+ {
     id: "iss4-po-tu-storonu-not",
-    issue: 4,
-    category: "article",
-    rubric: "По ту сторону нот",
-    title: "По ту сторону нот — О важности распевки для певцов",
+    title: "О важности распевки для певцов",
+    rubric: "Музыкальная теория",
+    journalRubric: "По ту сторону нот",
     author: "Елена Шутовене",
-    pages: "стр. 4–5",
-    pageStart: 4,
-    pageEnd: 5,
-    imageUrl: "pages4/04.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Сравнение распевки и вокальной работы с настройкой инструмента, дыханием, интонацией и штрихами скрипача.",
+    note: "Сравнение распевки и вокальной работы с настройкой инструмента, дыханием, интонацией и штрихами скрипача (стр. 4–5).",
     content: [
       "статью подготовила Елена Шутовене",
       "",
@@ -1133,17 +1131,15 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-kak-eto-bylo",
-    issue: 4,
-    category: "article",
-    rubric: "Как это было?",
-    title: "Как это было? — О музыке, как призвании. История Светланы Твердохлеб",
+    title: "О музыке, как призвании. История Светланы Твердохлеб",
+    rubric: "Интервью",
+    journalRubric: "«Как это было?»",
     author: "Светлана Твердохлеб",
-    pages: "стр. 6–9",
-    pageStart: 6,
-    pageEnd: 9,
-    imageUrl: "pages4/06.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Личная история пути в церковном пении, аккомпанировании, регентском служении и размышления об избирательности в музыке.",
+    note: "Личная история пути в церковном пении, аккомпанировании, регентском служении и размышления об избирательности в музыке (стр. 6–9).",
     content: [
       "О музыке, как призвании — История Светланы Твердохлеб",
       "",
@@ -1177,17 +1173,21 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-vopros-otvet",
-    issue: 4,
-    category: "article",
-    rubric: "Вопрос / Ответ",
-    title: "Вопрос / Ответ — Как работать с людьми, у которых слабо развит музыкальный слух?",
+    title: "Как работать с людьми, у которых слабо развит музыкальный слух?",
+    rubric: "Музыкальная теория",
+    journalRubric: "Вопрос / Ответ",
     author: "Анна Козицкая, Олег Олексюк, Вероника Стасилевич-Балманжи; обр. И.Ф. Копилец",
-    pages: "стр. 10–14",
-    pageStart: 10,
-    pageEnd: 14,
-    imageUrl: "pages4/10.png",
+    authors: [
+      "Анна Козицкая",
+      "Олег Олексюк",
+      "Вероника Стасилевич-Балманжи",
+      "И.Ф. Копилец"
+    ],
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Практические ответы о прослушивании в хор, рассадке рядом с ведущими голосами, поддержке со стороны регента и развитии слуха.",
+    note: "Практические ответы о прослушивании в хор, рассадке рядом с ведущими голосами, поддержке со стороны регента и развитии слуха (стр. 10–14).",
     content: [
       "Как работать с людьми, у которых слабо развит музыкальный слух?",
       "",
@@ -1222,17 +1222,15 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-iz-pervyh-ust",
-    issue: 4,
-    category: "article",
-    rubric: "Из первых уст",
-    title: "Из первых уст — Свидетельство Розы Вылегжаниной",
+    title: "Свидетельство Розы Вылегжаниной",
+    rubric: "Интервью",
+    journalRubric: "Из первых уст",
     author: "Роза Вылегжанина",
-    pages: "стр. 15",
-    pageStart: 15,
-    pageEnd: 15,
-    imageUrl: "pages4/15.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Свидетельство о том, как игра на скрипке помогла успокоить агрессивного подопечного с деменцией.",
+    note: "Свидетельство о том, как игра на скрипке помогла успокоить агрессивного подопечного с деменцией (стр. 15).",
     content: [
       "«Из первых уст»",
       "",
@@ -1248,17 +1246,15 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-tvorchestvo-ilenyak",
-    issue: 4,
-    category: "poetry",
-    rubric: "Творчество",
     title: "Стихи Богдана Иленяка",
+    rubric: "Стих",
+    journalRubric: "Творчество",
     author: "Богдан Иленяк",
-    pages: "стр. 16–17",
-    pageStart: 16,
-    pageEnd: 17,
-    imageUrl: "pages4/16.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Два духовных стихотворения Богдана Иленяка (май 2025): «„Чем ты живёшь?“ — Сегодня вопрос...» и «„О, дай Господь слова живые...“».",
+    note: "Два духовных стихотворения Богдана Иленяка (май 2025): «„Чем ты живёшь?“ — Сегодня вопрос...» и «„О, дай Господь слова живые...“» (стр. 16–17).",
     content: [
       "стихи — Иленяк Богдан (май, 2025)",
       "",
@@ -1408,17 +1404,15 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-zapiski-proshlogo-bah",
-    issue: 4,
-    category: "article",
-    rubric: "Записки прошлого",
     title: "Знал ли Бах, что его музыка христианская?",
+    rubric: "Историческая справка",
+    journalRubric: "Записки прошлого",
     author: "И.Ф. Копилец",
-    pages: "стр. 18–23",
-    pageStart: 18,
-    pageEnd: 23,
-    imageUrl: "pages4/18.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "О вере И.С. Баха, его автографах J.J. и S.D.G., музыкальной символике, духовной библиотеке и заметках в Библии с комментариями Лютера.",
+    note: "О вере И.С. Баха, его автографах J.J. и S.D.G., музыкальной символике, духовной библиотеке и заметках в Библии с комментариями Лютера (стр. 18–23).",
     content: [
       "ЗНАЛ ЛИ БАХ, что его музыка ХРИСТИАНСКАЯ?",
       "статью подготовил И.Ф. Копилец",
@@ -1469,17 +1463,15 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-pesn-vozrozhdeniya",
-    issue: 4,
-    category: "article",
-    rubric: "Песня — где её начало?",
     title: "Песнь Возрождения: гимны, отпечатанные против закона",
+    rubric: "Историческая справка",
+    journalRubric: "Песня — где её начало?",
     author: "Степан Пестов",
-    pages: "стр. 24",
-    pageStart: 24,
-    pageEnd: 24,
-    imageUrl: "pages4/24.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "История сборника от «Гуслей» И.С. Проханова (1902) и «Деятисборника» до подпольного издания «Песни Возрождения» в мае 1978 года.",
+    note: "История сборника от «Гуслей» И.С. Проханова (1902) и «Деятисборника» до подпольного издания «Песни Возрождения» в мае 1978 года (стр. 24).",
     content: [
       "Песня Возрождения: гимны, отпечатанные против закона",
       "статью подготовил Степан Пестов",
@@ -1506,40 +1498,16 @@ const LIBRARY_ENTRIES = [
     ]
   },
   {
-    id: "iss4-zhivaya-nit",
-    issue: 4,
-    category: "timeline",
-    rubric: "Живая нить",
-    title: "Живая нить — Мартин Лютер и Иоганн Себастьян Бах",
-    author: "Редакция",
-    pages: "стр. 25",
-    pageStart: 25,
-    pageEnd: 25,
-    imageUrl: "pages4/25.png",
-    pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Временная шкала с музыкантами: Мартин Лютер (1483–1546) и Иоганн Себастьян Бах (1685–1750).",
-    content: [
-      "Мартин Лютер (1483-1546)",
-      "Автор христианских гимнов, немецкий богослов, инициатор реформации.",
-      "Возродил повсеместную практику общего пения в христианских церквах, ввёл ход служения на родном языке. Лютеру приписывается авторство около 30 хоралов, также он перевел большое количество латинских гимнов и литургических песнопений.",
-      "",
-      "Иоганн Себастьян Бах (1685-1750)",
-      "Немецкий композитор, органист и капельмейстер. Поднял духовную музыку на невероятно высокий профессиональный уровень. Многие его произведения были посвящены Богу, на нотных страницах он часто оставлял надпись «Soli Deo Gloria» («Только Богу слава»)."
-    ]
-  },
-  {
     id: "iss4-to-chto-hotelos-skazat",
-    issue: 4,
-    category: "article",
-    rubric: "То, что хотелось сказать",
-    title: "То, что хотелось сказать — Талант, который дал тебе Бог",
+    title: "Талант, который дал тебе Бог",
+    rubric: "Проповедь",
+    journalRubric: "То, что хотелось сказать",
     author: "Богдан Олексенко",
-    pages: "стр. 26–29",
-    pageStart: 26,
-    pageEnd: 29,
-    imageUrl: "pages4/26.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Размышления Богдана Олексенко (Ирландия, Дублин) об отношении к данному Богом таланту, мотивах служения и вложениях в его развитие.",
+    note: "Размышления Богдана Олексенко (Ирландия, Дублин) об отношении к данному Богом таланту, мотивах служения и вложениях в его развитие (стр. 26–29).",
     content: [
       "ТО, ЧТО ХОТЕЛОСЬ СКАЗАТЬ — Талант, который дал тебе Бог",
       "Богдан Олексенко (Ирландия, Дублин)",
@@ -1582,38 +1550,32 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-likuj-dusha",
-    issue: 4,
-    category: "song",
-    rubric: "Наша песня",
     title: "Ликуй, душа!",
+    rubric: "Песня",
+    journalRubric: "Наша песня",
     author: "Сергей Гордеев",
-    pages: "стр. 30–31",
-    pageStart: 30,
-    pageEnd: 31,
-    imageUrl: "pages4/31.png",
-    chordsImageUrl: "pages4/30.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "Likuj-dusha.pdf",
     chordsPdfUrl: "Likuj-dusha-chords.pdf",
-    note: "Песня с аккордами и модуляцией в Cm (проигрыш по припеву — саксофон) на стр. 30, ноты на стр. 31.",
+    note: "Песня с аккордами и модуляцией в Cm (проигрыш по припеву — саксофон) на стр. 30, ноты на стр. 31 (PDF).",
     content: []
   },
   {
     id: "iss4-galilejskaya-dal",
-    issue: 4,
-    category: "song",
-    rubric: "Наша песня",
     title: "Галилейская даль…",
+    rubric: "Песня",
+    journalRubric: "Наша песня",
     author: "Сергей Гордеев",
-    pages: "стр. 32–33",
-    pageStart: 32,
-    pageEnd: 33,
-    imageUrl: "pages4/33.png",
-    chordsImageUrl: "pages4/32.png",
+    issueId: 4,
+    issueTitle: "Выпуск №4",
+    issueUrl: "issue-4.html",
     pdfUrl: "Galilejskaja-dalj.pdf",
     chordsPdfUrl: "Galilejskaja-dalj-chords.pdf",
-    note: "Текст с аккордами и модуляцией в C# на стр. 32, ноты «Галилейская даль, грозных волн перекаты» на стр. 33.",
+    note: "Текст с аккордами и модуляцией в C# на стр. 32, ноты «Галилейская даль, грозных волн перекаты» на стр. 33 (PDF).",
     content: []
-  },
+  }
   
 ];
 
@@ -2225,136 +2187,6 @@ function initDrawer() {
   });
 }
 
-function ensureChordPreviewModal() {
-  let previewModal = document.getElementById("chordPreviewModal");
-  if (previewModal) return previewModal;
-
-  previewModal = document.createElement("div");
-  previewModal.id = "chordPreviewModal";
-  previewModal.className = "reader-modal";
-  previewModal.setAttribute("aria-hidden", "true");
-  previewModal.style.zIndex = "1200";
-  previewModal.innerHTML = `
-    <div class="reader-backdrop" data-close-chord-preview="true"></div>
-    <div class="reader-dialog" role="dialog" aria-modal="true" style="max-width: 960px; width: 94vw; max-height: 92vh;">
-      <div class="reader-header">
-        <h3 id="chordPreviewTitle" style="margin: 0;">Аккорды</h3>
-        <button type="button" class="btn" id="chordPreviewCloseTop" aria-label="Закрыть просмотр аккордов">✕</button>
-      </div>
-      <div class="reader-body" style="text-align: center; padding: 16px; overflow: auto;">
-        <img id="chordPreviewImg" src="" alt="" style="max-width: 100%; height: auto; border-radius: 8px; display: block; margin: 0 auto;" />
-      </div>
-      <div class="reader-footer" id="chordPreviewFooter" style="display: flex; gap: 10px; flex-wrap: wrap; justify-content: flex-end;">
-        <button type="button" class="btn" id="chordPreviewCloseBottom">Закрыть</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(previewModal);
-
-  function closePreview() {
-    previewModal.classList.remove("open");
-    previewModal.setAttribute("aria-hidden", "true");
-  }
-
-  previewModal.addEventListener("click", (event) => {
-    if (event.target.dataset.closeChordPreview === "true") {
-      closePreview();
-    }
-  });
-
-  const closeTop = previewModal.querySelector("#chordPreviewCloseTop");
-  const closeBottom = previewModal.querySelector("#chordPreviewCloseBottom");
-  if (closeTop) closeTop.addEventListener("click", closePreview);
-  if (closeBottom) closeBottom.addEventListener("click", closePreview);
-
-  document.addEventListener("keydown", (event) => {
-    if (event.key === "Escape" && previewModal.classList.contains("open")) {
-      closePreview();
-    }
-  });
-
-  return previewModal;
-}
-
-function openChordPreviewModal(entry) {
-  if (!entry || !entry.chordsImageUrl) return;
-  const previewModal = ensureChordPreviewModal();
-  const titleEl = previewModal.querySelector("#chordPreviewTitle");
-  const imgEl = previewModal.querySelector("#chordPreviewImg");
-  const footerEl = previewModal.querySelector("#chordPreviewFooter");
-  const closeBottom = previewModal.querySelector("#chordPreviewCloseBottom");
-
-  if (titleEl) titleEl.textContent = `${entry.title} — аккорды`;
-  if (imgEl) {
-    imgEl.src = entry.chordsImageUrl;
-    imgEl.alt = `${entry.title} — страница с аккордами`;
-  }
-
-  if (footerEl && closeBottom) {
-    footerEl.querySelectorAll("[data-chord-download='true']").forEach((el) => el.remove());
-    if (entry.chordsPdfUrl) {
-      const link = document.createElement("a");
-      link.href = entry.chordsPdfUrl;
-      link.download = "";
-      link.className = "btn";
-      link.dataset.chordDownload = "true";
-      link.textContent = "Скачать аккорды (PDF)";
-      footerEl.insertBefore(link, closeBottom);
-    }
-  }
-
-  previewModal.classList.add("open");
-  previewModal.setAttribute("aria-hidden", "false");
-}
-
-function ensureReaderModal() {
-  let modal = document.getElementById("articleReaderModal");
-  if (modal) return modal;
-
-  modal = document.createElement("div");
-  modal.id = "articleReaderModal";
-  modal.className = "reader-modal";
-  modal.setAttribute("aria-hidden", "true");
-  modal.innerHTML = `
-    <div class="reader-backdrop" data-close-reader="true"></div>
-    <div class="reader-dialog" role="dialog" aria-modal="true" aria-labelledby="readerModalTitle">
-      <div class="reader-header">
-        <div>
-          <div class="reader-meta" id="readerModalMeta"></div>
-          <h2 id="readerModalTitle"></h2>
-        </div>
-        <button type="button" class="btn" id="readerModalCloseTop" aria-label="Закрыть окно">✕</button>
-      </div>
-      <div class="reader-body" id="readerModalBody"></div>
-      <div class="reader-footer">
-        <button type="button" class="btn" id="readerModalCloseBottom">Закрыть</button>
-      </div>
-    </div>
-  `;
-  document.body.appendChild(modal);
-
-  modal.addEventListener("click", (event) => {
-    if (event.target.dataset.closeReader === "true") {
-      closeEntryReader();
-    }
-  });
-
-  const topBtn = modal.querySelector("#readerModalCloseTop");
-  const bottomBtn = modal.querySelector("#readerModalCloseBottom");
-  if (topBtn) topBtn.addEventListener("click", closeEntryReader);
-  if (bottomBtn) bottomBtn.addEventListener("click", closeEntryReader);
-
-  document.addEventListener("keydown", (event) => {
-    const chordModal = document.getElementById("chordPreviewModal");
-    if (chordModal && chordModal.classList.contains("open")) return;
-    if (event.key === "Escape" && modal.classList.contains("open")) {
-      closeEntryReader();
-    }
-  });
-
-  return modal;
-}
-
 function openEntryReader(entry) {
   if (!entry) return;
   const modal = ensureReaderModal();
@@ -2683,17 +2515,14 @@ function initLibraryPage() {
       const badgeParts = [entry.issueTitle, entry.rubric];
       if (entry.journalRubric) badgeParts.push(entry.journalRubric);
 
-      const hasText = Array.isArray(entry.content) && entry.content.length > 0;
-      const hasChordsCard = Boolean(entry.chordsImageUrl || entry.chordsPdfUrl);
-      const actionsHtml = [];
+    const hasText = Array.isArray(entry.content) && entry.content.length > 0;
+   const actionsHtml = [];
 
-      if (hasText || hasChordsCard) {
-        actionsHtml.push(
-          `<button type="button" class="btn" data-read-id="${entry.id}">${
-            hasText ? "Читать текст" : "Открыть аккорды"
-          }</button>`
-        );
-      }
+   if (hasText) {
+     actionsHtml.push(
+       `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
+     );
+   }
 
       if (entry.chordsPdfUrl) {
         actionsHtml.push(
