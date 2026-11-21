@@ -1856,7 +1856,6 @@ async function showIssuePage(pageNum) {
   const available = checks.filter((item) => item.exists);
   if (available.length > 0) {
     viewerState.currentPage = targetPages[0];
-    resetViewerZoom();
 
     const { wrap, secondImgEl } = ensureViewerPagesWrap(stageEl, firstImgEl);
 
@@ -1885,6 +1884,15 @@ async function showIssuePage(pageNum) {
 
     await new Promise((resolve) => requestAnimationFrame(resolve));
     captureBasePagesSize(wrap);
+    await new Promise((resolve) => requestAnimationFrame(resolve));
+    const savedZoom = viewerState.zoom || 0.8;
+    viewerState.baseWidth = 0;
+    viewerState.baseHeight = 0;
+    applyViewerZoom(0.8);
+    captureBasePagesSize(wrap);
+    if (savedZoom > 0.81) {
+      applyViewerZoom(savedZoom);
+    }
 
     if (statusEl) statusEl.textContent = "";
     preloadForCurrentView(
