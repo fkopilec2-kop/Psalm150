@@ -2187,6 +2187,52 @@ function initDrawer() {
   });
 }
 
+function ensureReaderModal() {
+  let modal = document.getElementById("articleReaderModal");
+  if (modal) return modal;
+
+  modal = document.createElement("div");
+  modal.id = "articleReaderModal";
+  modal.className = "reader-modal";
+  modal.setAttribute("aria-hidden", "true");
+  modal.innerHTML = `
+    <div class="reader-backdrop" data-close-reader="true"></div>
+    <div class="reader-dialog" role="dialog" aria-modal="true" aria-labelledby="readerModalTitle">
+      <div class="reader-header">
+        <div>
+          <div class="reader-meta" id="readerModalMeta"></div>
+          <h2 id="readerModalTitle"></h2>
+        </div>
+        <button type="button" class="btn" id="readerModalCloseTop" aria-label="Закрыть окно">✕</button>
+      </div>
+      <div class="reader-body" id="readerModalBody"></div>
+      <div class="reader-footer">
+        <button type="button" class="btn" id="readerModalCloseBottom">Закрыть</button>
+      </div>
+    </div>
+  `;
+  document.body.appendChild(modal);
+
+  modal.addEventListener("click", (event) => {
+    if (event.target.dataset.closeReader === "true") {
+      closeEntryReader();
+    }
+  });
+
+  const topBtn = modal.querySelector("#readerModalCloseTop");
+  const bottomBtn = modal.querySelector("#readerModalCloseBottom");
+  if (topBtn) topBtn.addEventListener("click", closeEntryReader);
+  if (bottomBtn) bottomBtn.addEventListener("click", closeEntryReader);
+
+  document.addEventListener("keydown", (event) => {
+    if (event.key === "Escape" && modal.classList.contains("open")) {
+      closeEntryReader();
+    }
+  });
+
+  return modal;
+}
+
 function openEntryReader(entry) {
   if (!entry) return;
   const modal = ensureReaderModal();
