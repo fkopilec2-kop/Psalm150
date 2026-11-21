@@ -598,6 +598,164 @@ h2 {
   display: none;
 }
 
+/* Баннер заказа на главной и соцсети */
+.order-banner {
+  margin-top: 24px;
+}
+
+.order-banner-link {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 16px 20px;
+  background: #fff;
+  border: 1px solid #e2ddd2;
+  border-radius: 12px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.05rem;
+  transition: transform 0.15s ease, box-shadow 0.15s ease, background 0.15s ease;
+}
+
+.order-banner-link:hover {
+  background: #faf8f4;
+  transform: translateY(-1px);
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.05);
+}
+
+.social-bar {
+  margin-top: 24px;
+  padding-top: 18px;
+  border-top: 1px solid #e2ddd2;
+  display: flex;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.social-icon-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 40px;
+  height: 40px;
+  border-radius: 10px;
+  background: #fff;
+  border: 1px solid #e2ddd2;
+  text-decoration: none;
+  font-size: 1rem;
+  transition: background 0.15s ease, border-color 0.15s ease;
+}
+
+.social-icon-btn:hover {
+  background: #eae5da;
+  border-color: #cfc8ba;
+}
+
+/* Страница заказа (order.html) */
+.muted {
+  color: #666055;
+}
+
+.offers-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(230px, 1fr));
+  gap: 16px;
+  margin-bottom: 24px;
+}
+
+.offer-card {
+  background: #fff;
+  border: 1px solid #e2ddd2;
+  border-radius: 12px;
+  padding: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+}
+
+.offer-price {
+  font-size: 1.45rem;
+  font-weight: 700;
+  color: #1f1e1c;
+}
+
+.order-panel {
+  background: #fff;
+  border: 1px solid #e2ddd2;
+  border-radius: 12px;
+  padding: 22px;
+}
+
+.order-panel h2 {
+  margin: 0 0 18px;
+}
+
+.form-grid {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 16px;
+  margin-bottom: 16px;
+}
+
+.form-grid label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 600;
+  margin-bottom: 6px;
+}
+
+.form-grid input,
+.form-grid select,
+.form-grid textarea {
+  width: 100%;
+  padding: 10px 12px;
+  border: 1px solid #cfc8ba;
+  border-radius: 8px;
+  background: #fff;
+  color: #1f1e1c;
+  font: inherit;
+  font-size: 0.95rem;
+}
+
+.form-grid input:focus,
+.form-grid select:focus,
+.form-grid textarea:focus {
+  outline: none;
+  border-color: #1f1e1c;
+  background: #fdfcf9;
+}
+
+.form-grid textarea {
+  min-height: 44px;
+  resize: vertical;
+}
+
+.estimate-box {
+  background: #faf8f4;
+  border: 1px solid #e2ddd2;
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 18px;
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.estimate-total {
+  font-size: 1.12rem;
+  font-weight: 700;
+}
+
+.status-msg {
+  margin-top: 12px;
+  font-size: 0.94rem;
+  color: #3a3630;
+}
+
+.status-msg:empty {
+  display: none;
+}
+
 @media (max-width: 640px) {
   .reader-dialog {
     width: 96vw;
@@ -609,6 +767,14 @@ h2 {
 
   .top-links {
     display: none;
+  }
+  
+  .form-grid {
+    grid-template-columns: 1fr;
+  }
+
+  .order-panel {
+    padding: 16px;
   }
 }
 
