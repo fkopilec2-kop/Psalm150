@@ -1,4 +1,4 @@
-* {
+- {
   box-sizing: border-box;
 }
 
@@ -154,10 +154,13 @@ h2 {
   display: flex;
   gap: 8px;
   flex-wrap: wrap;
+  align-items: center;
 }
 
 .btn {
-  display: inline-block;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
   padding: 8px 14px;
   border-radius: 8px;
   border: 1px solid #1f1e1c;
@@ -165,7 +168,9 @@ h2 {
   color: #fff;
   text-decoration: none;
   font-size: 0.92rem;
+  line-height: 1.25;
   cursor: pointer;
+  white-space: nowrap;
 }
 
 .btn:hover {
@@ -242,7 +247,7 @@ h2 {
   border-bottom: 1px solid #f0ece3;
 }
 
-/* Модальное окно чтения */
+/* Модальное окно чтения и предпросмотра аккордов */
 .reader-modal {
   display: none;
   position: fixed;
@@ -302,26 +307,72 @@ h2 {
   white-space: pre-line;
 }
 
+.reader-body:empty::before {
+  content: "Материал представлен в виде нот, аккордов и PDF-файлов.";
+  display: block;
+  padding: 16px 18px;
+  border: 1px solid #e2ddd2;
+  border-radius: 10px;
+  background: #faf8f4;
+  color: #575249;
+  font-size: 0.96rem;
+}
+
 .reader-footer {
   border-top: 1px solid #e6e2d8;
   padding-top: 14px;
   display: flex;
   justify-content: flex-end;
+  gap: 8px;
+  flex-wrap: wrap;
   flex-shrink: 0;
 }
 
-@media (max-width: 640px) {
-  .reader-dialog {
-    width: 96vw;
-    height: 94vh;
-    max-height: 94vh;
-    margin: 3vh auto;
-    padding: 16px;
-  }
+/* Блок аккордов и предпросмотра страниц */
+.chords-sheet-block {
+  margin: 14px 0;
+  padding: 14px;
+  border: 1px solid #e2ddd2;
+  border-radius: 12px;
+  background: #faf8f4;
+}
 
-  .top-links {
-    display: none;
-  }
+.chords-image-trigger {
+  display: block;
+  width: 100%;
+  padding: 0;
+  border: 1px solid #e2ddd2;
+  border-radius: 10px;
+  overflow: hidden;
+  background: #fff;
+  cursor: zoom-in;
+  transition: box-shadow 0.15s ease, border-color 0.15s ease;
+}
+
+.chords-image-trigger:hover {
+  border-color: #bfb7a6;
+  box-shadow: 0 6px 18px rgba(0, 0, 0, 0.08);
+}
+
+.chords-image-trigger img {
+  display: block;
+  max-width: 100%;
+  width: 100%;
+  height: auto;
+  object-fit: contain;
+}
+
+.chords-sheet-note {
+  margin: 10px 0 0;
+  font-size: 0.92rem;
+  color: #575249;
+}
+
+.chords-sheet-actions {
+  margin-top: 12px;
+  display: flex;
+  gap: 8px;
+  flex-wrap: wrap;
 }
 
 .drawer-btn-link {
@@ -361,6 +412,7 @@ h2 {
   display: block;
 }
 
+/* Полноэкранный просмотрщик выпусков */
 .issue-viewer {
   display: none;
   position: fixed;
@@ -536,6 +588,37 @@ h2 {
   display: none;
 }
 
-.issue-viewer-status:empty {
-  display: none;
+@media (max-width: 640px) {
+  .reader-dialog {
+    width: 96vw;
+    height: 94vh;
+    max-height: 94vh;
+    margin: 3vh auto;
+    padding: 16px;
+  }
+
+  .top-links {
+    display: none;
+  }
+
+  .issue-viewer-pages {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .issue-viewer-stage.spread-mode .issue-page-image {
+    max-width: min(92vw, 720px);
+    max-height: calc(50vh - 36px);
+  }
+}
+
+@media (max-width: 480px) {
+  .entry-actions .btn {
+    padding: 7px 10px;
+    font-size: 0.85rem;
+  }
+
+  .chords-sheet-block {
+    padding: 10px;
+  }
 }
