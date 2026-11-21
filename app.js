@@ -490,7 +490,7 @@ const LIBRARY_ENTRIES = [
     content: [
       "Записки прошлого",
       "Мартин Лютер (1483–1546)",
-      "Статью подготовил Иоанн Филипп Копилец",
+      "Статью подготовил И.Ф. Копилец",
       "",
       "Мартин Лютер и церковное пение",
       "",
@@ -1176,12 +1176,12 @@ const LIBRARY_ENTRIES = [
     title: "Как работать с людьми, у которых слабо развит музыкальный слух?",
     rubric: "Музыкальная теория",
     journalRubric: "Вопрос / Ответ",
-    author: "Анна Козицкая, Олег Олексюк, Вероника Стасилевич-Балманжи; обр. И.Ф. Копилец",
+    author: "Анна Козицкая, Олег Олексюк, Вероника Стасилевич-Балманжи; обр. Иоанн Филипп Копилец",
     authors: [
       "Анна Козицкая",
       "Олег Олексюк",
       "Вероника Стасилевич-Балманжи",
-      "И.Ф. Копилец"
+      "Иоанн Филипп Копилец"
     ],
     issueId: 4,
     issueTitle: "Выпуск №4",
@@ -1217,7 +1217,7 @@ const LIBRARY_ENTRIES = [
       "Хорошо, когда в церкви есть человек, который может преподавать основы вокала. Хотя бы час индивидуальных занятий в неделю, на первых порах, очень помогли бы начинающему певцу. Не стоит забывать и про то, что в наше время доступны и другие системы музыкального развития, такие как онлайн (курсы, школы, приложения) и очные уроки с частным преподавателем. Если есть возможность учиться таким образом, не стоит её совсем отвергать.",
       "",
       "Анна Козицкая, Олег Олексюк, Вероника Стасилевич-Балманжи.",
-      "Статью обработал и подготовил И.Ф. Копилец"
+      "Статью обработал и подготовил Иоанн Филипп Копилец"
     ]
   },
   {
@@ -1407,7 +1407,7 @@ const LIBRARY_ENTRIES = [
     title: "Знал ли Бах, что его музыка христианская?",
     rubric: "Историческая справка",
     journalRubric: "Записки прошлого",
-    author: "И.Ф. Копилец",
+    author: "Иоанн Филипп Копилец",
     issueId: 4,
     issueTitle: "Выпуск №4",
     issueUrl: "issue-4.html",
@@ -2535,7 +2535,8 @@ function initLibraryPage() {
 
   if (rubricSelect) {
     rubricSelect.innerHTML = `<option value="">Все рубрики</option>`;
-    const rubrics = [...new Set(LIBRARY_ENTRIES.map((e) => e.rubric).filter(Boolean))];
+    const rubrics = [...new Set(LIBRARY_ENTRIES.map((e) => e.rubric).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, "ru"));
     rubrics.forEach((rubric) => {
       const option = document.createElement("option");
       option.value = rubric;
@@ -2548,7 +2549,7 @@ function initLibraryPage() {
     authorSelect.innerHTML = `<option value="">Все авторы</option>`;
     const authors = [
       ...new Set(LIBRARY_ENTRIES.flatMap((e) => getEntryAuthorsList(e)))
-    ];
+    ].sort((a, b) => a.localeCompare(b, "ru"));
     authors.forEach((author) => {
       const option = document.createElement("option");
       option.value = author;
@@ -2935,7 +2936,8 @@ function initIssuePage(issueId) {
 
   if (rubricSelect) {
     rubricSelect.innerHTML = `<option value="">Все рубрики выпуска</option>`;
-    const rubrics = [...new Set(issueEntries.map((e) => e.rubric).filter(Boolean))];
+    const rubrics = [...new Set(issueEntries.map((e) => e.rubric).filter(Boolean))]
+      .sort((a, b) => a.localeCompare(b, "ru"));
     rubrics.forEach((rubric) => {
       const option = document.createElement("option");
       option.value = rubric;
