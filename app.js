@@ -2518,6 +2518,34 @@ function getEntryAuthorsList(entry) {
   return entry.author ? [entry.author] : [];
 }
 
+function buildEntryActionsHtml(entry) {
+  const hasText = Array.isArray(entry.content) && entry.content.length > 0;
+  const isSong = entry.rubric === "Песня";
+  const actionsHtml = [];
+
+  if (hasText) {
+    actionsHtml.push(
+      `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
+    );
+  }
+
+  if (entry.chordsPdfUrl) {
+    actionsHtml.push(
+      `<a class="btn btn-secondary" href="${entry.chordsPdfUrl}" download>Аккорды PDF</a>`
+    );
+  }
+
+  // Для обычных статей и текстов с content кнопку «Открыть PDF» не выводим;
+  // оставляем её для песен и материалов без текста, у которых указан pdfUrl.
+  if (entry.pdfUrl && (isSong || !hasText)) {
+    actionsHtml.push(
+      `<a class="btn" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
+    );
+  }
+
+  return actionsHtml.join("");
+}
+
 function initLibraryPage() {
   initDrawer();
   renderHomeIssues();
@@ -2863,7 +2891,7 @@ function initOrderPage() {
     }
   });
   }
-  
+
 function openIssueViewerById(issueId) {
   const numId = Number(issueId);
   if (typeof openIssueViewer === "function") {
@@ -2980,40 +3008,21 @@ function initIssuePage(issueId) {
       return;
     }
 
-    filtered.forEach((entry) => {
+filtered.forEach((entry) => {
       const card = document.createElement("article");
       card.className = "entry-card";
 
       const badgeParts = [entry.rubric];
       if (entry.journalRubric) badgeParts.push(entry.journalRubric);
 
-      const hasText = Array.isArray(entry.content) && entry.content.length > 0;
-      const actionsHtml = [];
-
-      if (hasText) {
-        actionsHtml.push(
-          `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
-        );
-      }
-
-      if (entry.chordsPdfUrl) {
-        actionsHtml.push(
-          `<a class="btn btn-secondary" href="${entry.chordsPdfUrl}" download>Аккорды PDF</a>`
-        );
-      }
-
-      if (entry.pdfUrl) {
-        actionsHtml.push(
-          `<a class="btn" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
-        );
-      }
+      const actionsHtml = buildEntryActionsHtml(entry);
 
       card.innerHTML = `
         <div class="entry-meta">${badgeParts.filter(Boolean).join(" · ")}</div>
         <h3 class="entry-title">${entry.title}</h3>
         ${entry.author ? `<div class="entry-author">Автор: ${entry.author}</div>` : ""}
         ${entry.note ? `<p class="entry-note">${entry.note}</p>` : ""}
-        <div class="entry-actions">${actionsHtml.join("")}</div>
+        <div class="entry-actions">${actionsHtml}</div>
       `;
 
       const readBtn = card.querySelector(`[data-read-id="${entry.id}"]`);
@@ -3030,4 +3039,4 @@ function initIssuePage(issueId) {
 
   renderIssueCards();
 }
-document.addEventListener("DOMContentLoaded", initLibraryPage);
+document.addEventListener("DOMContentLoaded", initLibraryPage);    
