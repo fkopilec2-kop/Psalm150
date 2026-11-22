@@ -2716,7 +2716,7 @@ function initOrderPage() {
     } else if (deliveryValue === "friends") {
       deliveryCost = 0;
       deliveryNote =
-        "Доставка через знакомых — 0 €. Точные условия подтвердим после заявки.";
+        "Доставка через знакомых — 0 €.";
     } else if (deliveryValue === "baltic") {
       deliveryCost = balticFree ? 0 : 3;
       deliveryNote = balticFree
@@ -2862,7 +2862,8 @@ function initOrderPage() {
       }
     }
   });
-}
+  }
+  
 function openIssueViewerById(issueId) {
   const numId = Number(issueId);
   if (typeof openIssueViewer === "function") {
