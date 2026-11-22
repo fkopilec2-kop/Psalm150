@@ -2443,73 +2443,6 @@ function renderCoversGrid() {
   });
 }
 
-function initIssuePage(issueId) {
-  const issue = HOME_ISSUES.find((item) => item.issueId === Number(issueId)) || HOME_ISSUES[0];
-  if (!issue) return;
-
-  const titleEl = document.getElementById("issuePageTitle");
-  const pdfEl = document.getElementById("issuePagePdf");
-  const stageEl = document.getElementById("flipbookStage");
-  const imgEl = document.getElementById("flipbookImg");
-  const prevBtn = document.getElementById("flipbookPrev");
-  const nextBtn = document.getElementById("flipbookNext");
-  const counterEl = document.getElementById("flipbookCounter");
-  const zoomBtn = document.getElementById("flipbookZoom");
-  const rubricsEl = document.getElementById("issuePageRubrics");
-
-  if (titleEl) titleEl.textContent = issue.issueTitle;
-  if (pdfEl && issue.pdfUrl) pdfEl.setAttribute("href", issue.pdfUrl);
-
-  let page = 1;
-  const maxPage = Number(issue.totalPages) || 1;
-
-  function updatePage() {
-    if (imgEl) {
-      imgEl.src = getPageSrc(issue.folder, page);
-      imgEl.alt = `${issue.issueTitle} — страница ${page}`;
-    }
-    if (counterEl) {
-      counterEl.textContent = `Страница ${page} из ${maxPage}`;
-    }
-    if (prevBtn) prevBtn.disabled = page <= 1;
-    if (nextBtn) nextBtn.disabled = page >= maxPage;
-  }
-
-  if (prevBtn) {
-    prevBtn.addEventListener("click", () => {
-      if (page > 1) {
-        page -= 1;
-        updatePage();
-      }
-    });
-  }
-
-  if (nextBtn) {
-    nextBtn.addEventListener("click", () => {
-      if (page < maxPage) {
-        page += 1;
-        updatePage();
-      }
-    });
-  }
-
-  if (zoomBtn && stageEl) {
-    zoomBtn.addEventListener("click", () => {
-      const zoomed = stageEl.classList.toggle("zoomed");
-      zoomBtn.textContent = zoomed ? "Обычный размер" : "Увеличить";
-    });
-  }
-
-  if (rubricsEl) {
-    const entries = LIBRARY_ENTRIES.filter((e) => e.issueId === issue.issueId);
-    const items = [...new Set(entries.map((e) => e.rubric).filter(Boolean))];
-    rubricsEl.innerHTML = items.length
-      ? items.map((r) => `<li>${r}</li>`).join("")
-      : `<li>Материалы номера</li>`;
-  }
-
-  updatePage();
-}
 
 function getEntryAuthorsList(entry) {
   if (Array.isArray(entry.authors) && entry.authors.length > 0) {
@@ -2628,33 +2561,14 @@ function initLibraryPage() {
       const badgeParts = [entry.issueTitle, entry.rubric];
       if (entry.journalRubric) badgeParts.push(entry.journalRubric);
 
-    const hasText = Array.isArray(entry.content) && entry.content.length > 0;
-   const actionsHtml = [];
-
-   if (hasText) {
-     actionsHtml.push(
-       `<button type="button" class="btn" data-read-id="${entry.id}">Читать текст</button>`
-     );
-   }
-
-      if (entry.chordsPdfUrl) {
-        actionsHtml.push(
-          `<a class="btn btn-secondary" href="${entry.chordsPdfUrl}" download>Аккорды PDF</a>`
-        );
-      }
-
-      if (entry.pdfUrl) {
-        actionsHtml.push(
-          `<a class="btn" href="${entry.pdfUrl}" target="_blank" rel="noopener noreferrer">Открыть PDF</a>`
-        );
-      }
+    const actionsHtml = buildEntryActionsHtml(entry);
 
       card.innerHTML = `
         <div class="entry-meta">${badgeParts.join(" · ")}</div>
         <h3 class="entry-title">${entry.title}</h3>
         ${entry.author ? `<div class="entry-author">Автор: ${entry.author}</div>` : ""}
         ${entry.note ? `<p class="entry-note">${entry.note}</p>` : ""}
-        <div class="entry-actions">${actionsHtml.join("")}</div>
+        <div class="entry-actions">${actionsHtml}</div>
       `;
 
       const readBtn = card.querySelector(`[data-read-id="${entry.id}"]`);
