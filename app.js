@@ -2593,6 +2593,41 @@ const TELEGRAM_CONFIG = {
   chatId: "1754933686"
 };
 
+function populateSingleIssueOffers(offerSelect) {
+  if (!offerSelect || !Array.isArray(HOME_ISSUES) || HOME_ISSUES.length === 0) return;
+
+  offerSelect.querySelectorAll('option[data-generated-single="true"]').forEach((opt) => {
+    opt.remove();
+  });
+
+  const sub2Option = offerSelect.querySelector('option[value="sub_2"]');
+  const fragment = document.createDocumentFragment();
+
+  HOME_ISSUES.forEach((issue) => {
+    const issueId = Number(issue.issueId);
+    if (!issueId) return;
+
+    const title = issue.issueTitle || `Выпуск №${issueId}`;
+    const label = `1 экземпляр — ${title} (5 €)`;
+
+    const option = document.createElement("option");
+    option.value = `single_${issueId}`;
+    option.setAttribute("data-price", "5");
+    option.setAttribute("data-baltic-free", "false");
+    option.setAttribute("data-label", label);
+    option.setAttribute("data-generated-single", "true");
+    option.textContent = label;
+
+    fragment.appendChild(option);
+  });
+
+  if (sub2Option) {
+    offerSelect.insertBefore(fragment, sub2Option);
+  } else {
+    offerSelect.prepend(fragment);
+  }
+}
+
 function initOrderPage() {
   initDrawer();
 
@@ -2600,6 +2635,7 @@ function initOrderPage() {
   if (!form) return;
 
   const offerSelect = document.getElementById("offerSelect");
+  populateSingleIssueOffers(offerSelect);
   const deliverySelect = document.getElementById("deliverySelect");
   const addressLabel = document.getElementById("addressLabel");
   const addressInput = document.getElementById("customerAddress");
