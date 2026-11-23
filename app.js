@@ -79,7 +79,7 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss1-interview-volkov",
-    title: "История Владимира Волкова",
+    title: "Как это было с Владимиром Волковым",
     rubric: "Интервью",
     journalRubric: "«Как это было?»",
     author: "Владимир Волков",
@@ -1124,7 +1124,7 @@ const LIBRARY_ENTRIES = [
   },
   {
     id: "iss4-kak-eto-bylo",
-    title: "О музыке, как призвании. История Светланы Твердохлеб",
+    title: "Как это было с Светланой Твердохлеб",
     rubric: "Интервью",
     journalRubric: "«Как это было?»",
     author: "Светлана Твердохлеб",
