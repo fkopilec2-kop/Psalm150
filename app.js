@@ -1213,7 +1213,7 @@ const LIBRARY_ENTRIES = [
   {
     id: "iss4-iz-pervyh-ust",
     title: "Свидетельство Розы Вылегжаниной",
-    rubric: "Интервью",
+    rubric: "Свидетельство",
     journalRubric: "Из первых уст",
     author: "Роза Вылегжанина",
     issueId: 4,
