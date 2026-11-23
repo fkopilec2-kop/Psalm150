@@ -274,7 +274,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №1",
     issueUrl: "issue-1.html",
     pdfUrl: "Ot-drevnih-vremen-choir.pdf",
-    note: "Песня из 1-го выпуска («Для конкурса «Гимн для лагеря»»): хоровая партитура с аккордами (PDF).",
+    note:"Ноты для хора с аккордами.",
     content: []
   },
   {
@@ -292,7 +292,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №1",
     issueUrl: "issue-1.html",
     pdfUrl: "Ot-drevnoh-vremen-full-orchestra.pdf",
-    note: "Полная партитура для хора и оркестра к песне из 1-го выпуска (PDF).",
+    note: "Полная партитура для хора и оркестра.",
     content: []
   },
   {
@@ -530,7 +530,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
     pdfUrl: null,
-    note: "Стихотворение об уповании на Бога в трудные времена и грядущем рассвете.",
+    note: "",
     content: [
       "Не всегда будет время тьмы,\nНе всегда будет солнце за тучей,\nИ не вечно тебе в пути\nБудет в спину бить ветер жгучий.",
       "",
@@ -565,7 +565,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
     pdfUrl: null,
-    note: "Стихотворение о стойкости, молитве и верности до конца пути.",
+    note: "",
     content: [
       "Без усилий никуда ты не дойдёшь.\nУдостоится венца не каждый житель.\nТолько если победителем войдёшь,\nВход откроется в небесную обитель.",
       "",
@@ -590,13 +590,13 @@ const LIBRARY_ENTRIES = [
     id: "iss2-song-golos-hochu",
     title: "Голос хочу",
     rubric: "Песня",
-    journalRubric: null,
+    journalRubric: "Наша песня",
     author: null,
     issueId: 2,
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
     pdfUrl: "Golos-hochu.pdf",
-    note: "Ноты / материал песни из 2-го выпуска (PDF).",
+    note: "Ноты с аккодами.",
     content: []
   },
   {
@@ -693,13 +693,13 @@ const LIBRARY_ENTRIES = [
     id: "iss3-poem-solodovnik-1",
     title: "Стучится ли в сердце мечта",
     rubric: "Стих",
-    journalRubric: "Наша песня",
+    journalRubric: "",
     author: "Наталья Солодовник",
     issueId: 3,
     issueTitle: "Выпуск №3",
     issueUrl: "issue-3.html",
     pdfUrl: null,
-    note: "Стихотворение «Стучится ли в сердце мечта»",
+    note: "",
     content: [
       "***",
       "Стучится ли в сердце мечта —\nЕё, не робея, впусти.\nОна и мала, и скромна —\nЕё как родную прими.",
@@ -720,13 +720,13 @@ const LIBRARY_ENTRIES = [
     id: "iss3-poem-solodovnik-2",
     title: "Куда пойду искать ресниц зари",
     rubric: "Стих",
-    journalRubric: "Наша песня",
+    journalRubric: "",
     author: "Наталья Солодовник",
     issueId: 3,
     issueTitle: "Выпуск №3",
     issueUrl: "issue-3.html",
     pdfUrl: null,
-    note: "Стихотворение «Куда пойду искать ресниц зари»",
+    note: "",
     content: [
       "Изначально стихотворение \"Куда пойду искать ресниц зари\" писалось как песня. Может быть, кому-то из вас эти строки подскажут мелодию — в таком случае будем рады услышать, что получится!",
       "",
@@ -1083,7 +1083,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №3",
     issueUrl: "issue-3.html",
     pdfUrl: "Otche-blagodary-Tebja.pdf",
-    note: "Песня из 3-го выпуска (автор: Вадим Агуреев), партитура в PDF.",
+    note: "Ноты с аккордами.",
     content: []
   },
  {
@@ -1238,13 +1238,13 @@ const LIBRARY_ENTRIES = [
     id: "iss4-tvorchestvo-ilenyak",
     title: "«Чем ты живёшь?» —",
     rubric: "Стих",
-    journalRubric: "Творчество",
+    journalRubric: "",
     author: "Богдан Иленяк",
     issueId: 4,
     issueTitle: "Выпуск №4",
     issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Богдан Иленяк (май 2025): «Чем ты живёшь?» (стр. 16–17).",
+    note: "",
     content: [
       "",
       "«Чем ты живёшь?» —",
@@ -1310,13 +1310,13 @@ const LIBRARY_ENTRIES = [
     id: "iss4-tvorchestvo-ilenyak",
     title: "О, дай Господь слова живые...“",
     rubric: "Стих",
-    journalRubric: "Творчество",
+    journalRubric: "",
     author: "Богдан Иленяк",
     issueId: 4,
     issueTitle: "Выпуск №4",
     issueUrl: "issue-4.html",
     pdfUrl: "psalm-150-issue-4.pdf",
-    note: "Богдан Иленяк (май 2025) «„О, дай Господь слова живые...“» (стр. 16–17).",
+    note: "",
     content: [
       "«О, дай Господь слова живые,",
       "О, дай Тебя увидеть вновь,",
@@ -1560,7 +1560,7 @@ const LIBRARY_ENTRIES = [
     issueUrl: "issue-4.html",
     pdfUrl: "Likuj-dusha.pdf",
     chordsPdfUrl: "Likuj-dusha-chords.pdf",
-    note: "Песня с аккордами и модуляцией в Cm (проигрыш по припеву — саксофон) на стр. 30, ноты на стр. 31 (PDF).",
+    note: "Ноты/текст с аккордами.",
     content: []
   },
   {
@@ -1574,7 +1574,7 @@ const LIBRARY_ENTRIES = [
     issueUrl: "issue-4.html",
     pdfUrl: "Galilejskaja-dalj.pdf",
     chordsPdfUrl: "Galilejskaja-dalj-chords.pdf",
-    note: "Текст с аккордами и модуляцией в C# на стр. 32, ноты «Галилейская даль, грозных волн перекаты» на стр. 33 (PDF).",
+    note: "Ноты/текст с аккордами.",
     content: []
   }
   
