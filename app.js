@@ -274,6 +274,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №1",
     issueUrl: "issue-1.html",
     pdfUrl: "Ot-drevnih-vremen-choir.pdf",
+    chordsPdfUrl: "Ot-drevnih-vremen-chords.pdf",
     note:"Ноты для хора с аккордами.",
     content: []
   },
@@ -292,7 +293,6 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №1",
     issueUrl: "issue-1.html",
     pdfUrl: "Ot-drevnoh-vremen-full-orchestra.pdf",
-    chordsPdfUrl: "Ot-drevnih-vremen-chords.pdf",
     note: "Полная партитура для хора и оркестра.",
     content: []
   },
