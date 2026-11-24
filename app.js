@@ -1092,6 +1092,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №3",
     issueUrl: "issue-3.html",
     pdfUrl: "Otche-blagodary-Tebja.pdf",
+     chordsPdfUrl: "Otche-blagodary-Tebja-chords.pdf",
     note: "Ноты с аккордами.",
     content: []
   },
