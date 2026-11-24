@@ -594,6 +594,7 @@ const LIBRARY_ENTRIES = [
     issueTitle: "Выпуск №2",
     issueUrl: "issue-2.html",
     pdfUrl: "Golos-hochu.pdf",
+    chordsPdfUrl: "Golos-hochu-chords.pdf",
     note: "Ноты с аккодами.",
     content: []
   },
